@@ -1,0 +1,59 @@
+@import "../../variables";
+
+.nav {
+  position: fixed;
+  top: 0;
+  padding: 10px;
+  width: 100%;
+  background-color: green;
+  display: flex;
+  justify-content: space-between;
+  z-index: 1000;
+  box-shadow: 0 5px 10px green;
+
+  &__btn {
+    color: red;
+    margin: 0 5px;
+    font-size: 18px;
+
+    &:hover {
+      color: lighten($color: red, $amount: 20);
+    }
+  }
+}
+
+.menu {
+  position: fixed;
+  top: 0;
+  left: 0;
+  height: 100%;
+  width: 100%;
+  z-index: 998;
+
+  &-box {
+    position: fixed;
+    top: 0;
+    left: 0;
+    height: 100%;
+    width: 15%;
+    background-color: green;
+    z-index: 999;
+  }
+
+  &-content {
+    margin-top: 60px;
+    color: green;
+
+    &__btn {
+      color: green;
+
+      &--active {
+        color: lighten($color: green, $amount: 20);
+      }
+
+      &:hover {
+        color: lighten($color: green, $amount: 20);
+      }
+    }
+  }
+}

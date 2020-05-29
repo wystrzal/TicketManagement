@@ -1,0 +1,26 @@
+@import "../variables";
+
+.login {
+  background-image: linear-gradient(
+    0deg,
+    rgba($beige, 1),
+    rgba($blue-sapphire, 1)
+  );
+  position: relative;
+  top: 0;
+  left: 0;
+  height: 100vh;
+  width: 100%;
+
+  &-box {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    height: 60%;
+    width: 50%;
+    transform: translate(-50%, -50%);
+    background-color: $cultured;
+    border-radius: 35%;
+    box-shadow: 5px 5px 15px $eerie-black;
+  }
+}

@@ -1,0 +1,26 @@
+<div class="nav">
+  <div>
+    <a type="button" class="nav__btn" (click)="showMenu()">Menu</a>
+  </div>
+  <div>
+    <a type="button" class="nav__btn" (click)="logout()">Logout</a>
+  </div>
+</div>
+<div class="menu" (click)="showMenu()" *ngIf="menuDisplayed">
+  <div class="menu-box">
+    <div class="menu-content text-center">
+      <div>
+        <a
+          class="btn menu-content__btn"
+          type="button"
+          [routerLink]="['/user/timetable']"
+          routerLinkActive="menu-content__btn--active"
+          >Timetable</a
+        >
+      </div>
+      <div class="mt-3">
+        <a class="btn menu-content__btn" type="button">Reports</a>
+      </div>
+    </div>
+  </div>
+</div>
