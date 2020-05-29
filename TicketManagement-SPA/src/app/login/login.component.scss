@@ -22,5 +22,47 @@
     background-color: $cultured;
     border-radius: 35%;
     box-shadow: 5px 5px 15px $eerie-black;
+
+    &__btn {
+      background-color: rgba($blue-sapphire, 0.6);
+      font-size: 20px;
+      transition: all 200ms linear;
+      border-radius: 15px;
+      width: 150px;
+      color: $ghost-white;
+
+      &:hover {
+        background-color: rgba($blue-sapphire, 0.8);
+      }
+    }
+
+    &-form {
+      position: relative;
+      top: 50%;
+      transform: translateY(-50%);
+
+      .form-control {
+        font-size: 20px;
+        background-color: $cultured;
+        border: 1px solid rgba($blue-sapphire, 0.5);
+
+        &:focus {
+          box-shadow: 0 0 0 0.2rem rgba($blue-sapphire, 0.5);
+          border: 1px solid $blue-sapphire;
+        }
+      }
+    }
+  }
+}
+
+@media (max-width: 750px) {
+  .login {
+    &-box {
+      width: 90%;
+
+      &__btn {
+        width: 100px;
+      }
+    }
   }
 }

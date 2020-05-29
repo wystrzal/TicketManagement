@@ -1,4 +1,7 @@
 import { Component, OnInit } from "@angular/core";
+import { AuthService } from "../core/auth.service";
+import { ErrorService } from "../core/helpers/error.service";
+import { Router } from "@angular/router";
 
 @Component({
   selector: "app-login",
@@ -6,7 +9,28 @@ import { Component, OnInit } from "@angular/core";
   styleUrls: ["./login.component.scss"],
 })
 export class LoginComponent implements OnInit {
-  constructor() {}
+  loginModel: any = {};
+
+  constructor(
+    private authService: AuthService,
+    private errorService: ErrorService,
+    private router: Router
+  ) {}
 
   ngOnInit() {}
+
+  login() {
+    this.authService.login(this.loginModel).subscribe(
+      () => {
+        if (this.authService.decodedToken.role == "admin") {
+          this.router.navigate(["home/admin"]);
+        } else {
+          this.router.navigate(["home"]);
+        }
+      },
+      (error) => {
+        this.errorService.newError(error);
+      }
+    );
+  }
 }

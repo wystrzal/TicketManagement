@@ -5,19 +5,19 @@
   top: 0;
   padding: 10px;
   width: 100%;
-  background-color: green;
+  background-color: $eerie-black;
   display: flex;
   justify-content: space-between;
   z-index: 1000;
-  box-shadow: 0 5px 10px green;
+  box-shadow: 0 5px 10px lighten($color: $eerie-black, $amount: 5);
 
   &__btn {
-    color: red;
+    color: $beige !important;
     margin: 0 5px;
     font-size: 18px;
 
     &:hover {
-      color: lighten($color: red, $amount: 20);
+      color: lighten($color: $beige, $amount: 20) !important;
     }
   }
 }
@@ -35,24 +35,24 @@
     top: 0;
     left: 0;
     height: 100%;
-    width: 15%;
-    background-color: green;
+    width: 20%;
+    background-color: lighten($color: $eerie-black, $amount: 5);
     z-index: 999;
   }
 
   &-content {
     margin-top: 60px;
-    color: green;
+    color: $beige;
 
     &__btn {
-      color: green;
+      color: $beige;
 
       &--active {
-        color: lighten($color: green, $amount: 20);
+        color: darken($color: $beige, $amount: 20);
       }
 
       &:hover {
-        color: lighten($color: green, $amount: 20);
+        color: darken($color: $beige, $amount: 20);
       }
     }
   }

@@ -5,23 +5,17 @@ import { ModalModule } from "ngx-bootstrap/modal";
 import { FormsModule } from "@angular/forms";
 import { RouterModule } from "@angular/router";
 import { BrowserModule } from "@angular/platform-browser";
+import { HttpClientModule } from "@angular/common/http";
 
 @NgModule({
   declarations: [NavComponent],
-  imports: [
-    CommonModule,
-    ModalModule.forRoot(),
-    FormsModule,
-    RouterModule,
-    BrowserModule,
-  ],
+  imports: [HttpClientModule, CommonModule, ModalModule.forRoot(), FormsModule],
   exports: [
+    HttpClientModule,
     ModalModule,
     CommonModule,
     NavComponent,
     FormsModule,
-    RouterModule,
-    BrowserModule,
   ],
 })
 export class SharedModule {}

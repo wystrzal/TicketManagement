@@ -7,14 +7,15 @@ import { CoreModule } from "./core/core.module";
 import { HttpClientModule } from "@angular/common/http";
 import { AppRoutes } from "./app.routing";
 import { RouterModule } from "@angular/router";
+import { AdminPanelModule } from "./admin-panel/admin-panel.module";
 
 @NgModule({
   declarations: [AppComponent, LoginComponent],
   imports: [
+    RouterModule.forRoot(AppRoutes),
+    AdminPanelModule,
     SharedModule,
     CoreModule,
-    HttpClientModule,
-    RouterModule.forRoot(AppRoutes),
   ],
   providers: [],
   bootstrap: [AppComponent],

@@ -2,4 +2,18 @@ import { Routes } from "@angular/router";
 import { LoginComponent } from "./login/login.component";
 import { AuthGuard } from "./guards/auth.guard";
 
-export const AppRoutes: Routes = [{ path: "", component: LoginComponent }];
+export const AppRoutes: Routes = [
+  { path: "", component: LoginComponent },
+  {
+    path: "",
+    canActivate: [AuthGuard],
+    runGuardsAndResolvers: "always",
+    children: [
+      {
+        path: "home/admin",
+        loadChildren: "./admin-panel/admin-panel.module#AdminPanelModule",
+      },
+    ],
+  },
+  { path: "**", redirectTo: "", pathMatch: "full" },
+];

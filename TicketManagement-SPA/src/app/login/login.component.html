@@ -1,3 +1,35 @@
 <div class="login">
-  <div class="login-box"></div>
+  <div class="login-box">
+    <form #loginForm="ngForm" class="login-box-form" (ngSubmit)="login()">
+      <div class="form-group col-6 offset-3">
+        <input
+          [(ngModel)]="loginModel.username"
+          required
+          name="username"
+          type="text"
+          placeholder="Login"
+          class="form-control"
+        />
+      </div>
+      <div class="form-group col-6 offset-3">
+        <input
+          [(ngModel)]="loginModel.password"
+          required
+          name="password"
+          type="password"
+          placeholder="Password"
+          class="form-control"
+        />
+      </div>
+      <div class="form-group text-center col-6 offset-3">
+        <button
+          [disabled]="!loginForm.valid"
+          type="submit"
+          class="login-box__btn btn"
+        >
+          Login
+        </button>
+      </div>
+    </form>
+  </div>
 </div>
