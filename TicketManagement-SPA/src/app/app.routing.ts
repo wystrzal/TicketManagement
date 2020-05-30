@@ -10,7 +10,7 @@ export const AppRoutes: Routes = [
     runGuardsAndResolvers: "always",
     children: [
       {
-        path: "home/admin",
+        path: "admin",
         loadChildren: "./admin-panel/admin-panel.module#AdminPanelModule",
       },
     ],

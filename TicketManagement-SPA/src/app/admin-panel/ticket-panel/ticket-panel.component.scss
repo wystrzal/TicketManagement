@@ -1,0 +1,40 @@
+@import "../../variables";
+
+.ticket {
+  margin-top: 20px;
+
+  &__content {
+    overflow-y: auto;
+    max-height: 78vh;
+  }
+
+  &__flex {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+
+  &__heading {
+    color: lighten($color: $blue-sapphire, $amount: 30);
+    font-size: 50px;
+    font-weight: 800;
+  }
+
+  &__title {
+    color: lighten($color: $blue-sapphire, $amount: 10);
+    font-size: 18px;
+    font-weight: 500;
+  }
+
+  &__number {
+    background-color: $blue-sapphire;
+    padding: 5px 0px;
+    border-radius: 50px;
+    color: $ghost-white;
+  }
+
+  &__customer {
+    font-weight: 500;
+    font-size: 18px;
+  }
+}

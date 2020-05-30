@@ -23,7 +23,7 @@ export class LoginComponent implements OnInit {
     this.authService.login(this.loginModel).subscribe(
       () => {
         if (this.authService.decodedToken.role == "admin") {
-          this.router.navigate(["home/admin"]);
+          this.router.navigate(["admin/ticket"]);
         } else {
           this.router.navigate(["home"]);
         }

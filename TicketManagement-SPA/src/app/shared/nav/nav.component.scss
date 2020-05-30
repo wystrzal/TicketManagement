@@ -1,59 +1,24 @@
 @import "../../variables";
 
 .nav {
-  position: fixed;
+  position: relative;
   top: 0;
-  padding: 10px;
+  padding: 12px;
   width: 100%;
-  background-color: $eerie-black;
+  background-color: darken($color: $blue-sapphire, $amount: 0);
   display: flex;
   justify-content: space-between;
-  z-index: 1000;
-  box-shadow: 0 5px 10px lighten($color: $eerie-black, $amount: 5);
 
   &__btn {
     color: $beige !important;
-    margin: 0 5px;
-    font-size: 18px;
+    margin: 0 20px !important;
+    font-size: 24px !important;
+    font-weight: 700;
+    cursor: pointer;
 
     &:hover {
       color: lighten($color: $beige, $amount: 20) !important;
-    }
-  }
-}
-
-.menu {
-  position: fixed;
-  top: 0;
-  left: 0;
-  height: 100%;
-  width: 100%;
-  z-index: 998;
-
-  &-box {
-    position: fixed;
-    top: 0;
-    left: 0;
-    height: 100%;
-    width: 20%;
-    background-color: lighten($color: $eerie-black, $amount: 5);
-    z-index: 999;
-  }
-
-  &-content {
-    margin-top: 60px;
-    color: $beige;
-
-    &__btn {
-      color: $beige;
-
-      &--active {
-        color: darken($color: $beige, $amount: 20);
-      }
-
-      &:hover {
-        color: darken($color: $beige, $amount: 20);
-      }
+      font-weight: 700;
     }
   }
 }
