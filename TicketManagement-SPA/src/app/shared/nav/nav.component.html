@@ -1,9 +1,16 @@
 <div class="nav">
   <div>
-    <a type="button" class="nav__btn">New - 152</a>
-    <a type="button" class="nav__btn">Open - 12</a>
-    <a type="button" class="nav__btn">Progress - 52</a>
-    <a type="button" class="nav__btn">Pending - 1</a>
+    <div *hasRole="'admin'">
+      <a type="button" class="nav__btn">Users</a>
+      <a type="button" class="nav__btn">New - 152</a>
+      <a type="button" class="nav__btn">Open - 12</a>
+      <a type="button" class="nav__btn">Pending - 1</a>
+      <a type="button" class="nav__btn">Ended</a>
+    </div>
+    <div *hasRole="'user'">
+      <a type="button" class="nav__btn">New Ticket</a>
+      <a type="button" class="nav__btn">Tickets</a>
+    </div>
   </div>
   <div>
     <a type="button" class="nav__btn" (click)="logout()">Logout</a>

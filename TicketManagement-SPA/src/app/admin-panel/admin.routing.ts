@@ -2,7 +2,7 @@ import { Routes, RouterModule } from "@angular/router";
 import { AdminPanelModule } from "./admin-panel.module";
 import { AuthGuard } from "../guards/auth.guard";
 import { AdminPanelComponent } from "./admin-panel.component";
-import { TicketPanelComponent } from "./ticket-panel/ticket-panel.component";
+import { TicketPanelComponent } from "../shared/ticket-panel/ticket-panel.component";
 
 const routes: Routes = [
   {
@@ -10,6 +10,7 @@ const routes: Routes = [
     runGuardsAndResolvers: "always",
     canActivate: [AuthGuard],
     component: AdminPanelComponent,
+    data: { role: "admin" },
     children: [
       {
         path: "ticket",

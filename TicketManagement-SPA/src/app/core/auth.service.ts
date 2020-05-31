@@ -37,9 +37,9 @@ export class AuthService {
     return !this.jwtHelper.isTokenExpired(token);
   }
 
-  roleMatch(allowedRoles: string): boolean {
-    const userRoles = this.decodedToken.role.toString();
-    if (allowedRoles === userRoles) {
+  roleMatch(allowedRole: string): boolean {
+    const userRole = this.decodedToken.role.toString();
+    if (allowedRole === userRole) {
       return true;
     }
     return false;

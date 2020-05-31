@@ -8,12 +8,14 @@ import { HttpClientModule } from "@angular/common/http";
 import { AppRoutes } from "./app.routing";
 import { RouterModule } from "@angular/router";
 import { AdminPanelModule } from "./admin-panel/admin-panel.module";
+import { UserPanelModule } from "./user-panel/user-panel.module";
 
 @NgModule({
   declarations: [AppComponent, LoginComponent],
   imports: [
     RouterModule.forRoot(AppRoutes),
     AdminPanelModule,
+    UserPanelModule,
     SharedModule,
     CoreModule,
   ],

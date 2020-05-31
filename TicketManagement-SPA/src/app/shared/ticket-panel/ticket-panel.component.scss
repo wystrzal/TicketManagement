@@ -1,8 +1,6 @@
 @import "../../variables";
 
 .ticket {
-  margin-top: 20px;
-
   &__content {
     overflow-y: auto;
     max-height: 78vh;
@@ -20,10 +18,11 @@
     font-weight: 800;
   }
 
-  &__title {
+  &__title,
+  &-chat__title {
     color: lighten($color: $blue-sapphire, $amount: 10);
-    font-size: 18px;
-    font-weight: 500;
+    font-size: 22px;
+    font-weight: 700;
   }
 
   &__number {
@@ -36,5 +35,23 @@
   &__customer {
     font-weight: 500;
     font-size: 18px;
+  }
+
+  &-chat {
+    max-height: 70vh;
+    height: 70vh;
+    overflow-y: auto;
+
+    &__sender {
+      border: 2px solid $blue-sapphire;
+      padding: 20px 10px;
+      background-color: $beige;
+      border-radius: 10px;
+    }
+
+    &__user {
+      font-weight: 700;
+      font-size: 20px;
+    }
   }
 }

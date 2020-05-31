@@ -14,21 +14,22 @@ export class AuthGuard implements CanActivate {
   ) {}
 
   canActivate(next: ActivatedRouteSnapshot): boolean {
-    // const role = next.firstChild.data.roles as string;
-    // if (role) {
-    //   const match = this.authService.roleMatch(role);
-    //   if (match) {
-    //     return true;
-    //   } else {
-    //     this.router.navigate([""]);
-    //     this.errorService.newError("Brak autoryzacji.");
-    //   }
-    // }
+    const role = next.data.role as string;
+    if (role) {
+      const match = this.authService.roleMatch(role);
+      if (match) {
+        return true;
+      } else {
+        this.router.navigate([""]);
+        this.errorService.newError("Unauthorized.");
+      }
+    }
+
     if (this.authService.loggedIn()) {
       return true;
     }
-    this.errorService.newError("Unauthorized.");
 
+    this.errorService.newError("Unauthorized.");
     this.router.navigate([""]);
     return false;
   }
