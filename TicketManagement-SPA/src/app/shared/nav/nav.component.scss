@@ -3,16 +3,17 @@
 .nav {
   position: relative;
   top: 0;
-  padding: 12px;
+  padding: 5px;
   width: 100%;
   background-color: darken($color: $blue-sapphire, $amount: 0);
   display: flex;
   justify-content: space-between;
+  z-index: 1000;
 
   &__btn {
     color: $beige !important;
     margin: 0 20px !important;
-    font-size: 24px !important;
+    font-size: 22px !important;
     font-weight: 700;
     cursor: pointer;
 

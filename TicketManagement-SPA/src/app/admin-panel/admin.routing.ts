@@ -3,6 +3,7 @@ import { AdminPanelModule } from "./admin-panel.module";
 import { AuthGuard } from "../guards/auth.guard";
 import { AdminPanelComponent } from "./admin-panel.component";
 import { TicketPanelComponent } from "../shared/ticket-panel/ticket-panel.component";
+import { TicketsComponent } from "../shared/tickets/tickets.component";
 
 const routes: Routes = [
   {
@@ -16,6 +17,7 @@ const routes: Routes = [
         path: "ticket",
         component: TicketPanelComponent,
       },
+      { path: "tickets", component: TicketsComponent },
     ],
   },
 ];

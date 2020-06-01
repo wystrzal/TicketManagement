@@ -1,0 +1,54 @@
+@import "../../variables";
+
+.tickets {
+  &__title {
+    padding: 15px 5px;
+    color: lighten($color: $blue-sapphire, $amount: 10);
+    font-size: 25px;
+    font-weight: 700;
+    margin-top: 15px;
+  }
+
+  &__search {
+    margin-bottom: 15px;
+    padding: 10px 5px;
+    background-color: lighten($color: $blue-sapphire, $amount: 10);
+    color: $ghost-white;
+    font-size: 20px;
+
+    &--item {
+      color: $blue-sapphire;
+      font-size: 22px;
+      font-weight: 600;
+      margin-bottom: 10px;
+    }
+  }
+
+  &-list {
+    border: 2px solid $blue-sapphire;
+
+    &__item {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      border: 1px solid #dee2e6;
+    }
+  }
+}
+
+.pagination {
+  &__custom::ng-deep {
+    & .page-item.active .page-link {
+      color: $blue-sapphire;
+      text-decoration: underline;
+      background-color: transparent;
+      font-weight: 700;
+    }
+
+    & .page-link {
+      color: $eerie-black;
+      border: 1px solid $blue-sapphire;
+      box-shadow: none;
+    }
+  }
+}

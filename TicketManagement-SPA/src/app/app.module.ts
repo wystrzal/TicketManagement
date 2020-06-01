@@ -4,7 +4,6 @@ import { AppComponent } from "./app.component";
 import { LoginComponent } from "./login/login.component";
 import { SharedModule } from "./shared/shared.module";
 import { CoreModule } from "./core/core.module";
-import { HttpClientModule } from "@angular/common/http";
 import { AppRoutes } from "./app.routing";
 import { RouterModule } from "@angular/router";
 import { AdminPanelModule } from "./admin-panel/admin-panel.module";

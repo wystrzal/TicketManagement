@@ -6,6 +6,7 @@ using System.Threading.Tasks;
 using TicketManagement.API.Core.Interfaces;
 using TicketManagement.API.Infrastructure.Data.Repositories;
 using TicketManagement.API.Infrastructure.Services;
+using TicketManagement.API.Infrastructure.Services.SearchIssueStrategy;
 
 namespace TicketManagement.API.Extensions
 {
@@ -15,7 +16,10 @@ namespace TicketManagement.API.Extensions
         {
             services.AddScoped<IAccountService, AccountService>();
             services.AddScoped<ITokenService, TokenService>();
+            services.AddScoped<IIssueService, IssueService>();
+            services.AddScoped<ISearchIssuesBox, SearchIssuesBox>();
             services.AddScoped<IUnitOfWork, UnitOfWork>();
+            services.AddScoped<IIssueRepository, IssueRepository>();
         }
     }
 }

@@ -7,6 +7,8 @@ import { HttpClientModule } from "@angular/common/http";
 import { TicketDetailComponent } from "./ticket-panel/ticket-detail/ticket-detail.component";
 import { TicketPanelComponent } from "./ticket-panel/ticket-panel.component";
 import { HasRoleDirective } from "../directives/hasRole.directive";
+import { TicketsComponent } from "./tickets/tickets.component";
+import { PaginationModule } from "ngx-bootstrap/pagination";
 
 @NgModule({
   declarations: [
@@ -14,8 +16,15 @@ import { HasRoleDirective } from "../directives/hasRole.directive";
     TicketDetailComponent,
     TicketPanelComponent,
     HasRoleDirective,
+    TicketsComponent,
   ],
-  imports: [HttpClientModule, CommonModule, ModalModule.forRoot(), FormsModule],
+  imports: [
+    HttpClientModule,
+    CommonModule,
+    ModalModule.forRoot(),
+    FormsModule,
+    PaginationModule.forRoot(),
+  ],
   exports: [NavComponent, FormsModule],
 })
 export class SharedModule {}

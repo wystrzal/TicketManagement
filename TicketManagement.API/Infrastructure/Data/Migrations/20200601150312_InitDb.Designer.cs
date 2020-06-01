@@ -10,7 +10,7 @@ using TicketManagement.API.Infrastructure.Data;
 namespace TicketManagement.API.Migrations
 {
     [DbContext(typeof(DataContext))]
-    [Migration("20200529220118_InitDb")]
+    [Migration("20200601150312_InitDb")]
     partial class InitDb
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -152,6 +152,85 @@ namespace TicketManagement.API.Migrations
                     b.ToTable("AspNetUserTokens");
                 });
 
+            modelBuilder.Entity("TicketManagement.API.Core.Models.Departament", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int")
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
+                    b.Property<string>("Name")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("Departaments");
+                });
+
+            modelBuilder.Entity("TicketManagement.API.Core.Models.Issue", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int")
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
+                    b.Property<string>("DeclarantId")
+                        .HasColumnType("nvarchar(450)");
+
+                    b.Property<string>("Description")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<int>("Status")
+                        .HasColumnType("int");
+
+                    b.Property<string>("Title")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("DeclarantId");
+
+                    b.ToTable("Issues");
+                });
+
+            modelBuilder.Entity("TicketManagement.API.Core.Models.Message", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int")
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
+                    b.Property<string>("Content")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<int>("IssueId")
+                        .HasColumnType("int");
+
+                    b.Property<int>("SenderId")
+                        .HasColumnType("int");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("IssueId");
+
+                    b.ToTable("Messages");
+                });
+
+            modelBuilder.Entity("TicketManagement.API.Core.Models.SupportIssues", b =>
+                {
+                    b.Property<int>("IssueId")
+                        .HasColumnType("int");
+
+                    b.Property<string>("SupportId")
+                        .HasColumnType("nvarchar(450)");
+
+                    b.HasKey("IssueId", "SupportId");
+
+                    b.HasIndex("SupportId");
+
+                    b.ToTable("SupportedIssues");
+                });
+
             modelBuilder.Entity("TicketManagement.API.Core.Models.User", b =>
                 {
                     b.Property<string>("Id")
@@ -164,12 +243,21 @@ namespace TicketManagement.API.Migrations
                         .IsConcurrencyToken()
                         .HasColumnType("nvarchar(max)");
 
+                    b.Property<int?>("DepartamentId")
+                        .HasColumnType("int");
+
                     b.Property<string>("Email")
                         .HasColumnType("nvarchar(256)")
                         .HasMaxLength(256);
 
                     b.Property<bool>("EmailConfirmed")
                         .HasColumnType("bit");
+
+                    b.Property<string>("Firstname")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("Lastname")
+                        .HasColumnType("nvarchar(max)");
 
                     b.Property<bool>("LockoutEnabled")
                         .HasColumnType("bit");
@@ -205,6 +293,8 @@ namespace TicketManagement.API.Migrations
                         .HasMaxLength(256);
 
                     b.HasKey("Id");
+
+                    b.HasIndex("DepartamentId");
 
                     b.HasIndex("NormalizedEmail")
                         .HasName("EmailIndex");
@@ -266,6 +356,44 @@ namespace TicketManagement.API.Migrations
                         .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
+                });
+
+            modelBuilder.Entity("TicketManagement.API.Core.Models.Issue", b =>
+                {
+                    b.HasOne("TicketManagement.API.Core.Models.User", "Declarant")
+                        .WithMany("DeclarantedIssues")
+                        .HasForeignKey("DeclarantId");
+                });
+
+            modelBuilder.Entity("TicketManagement.API.Core.Models.Message", b =>
+                {
+                    b.HasOne("TicketManagement.API.Core.Models.Issue", "Issue")
+                        .WithMany("Messages")
+                        .HasForeignKey("IssueId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+                });
+
+            modelBuilder.Entity("TicketManagement.API.Core.Models.SupportIssues", b =>
+                {
+                    b.HasOne("TicketManagement.API.Core.Models.Issue", "Issue")
+                        .WithMany("SupportIssues")
+                        .HasForeignKey("IssueId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("TicketManagement.API.Core.Models.User", "User")
+                        .WithMany("SupportIssues")
+                        .HasForeignKey("SupportId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+                });
+
+            modelBuilder.Entity("TicketManagement.API.Core.Models.User", b =>
+                {
+                    b.HasOne("TicketManagement.API.Core.Models.Departament", "Departament")
+                        .WithMany("Users")
+                        .HasForeignKey("DepartamentId");
                 });
 #pragma warning restore 612, 618
         }
