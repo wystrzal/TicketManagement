@@ -7,13 +7,13 @@ namespace TicketManagement.API.Dtos
 {
     public class PaginatedItemsDto<TEntity> where TEntity : class
     {
-        public int PageIndex { get; private set; }
+        public int PageIndex { get; set; }
 
-        public int PageSize { get; private set; }
+        public int PageSize { get; set; }
 
-        public int Count { get; private set; }
+        public int Count { get; set; }
 
-        public IEnumerable<TEntity> Data { get; private set; }
+        public IEnumerable<TEntity> Data { get; set; }
 
         public PaginatedItemsDto(int pageIndex, int count, IEnumerable<TEntity> data, int pageSize)
         {

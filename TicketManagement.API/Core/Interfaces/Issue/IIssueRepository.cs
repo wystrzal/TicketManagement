@@ -8,8 +8,10 @@ namespace TicketManagement.API.Core.Interfaces
 {
     public interface IIssueRepository
     {
-        Task<List<Issue>> GetIssues(Func<Issue, bool> func, int pageIndex, int pageSize);
-        Task<int> CountIssues(Func<Issue, bool> func);
+        Task<List<Issue>> GetIssues(Func<Issue, bool> specification, int pageIndex, int pageSize);
+        Task<List<Issue>> GetIssuesWithContent(Func<Issue, bool> content, Func<Issue, bool> specification, int pageIndex, int pageSize);
+        Task<int> CountIssues(Func<Issue, bool> specification);
+        Task<int> CountIssuesWithContent(Func<Issue, bool> content, Func<Issue, bool> specification);
     }
 
 }

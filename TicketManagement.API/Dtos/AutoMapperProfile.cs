@@ -22,6 +22,12 @@ namespace TicketManagement.API.Dtos
 
             CreateMap<NewIssueDto, Issue>();
 
+            CreateMap<Issue, GetIssueListDto>()
+                .ForMember(x => x.Declarant, opt =>
+                opt.MapFrom(src => src.Declarant.Firstname + " " + src.Declarant.Lastname))
+                .ForMember(x => x.Departament, opt =>
+                opt.MapFrom(src => src.Declarant.Departament.Name));
+
         }
     }
 }

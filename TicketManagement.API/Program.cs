@@ -27,7 +27,7 @@ namespace TicketManagement.API
                     var context = services.GetRequiredService<DataContext>();
                     var userManager = services.GetRequiredService<UserManager<User>>();
                     context.Database.Migrate();
-                    DataSeed.AddSeed(userManager);
+                    DataSeed.AddSeed(userManager, context);
                 }
                 catch (Exception ex)
                 {

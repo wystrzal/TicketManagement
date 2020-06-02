@@ -10,15 +10,25 @@ namespace TicketManagement.API.Infrastructure.Data
 {
     public static class DataSeed
     {
-        public static void AddSeed(UserManager<User> userManager)
+        public static void AddSeed(UserManager<User> userManager, DataContext dataContext)
         {
             if (!userManager.Users.Any())
             {
+                List<Departament> departaments = new List<Departament>()
+                {
+                    new Departament {Name = "Warehouse"},
+                    new Departament {Name = "Production"},
+                };
+
+                dataContext.Departaments.AddRange(departaments);
+                dataContext.SaveChangesAsync();
+
+
                 List<User> user = new List<User>()
                 {
-                    new User { UserName = "admin"},
+                    new User { UserName = "admin", Departament = departaments[0], Firstname = "Patryk", Lastname = "Kowal"},
 
-                    new User { UserName = "user"}
+                    new User { UserName = "user", Departament = departaments[1], Firstname = "Patryk", Lastname = "Nowak"}
                 };
 
                 userManager.CreateAsync(user[0], "Admin123").Wait();

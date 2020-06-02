@@ -1,15 +1,10 @@
 ﻿using AutoMapper;
-using System;
-using System.Collections.Generic;
-using System.Linq;
 using System.Threading.Tasks;
 using TicketManagement.API.Core.Interfaces;
 using TicketManagement.API.Core.Models;
-using TicketManagement.API.Core.Models.Enums;
 using TicketManagement.API.Dtos;
 using TicketManagement.API.Dtos.IssueDtos;
-using TicketManagement.API.Infrastructure.Services.SearchIssueStrategy;
-using TicketManagement.API.Infrastructure.Services.SearchIssueStrategy.ConcreteSearch;
+using TicketManagement.API.Infrastructure.Services.SearchIssue.ConcreteSearch;
 using static TicketManagement.API.Core.Models.Enums.IssueStatus;
 
 namespace TicketManagement.API.Infrastructure.Services
@@ -43,17 +38,28 @@ namespace TicketManagement.API.Infrastructure.Services
             return false;
         }
 
-        public async Task<PaginatedItemsDto<Issue>> GetIssues(SearchSpecificationDto searchSpecification)
+        public async Task<PaginatedItemsDto<GetIssueListDto>> GetIssues(SearchSpecificationDto searchSpecification)
         {
-            PaginatedItemsDto<Issue> paginatedItems = null;
-
-            if (searchSpecification.Status != null)
+            if (searchSpecification.Status != null && searchSpecification.Departament != null)
             {
-                paginatedItems = await searchIssuesBox.SearchIssues<SearchIssuesByStatus>()
+                return await searchIssuesBox.SearchIssues<SearchIssuesByStatusDepartament>()
                     .SearchIssues(searchSpecification);
             }
-
-            return paginatedItems;
+            else if (searchSpecification.Status != null)
+            {
+                return await searchIssuesBox.SearchIssues<SearchIssuesByStatus>()
+                    .SearchIssues(searchSpecification);
+            } 
+            else if (searchSpecification.Departament != null)
+            {
+                return await searchIssuesBox.SearchIssues<SearchIssuesByDepartament>()
+                    .SearchIssues(searchSpecification);
+            }
+            else
+            {
+                return await searchIssuesBox.SearchIssues<SearchIssuesWithoutClosed>()
+                    .SearchIssues(searchSpecification);
+            }
         }
 
     }

@@ -11,6 +11,6 @@ namespace TicketManagement.API.Core.Interfaces
     public interface IIssueService
     {
         Task<bool> AddNewIssue(NewIssueDto newIssue);
-        Task<PaginatedItemsDto<Issue>> GetIssues(SearchSpecificationDto searchSpecification);
+        Task<PaginatedItemsDto<GetIssueListDto>> GetIssues(SearchSpecificationDto searchSpecification);
     }
 }

@@ -12,6 +12,8 @@ using TicketManagement.API.Dtos.IssueDtos;
 
 namespace TicketManagement.API.Controllers
 {
+
+    [AllowAnonymous]
     [Route("api/[controller]")]
     [ApiController]
     public class IssueController : ControllerBase
@@ -34,11 +36,10 @@ namespace TicketManagement.API.Controllers
             return BadRequest("Something goes wrong.");
         }
 
-        [AllowAnonymous]
         [HttpGet]
         public async Task<IActionResult> GetIssues([FromQuery]SearchSpecificationDto searchSpecification)
         {
-            PaginatedItemsDto<Issue> paginatedItems = await issueService.GetIssues(searchSpecification);
+            PaginatedItemsDto<GetIssueListDto> paginatedItems = await issueService.GetIssues(searchSpecification);
 
             return Ok(paginatedItems);
         }

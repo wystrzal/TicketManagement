@@ -74,9 +74,9 @@ namespace TicketManagement.API.Migrations
                     LockoutEnd = table.Column<DateTimeOffset>(nullable: true),
                     LockoutEnabled = table.Column<bool>(nullable: false),
                     AccessFailedCount = table.Column<int>(nullable: false),
-                    Firstname = table.Column<string>(nullable: true),
-                    Lastname = table.Column<string>(nullable: true),
-                    DepartamentId = table.Column<int>(nullable: true)
+                    Firstname = table.Column<string>(nullable: false),
+                    Lastname = table.Column<string>(nullable: false),
+                    DepartamentId = table.Column<int>(nullable: false)
                 },
                 constraints: table =>
                 {
@@ -86,7 +86,7 @@ namespace TicketManagement.API.Migrations
                         column: x => x.DepartamentId,
                         principalTable: "Departaments",
                         principalColumn: "Id",
-                        onDelete: ReferentialAction.Restrict);
+                        onDelete: ReferentialAction.Cascade);
                 });
 
             migrationBuilder.CreateTable(

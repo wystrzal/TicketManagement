@@ -241,7 +241,7 @@ namespace TicketManagement.API.Migrations
                         .IsConcurrencyToken()
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<int?>("DepartamentId")
+                    b.Property<int>("DepartamentId")
                         .HasColumnType("int");
 
                     b.Property<string>("Email")
@@ -252,9 +252,11 @@ namespace TicketManagement.API.Migrations
                         .HasColumnType("bit");
 
                     b.Property<string>("Firstname")
+                        .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("Lastname")
+                        .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<bool>("LockoutEnabled")
@@ -391,7 +393,9 @@ namespace TicketManagement.API.Migrations
                 {
                     b.HasOne("TicketManagement.API.Core.Models.Departament", "Departament")
                         .WithMany("Users")
-                        .HasForeignKey("DepartamentId");
+                        .HasForeignKey("DepartamentId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
                 });
 #pragma warning restore 612, 618
         }
