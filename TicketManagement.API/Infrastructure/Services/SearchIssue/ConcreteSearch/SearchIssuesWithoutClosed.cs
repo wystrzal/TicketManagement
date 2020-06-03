@@ -13,32 +13,9 @@ namespace TicketManagement.API.Infrastructure.Services.SearchIssue.ConcreteSearc
 {
     public class SearchIssuesWithoutClosed : SearchByAbstract
     {
-        public SearchIssuesWithoutClosed(IIssueRepository issueRepository, IMapper mapper) : base(issueRepository, mapper)
+        public SearchIssuesWithoutClosed(IIssueRepository issueRepository, SearchSpecificationDto searchSpecification) 
+            : base(issueRepository, x => x.Status != Status.Close, searchSpecification)
         {
-        }
-
-        public override async Task<PaginatedItemsDto<GetIssueListDto>> SearchIssues(SearchSpecificationDto searchSpecification)
-        {
-            PaginatedItemsDto<GetIssueListDto> paginatedItems = null;
-
-            if (searchSpecification.Title == null && searchSpecification.DeclarantLastName == null)
-            {
-                List<Issue> issues = await issueRepository.GetIssues(x => x.Status != Status.Close,
-                    searchSpecification.PageIndex, searchSpecification.PageSize);
-
-                int totalIssues = await issueRepository.CountIssues(x => x.Status != Status.Close);
-
-                var issuesToReturn = mapper.Map<List<GetIssueListDto>>(issues);
-
-                paginatedItems = new PaginatedItemsDto<GetIssueListDto>(searchSpecification.PageIndex,
-                    totalIssues, issuesToReturn, searchSpecification.PageSize);
-            } 
-            else
-            {
-                paginatedItems = await SearchByContent(searchSpecification, x => x.Status != Status.Close);
-            }
-
-            return paginatedItems;   
         }
     }
 }

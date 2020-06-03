@@ -13,52 +13,70 @@ namespace TicketManagement.API.Infrastructure.Services.SearchIssue.ConcreteSearc
 {
     public abstract class SearchByAbstract
     {
-        protected readonly IIssueRepository issueRepository;
-        protected readonly IMapper mapper;
+        private readonly IIssueRepository issueRepository;
+        private readonly Expression<Func<Issue, bool>> specification;
+        private readonly SearchSpecificationDto searchSpecification;
 
-        public SearchByAbstract(IIssueRepository issueRepository, IMapper mapper)
+        public SearchByAbstract(IIssueRepository issueRepository, Expression<Func<Issue, bool>> specification,
+            SearchSpecificationDto searchSpecification)
         {
             this.issueRepository = issueRepository;
-            this.mapper = mapper;
+            this.specification = specification;
+            this.searchSpecification = searchSpecification;
         }
 
         //Search Issues by specification.
-        public abstract Task<PaginatedItemsDto<GetIssueListDto>> SearchIssues(SearchSpecificationDto searchSpecification);
+        public virtual async Task<FilteredIssueListDto> SearchIssues(Expression<Func<Issue, bool>> typeOfSearch)
+        {
+            FilteredIssueListDto filteredIssueList = new FilteredIssueListDto();
+
+            var specificationValue = specification.Compile();
+            var typeOfSearchValue = typeOfSearch.Compile();
+
+            if (searchSpecification.Title == null && searchSpecification.DeclarantLastName == null)
+            {
+                filteredIssueList.Issues = await issueRepository.GetIssues(x => specificationValue(x) && typeOfSearchValue(x),
+                    searchSpecification.PageIndex, searchSpecification.PageSize);
+
+                filteredIssueList.totalIssues = await issueRepository.CountIssues(x => specificationValue(x) && typeOfSearchValue(x));
+            }
+            else
+            {
+                filteredIssueList = await SearchByContent(x => specification.Compile()(x) && typeOfSearch.Compile()(x));
+            }
+
+
+            return filteredIssueList;
+        }
 
         //Search Issues by specification + content e.g. status + title.
-        protected async Task<PaginatedItemsDto<GetIssueListDto>> SearchByContent(SearchSpecificationDto searchSpecification, 
-            Expression<Func<Issue, bool>> specification)
+        public virtual async Task<FilteredIssueListDto> SearchByContent(Expression<Func<Issue, bool>> specification)
         {
-            List<Issue> issues = null;
-            int totalIssues = 0;
+            FilteredIssueListDto filteredIssueList = new FilteredIssueListDto();
+            //Compile expression from given specification.
+            var specificationValue = specification.Compile();
 
             if (searchSpecification.Title != null)
             {
+                filteredIssueList.Issues = await issueRepository.GetIssues(x => x.Title.Contains(searchSpecification.Title) 
+                    && specificationValue(x), searchSpecification.PageIndex, searchSpecification.PageSize);
 
-                var exprVal = specification.Compile();
-
-                issues = await issueRepository.GetIssuesWithContent(x => x.Title.Contains(searchSpecification.Title) || exprVal(x),
-                    null, searchSpecification.PageIndex, searchSpecification.PageSize);
-
-                totalIssues = await issueRepository.CountIssuesWithContent(x => x.Title.Contains(searchSpecification.Title),
-                    specification);
+                filteredIssueList.totalIssues = await issueRepository.CountIssues(
+                    x => x.Title.Contains(searchSpecification.Title)
+                    && specificationValue(x));
             }
             else 
             {
-                issues = await issueRepository
-                    .GetIssuesWithContent(x => x.Declarant.Lastname.Contains(searchSpecification.DeclarantLastName),
-                    specification, searchSpecification.PageIndex, searchSpecification.PageSize);
+                filteredIssueList.Issues = await issueRepository
+                    .GetIssues(x => x.Declarant.Lastname.Contains(searchSpecification.DeclarantLastName)
+                    && specificationValue(x), searchSpecification.PageIndex, searchSpecification.PageSize);
 
-                totalIssues = await issueRepository.CountIssuesWithContent(
-                    x => x.Declarant.Lastname.Contains(searchSpecification.DeclarantLastName),
-                    specification);
+                filteredIssueList.totalIssues = await issueRepository.CountIssues(
+                    x => x.Declarant.Lastname.Contains(searchSpecification.DeclarantLastName)
+                    && specificationValue(x));
             }
 
-            var issuesToReturn = mapper.Map<List<GetIssueListDto>>(issues);
-
-            return new PaginatedItemsDto<GetIssueListDto>(searchSpecification.PageIndex,
-                totalIssues, issuesToReturn, searchSpecification.PageSize);
-
+            return filteredIssueList;
         }
     }
 }

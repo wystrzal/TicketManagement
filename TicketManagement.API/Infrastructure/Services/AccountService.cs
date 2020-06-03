@@ -12,7 +12,7 @@ namespace TicketManagement.API.Infrastructure.Services
 {
     public class AccountService : IAccountService
     {
-             private readonly ITokenService tokenService;
+        private readonly ITokenService tokenService;
         private readonly UserManager<User> userManager;
         private readonly SignInManager<User> signInManager;
         private readonly IMapper mapper;

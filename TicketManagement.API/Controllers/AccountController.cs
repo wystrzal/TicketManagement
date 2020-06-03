@@ -26,7 +26,7 @@ namespace TicketManagement.API.Controllers
         [HttpPost("login")]
         public async Task<IActionResult> Login(LoginDto loginDto)
         {
-            var token = await accountService.TryLogin(loginDto);
+            string token = await accountService.TryLogin(loginDto);
 
             if (token == null)
             {
