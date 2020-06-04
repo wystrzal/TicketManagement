@@ -11,7 +11,7 @@ using static TicketManagement.API.Core.Models.Enums.IssueStatus;
 
 namespace TicketManagement.API.Infrastructure.Services.SearchIssue.ConcreteSearch
 {
-    public class SearchIssuesWithoutClosed : SearchByAbstract
+    public class SearchIssuesWithoutClosed : SearchBy
     {
         public SearchIssuesWithoutClosed(IIssueRepository issueRepository, SearchSpecificationDto searchSpecification) 
             : base(issueRepository, x => x.Status != Status.Close, searchSpecification)

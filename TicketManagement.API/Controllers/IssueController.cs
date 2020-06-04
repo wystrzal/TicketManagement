@@ -61,10 +61,10 @@ namespace TicketManagement.API.Controllers
         //Add to SPA.
         [HttpGet]
         public async Task<IActionResult> GetIssues([FromQuery]SearchSpecificationDto searchSpecification)
-        {
-                PaginatedItemsDto<GetIssueListDto> paginatedItems = await issueService.GetIssues(searchSpecification);
+        {          
+            PaginatedItemsDto<GetIssueListDto> paginatedItems = await issueService.GetIssues(searchSpecification);
 
-                return Ok(paginatedItems);
+            return Ok(paginatedItems);
         }
 
         //Add to SPA.

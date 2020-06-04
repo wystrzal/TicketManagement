@@ -17,13 +17,17 @@ namespace TicketManagement.API.Dtos.IssueDtos
         public string DeclarantLastName { get; set; }
         public string UserId { get; set; }
 
-        [Required]
         public int PageIndex { get; set; }
 
-        [Required]
         public int PageSize { get; set; }
 
-        [Required]
         public SearchFor SearchFor { get; set; }
+
+        public SearchSpecificationDto()
+        {
+            PageIndex = 1;
+            PageSize = 25;
+            SearchFor = SearchFor.AllIssues;
+        }
     }
 }

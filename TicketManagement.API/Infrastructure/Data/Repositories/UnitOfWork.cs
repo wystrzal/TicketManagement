@@ -10,7 +10,7 @@ namespace TicketManagement.API.Infrastructure.Data.Repositories
     public class UnitOfWork : IUnitOfWork
     {
         private readonly DataContext dataContext;
-        private Hashtable repositories;
+        private Dictionary<Type, object> repositories;
 
         public UnitOfWork(DataContext dataContext)
         {
@@ -21,7 +21,7 @@ namespace TicketManagement.API.Infrastructure.Data.Repositories
         {
             if (repositories == null)
             {
-                repositories = new Hashtable();
+                repositories = new Dictionary<Type, object>();
             }
 
             var type = typeof(T);
@@ -39,11 +39,6 @@ namespace TicketManagement.API.Infrastructure.Data.Repositories
         public async Task<bool> SaveAllAsync()
         {
             return await dataContext.SaveChangesAsync() > 0 ? true : false;
-        }
-
-        public void SaveAll()
-        {
-            dataContext.SaveChanges();
         }
     }
 }

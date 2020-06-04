@@ -16,20 +16,20 @@ namespace TicketManagement.API.Infrastructure.Services.SearchIssue
             this.issueRepository = issueRepository;
         }
 
-        public SearchByAbstract SearchIssues<T>(SearchSpecificationDto searchSpecification) where T : class
+        public ISearchBy ConcreteSearch<T>(T typeOfSearch, SearchSpecificationDto searchSpecification) where T : class
         {
             var concreteSearches = new Hashtable();
 
-            var type = typeof(T);
+            var type = typeOfSearch;
 
             if (!concreteSearches.ContainsKey(type))
             {
-                var concreteSearch = Activator.CreateInstance(typeof(T), issueRepository, searchSpecification);
+                var concreteSearch = Activator.CreateInstance(type as Type, issueRepository, searchSpecification);
 
                 concreteSearches.Add(type, concreteSearch);
             }
 
-            return concreteSearches[type] as SearchByAbstract;          
+            return concreteSearches[type] as ISearchBy;          
         }
     }
 }

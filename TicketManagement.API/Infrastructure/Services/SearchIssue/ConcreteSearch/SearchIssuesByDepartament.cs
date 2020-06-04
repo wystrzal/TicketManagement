@@ -10,7 +10,7 @@ using TicketManagement.API.Dtos.IssueDtos;
 
 namespace TicketManagement.API.Infrastructure.Services.SearchIssue.ConcreteSearch
 {
-    public class SearchIssuesByDepartament : SearchByAbstract
+    public class SearchIssuesByDepartament : SearchBy
     {
         public SearchIssuesByDepartament(IIssueRepository issueRepository, SearchSpecificationDto searchSpecification)
             : base(issueRepository, x => x.Declarant.Departament.Name == searchSpecification.Departament, searchSpecification)

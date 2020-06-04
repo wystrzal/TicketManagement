@@ -72,46 +72,43 @@ namespace TicketManagement.API.Infrastructure.Services
 
         public async Task<PaginatedItemsDto<GetIssueListDto>> GetIssues(SearchSpecificationDto searchSpecification)
         {
-            Expression<Func<Issue, bool>> typeOfSearch = null;
+            Expression<Func<Issue, bool>> searchFor = null;
             FilteredIssueListDto filteredIssueList = null;
 
-            //Choose type of search.
+            var typeOfSearch = typeof(SearchIssuesWithoutClosed);
+
+            //Choose for what must search.
             switch (searchSpecification.SearchFor)
             {
                 case SearchFor.UserIssues:
-                    typeOfSearch = x => x.DeclarantId == searchSpecification.UserId;
+                    searchFor = x => x.DeclarantId == searchSpecification.UserId;
                     break;
                 case SearchFor.SupportIssues:
-                    typeOfSearch = x => x.SupportIssues.Where(x => x.SupportId == searchSpecification.UserId).Any();
+                    searchFor = x => x.SupportIssues.Where(x => x.SupportId == searchSpecification.UserId).Any();
                     break;
                 case SearchFor.AllIssues:
-                    typeOfSearch = x => x.Id != 0;
+                    searchFor = x => x.Id != 0;
                     break;
                 default:
                     break;
             }
 
-            //Search by specification
+            //Choose type of search.
             if (searchSpecification.Status != null && searchSpecification.Departament != null)
             {
-                filteredIssueList = await searchIssuesBox.SearchIssues<SearchIssuesByStatusDepartament>(searchSpecification)
-                    .SearchIssues(typeOfSearch);
+                typeOfSearch = typeof(SearchIssuesByStatusDepartament);
             }
             else if (searchSpecification.Status != null)
             {
-                filteredIssueList = await searchIssuesBox.SearchIssues<SearchIssuesByStatus>(searchSpecification)
-                    .SearchIssues(typeOfSearch);
+                typeOfSearch = typeof(SearchIssuesByStatus);
             } 
             else if (searchSpecification.Departament != null)
             {
-                filteredIssueList = await searchIssuesBox.SearchIssues<SearchIssuesByDepartament>(searchSpecification)
-                    .SearchIssues(typeOfSearch);
+                typeOfSearch = typeof(SearchIssuesByDepartament);
             }
-            else
-            {
-                filteredIssueList = await searchIssuesBox.SearchIssues<SearchIssuesWithoutClosed>(searchSpecification)
-                    .SearchIssues(typeOfSearch);
-            }
+
+            filteredIssueList = await searchIssuesBox.ConcreteSearch(typeOfSearch, searchSpecification)
+                .SearchIssues(searchFor);
 
             var issuesToReturn = mapper.Map<List<GetIssueListDto>>(filteredIssueList.Issues);
 

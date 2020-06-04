@@ -9,6 +9,6 @@ namespace TicketManagement.API.Core.Interfaces
 {
     public interface ISearchIssuesBox
     {
-        SearchByAbstract SearchIssues<T>(SearchSpecificationDto searchSpecification) where T : class;
+        ISearchBy ConcreteSearch<T>(T typeOfSearch, SearchSpecificationDto searchSpecification) where T : class;
     }
 }

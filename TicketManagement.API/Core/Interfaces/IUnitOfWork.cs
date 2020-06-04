@@ -9,6 +9,5 @@ namespace TicketManagement.API.Core.Interfaces
     {
         IRepository<T> Repository<T>() where T : class;
         Task<bool> SaveAllAsync();
-        void SaveAll();
     }
 }
