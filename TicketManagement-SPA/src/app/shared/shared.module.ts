@@ -4,20 +4,11 @@ import { NavComponent } from "src/app/shared/nav/nav.component";
 import { ModalModule } from "ngx-bootstrap/modal";
 import { FormsModule } from "@angular/forms";
 import { HttpClientModule } from "@angular/common/http";
-import { TicketDetailComponent } from "./ticket-panel/ticket-detail/ticket-detail.component";
-import { TicketPanelComponent } from "./ticket-panel/ticket-panel.component";
-import { HasRoleDirective } from "../directives/hasRole.directive";
-import { TicketsComponent } from "./tickets/tickets.component";
+import { HasRoleDirective } from "./directives/hasRole.directive";
 import { PaginationModule } from "ngx-bootstrap/pagination";
 
 @NgModule({
-  declarations: [
-    NavComponent,
-    TicketDetailComponent,
-    TicketPanelComponent,
-    HasRoleDirective,
-    TicketsComponent,
-  ],
+  declarations: [NavComponent, HasRoleDirective],
   imports: [
     HttpClientModule,
     CommonModule,
@@ -25,6 +16,6 @@ import { PaginationModule } from "ngx-bootstrap/pagination";
     FormsModule,
     PaginationModule.forRoot(),
   ],
-  exports: [NavComponent, FormsModule],
+  exports: [NavComponent, FormsModule, PaginationModule, CommonModule],
 })
 export class SharedModule {}

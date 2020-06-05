@@ -1,0 +1,78 @@
+<div class="issues__title">Search By</div>
+<div class="col-12 issues__search">Status</div>
+<div>
+  <input
+    class="form-check-input col-2"
+    type="radio"
+    name="status"
+    id="status-new"
+    value="1"
+    [(ngModel)]="searchModel.status"
+  />
+  <label class="col-10 issues__search--item" for="status-new">
+    New
+  </label>
+</div>
+<div>
+  <input
+    class="form-check-input col-2"
+    type="radio"
+    name="status"
+    id="status-open"
+    value="2"
+    [(ngModel)]="searchModel.status"
+  />
+  <label class="col-10 issues__search--item" for="status-open">
+    Open
+  </label>
+</div>
+<div>
+  <input
+    class="form-check-input col-2"
+    type="radio"
+    name="status"
+    id="status-progress"
+    value="3"
+    [(ngModel)]="searchModel.status"
+  />
+  <label class="col-10 issues__search--item" for="status-progress">
+    Progress
+  </label>
+</div>
+<div>
+  <input
+    class="form-check-input col-2"
+    type="radio"
+    name="status"
+    id="status-pending"
+    value="4"
+    [(ngModel)]="searchModel.status"
+  />
+  <label class="col-10 issues__search--item" for="status-pending">
+    Pending
+  </label>
+</div>
+<div>
+  <input
+    class="form-check-input col-2"
+    type="radio"
+    name="status"
+    id="status-close"
+    value="5"
+    [(ngModel)]="searchModel.status"
+  />
+  <label class="col-10 issues__search--item" for="status-close">
+    Close
+  </label>
+</div>
+
+<div class="col-12 issues__search">Department</div>
+<div class="col-12 issues__search--item">Warehouse</div>
+<div class="col-12 issues__search--item">Production</div>
+<div class="col-12 issues__search">Title</div>
+<input class="form-control issues__search--item" />
+<div class="col-12 issues__search">Declarant Last Name</div>
+<input class="form-control issues__search--item" />
+<button class="issues__search issues__search--btn btn" (click)="search()">
+  Search
+</button>

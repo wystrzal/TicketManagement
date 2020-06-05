@@ -1,6 +1,6 @@
 import { Routes } from "@angular/router";
 import { LoginComponent } from "./login/login.component";
-import { AuthGuard } from "./guards/auth.guard";
+import { AuthGuard } from "./core/auth.guard";
 
 export const AppRoutes: Routes = [
   { path: "", component: LoginComponent },
@@ -12,10 +12,12 @@ export const AppRoutes: Routes = [
       {
         path: "admin",
         loadChildren: "./admin-panel/admin-panel.module#AdminPanelModule",
+        data: { role: "admin" },
       },
       {
-        path: "home",
+        path: "user",
         loadChildren: "./user-panel/user-panel.module#UserPanelModule",
+        data: { role: "user" },
       },
     ],
   },

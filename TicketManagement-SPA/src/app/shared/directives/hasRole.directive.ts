@@ -5,7 +5,7 @@ import {
   TemplateRef,
   OnInit,
 } from "@angular/core";
-import { AuthService } from "../core/auth.service";
+import { AuthService } from "../../core/auth.service";
 
 @Directive({
   selector: "[hasRole]",

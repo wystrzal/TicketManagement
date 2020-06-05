@@ -1,7 +1,7 @@
 import { Component, OnInit } from "@angular/core";
+import { Router } from "@angular/router";
 import { AuthService } from "../core/auth.service";
 import { ErrorService } from "../core/helpers/error.service";
-import { Router } from "@angular/router";
 
 @Component({
   selector: "app-login",
@@ -23,9 +23,9 @@ export class LoginComponent implements OnInit {
     this.authService.login(this.loginModel).subscribe(
       () => {
         if (this.authService.decodedToken.role == "admin") {
-          this.router.navigate(["admin/ticket"]);
+          this.router.navigate(["admin/issues"]);
         } else {
-          this.router.navigate(["home"]);
+          this.router.navigate(["user/issues"]);
         }
       },
       (error) => {

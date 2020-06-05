@@ -1,14 +1,25 @@
 import { Routes, RouterModule } from "@angular/router";
 import { UserPanelComponent } from "./user-panel.component";
-import { AuthGuard } from "../guards/auth.guard";
+import { AuthGuard } from "../core/auth.guard";
+import { UserIssuesResolver } from "../issues/resolvers/user-issues.resolver";
+import { SearchFor } from "../models/enums/searchFor.enum";
+import { IssuesComponent } from "../issues/issues.component";
 
 const routes: Routes = [
   {
-    path: "home",
+    path: "user",
     component: UserPanelComponent,
     canActivate: [AuthGuard],
     runGuardsAndResolvers: "always",
-    data: { role: "user" },
+    children: [
+      {
+        path: "issues",
+        component: IssuesComponent,
+        resolve: { issues: UserIssuesResolver },
+        data: { searchFor: SearchFor.UserIssues },
+      },
+      { path: "**", redirectTo: "issues", pathMatch: "full" },
+    ],
   },
 ];
 
