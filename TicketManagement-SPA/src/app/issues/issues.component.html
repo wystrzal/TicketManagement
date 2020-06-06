@@ -1,13 +1,13 @@
 <div class="issues">
   <div class="container-fluid">
     <div class="row text-center">
-      <div class="col-12 col-sm-3">
+      <div class="col-12 col-md-3">
         <app-issues-search (startSearch)="search($event)"></app-issues-search>
       </div>
 
-      <div class="col-12 col-sm-9">
+      <div class="col-12 col-md-9">
         <div class="ml-3 issues__title">
-          Issues list - {{ paginatedIssues.count }}
+          Issues - {{ paginatedIssues.count }}
         </div>
         <div class="col-12">
           <div class="row text-center issues-list mb-4">
@@ -40,23 +40,28 @@
         </div>
 
         <div class="col-12" *ngFor="let issue of paginatedIssues.data">
-          <div class="row text-center issues-list mb-4">
-            <div
-              class="col-md-2 col-12 issues-list__item issues-list__item--id"
-            >
-              #{{ issue.id }}
-            </div>
-            <div class="col-md-3 col-12 issues-list__item">
-              {{ issue.title }}
-            </div>
-            <div class="col-md-2 col-12 issues-list__item">
-              {{ issue.departament }}
-            </div>
-            <div class="col-md-3 col-12 issues-list__item">
-              {{ issue.declarant }}
-            </div>
-            <div class="col-md-2 col-12 issues-list__item">
-              {{ issue.status }}
+          <div
+            (click)="showIssue(issue.id, issue.status)"
+            routerLink="../issue/{{ issue.id }}"
+          >
+            <div class="row text-center issues-list mb-4">
+              <div
+                class="col-md-2 col-12 issues-list__item issues-list__item--id"
+              >
+                #{{ issue.id }}
+              </div>
+              <div class="col-md-3 col-12 issues-list__item">
+                {{ issue.title }}
+              </div>
+              <div class="col-md-2 col-12 issues-list__item">
+                {{ issue.departament }}
+              </div>
+              <div class="col-md-3 col-12 issues-list__item">
+                {{ issue.declarant }}
+              </div>
+              <div class="col-md-2 col-12 issues-list__item">
+                {{ issue.status }}
+              </div>
             </div>
           </div>
         </div>
@@ -70,6 +75,7 @@
             [itemsPerPage]="paginatedIssues.pageSize"
             [totalItems]="paginatedIssues.count"
             (pageChanged)="changePage($event)"
+            [(ngModel)]="currentPage"
             class="pagination__custom"
           >
           </pagination>

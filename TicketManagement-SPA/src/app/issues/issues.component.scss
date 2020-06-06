@@ -9,37 +9,6 @@
     margin-top: 15px;
   }
 
-  &__search {
-    margin-bottom: 15px;
-    padding: 10px 5px;
-    background-color: lighten($color: $blue-sapphire, $amount: 10);
-    color: $ghost-white;
-    font-size: 20px;
-
-    &--btn {
-      box-shadow: 3px 3px 5px $blue-sapphire;
-      transition: all 300ms linear;
-      width: 120px;
-
-      &:hover {
-        transform: scale(1.05);
-        box-shadow: 4px 4px 10px $blue-sapphire;
-      }
-
-      &:active {
-        transform: scale(1);
-        box-shadow: 3px 3px 5px $blue-sapphire;
-      }
-    }
-
-    &--item {
-      color: $blue-sapphire;
-      font-size: 22px;
-      font-weight: 600;
-      margin-bottom: 10px;
-    }
-  }
-
   &-list {
     border: 2px solid $blue-sapphire;
 
@@ -48,10 +17,6 @@
       align-items: center;
       justify-content: center;
       border: 1px solid #dee2e6;
-
-      &--heading {
-        font-size: 25px;
-      }
 
       &--id {
         background-color: $blue-sapphire;

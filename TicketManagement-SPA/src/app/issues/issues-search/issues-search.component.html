@@ -67,12 +67,38 @@
 </div>
 
 <div class="col-12 issues__search">Department</div>
-<div class="col-12 issues__search--item">Warehouse</div>
-<div class="col-12 issues__search--item">Production</div>
+<div *ngFor="let departament of departaments">
+  <input
+    class="form-check-input col-2"
+    type="radio"
+    name="departament"
+    id="status-{{ departament.name }}"
+    value="{{ departament.name }}"
+    [(ngModel)]="searchModel.departament"
+  />
+  <label
+    class="col-10 issues__search--item"
+    for="status-{{ departament.name }}"
+  >
+    {{ departament.name }}
+  </label>
+</div>
 <div class="col-12 issues__search">Title</div>
-<input class="form-control issues__search--item" />
+<input
+  class="form-control issues__search--item"
+  [(ngModel)]="searchModel.title"
+  name="title"
+/>
 <div class="col-12 issues__search">Declarant Last Name</div>
-<input class="form-control issues__search--item" />
-<button class="issues__search issues__search--btn btn" (click)="search()">
+<input
+  class="form-control issues__search--item"
+  [(ngModel)]="searchModel.declarantLastName"
+  name="declarantLastName"
+/>
+
+<button class="col-6 issues__search issues__search--btn btn" (click)="search()">
   Search
+</button>
+<button class="col-6 issues__search issues__search--btn btn" (click)="reset()">
+  Reset
 </button>

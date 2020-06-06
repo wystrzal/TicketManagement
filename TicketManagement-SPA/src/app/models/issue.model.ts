@@ -1,9 +1,8 @@
-import { Status } from "./enums/status.enum";
-
 export interface IssueModel {
   id: number;
   title: string;
-  status: Status;
+  status: string;
   declarant: string;
   departament: string;
+  description: string;
 }

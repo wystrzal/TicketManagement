@@ -44,8 +44,6 @@ namespace TicketManagement.API.Controllers
             return BadRequest("Model state is not valid.");
         }
 
-
-        //Add to SPA.
         [HttpPost("{id}/status/{status}")]
         public async Task<IActionResult> ChangeIssueStatus(int id, Status status)
         {
@@ -58,7 +56,6 @@ namespace TicketManagement.API.Controllers
         }
 
 
-        //Add to SPA.
         [HttpGet]
         public async Task<IActionResult> GetIssues([FromQuery]SearchSpecificationDto searchSpecification)
         {          
@@ -67,7 +64,14 @@ namespace TicketManagement.API.Controllers
             return Ok(paginatedItems);
         }
 
-        //Add to SPA.
+        [HttpGet("departament")]
+        public async Task<IActionResult> GetIssueDepartaments()
+        {
+            List<GetIssueDepartamentsDto> getIssueDepartaments = await issueService.GetIssueDepartaments();
+
+            return Ok(getIssueDepartaments);
+        }
+
         [HttpGet("{id}")]
         public async Task<IActionResult> GetIssue(int id)
         {

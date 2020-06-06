@@ -4,6 +4,7 @@ import { AuthGuard } from "../core/auth.guard";
 import { UserIssuesResolver } from "../issues/resolvers/user-issues.resolver";
 import { SearchFor } from "../models/enums/searchFor.enum";
 import { IssuesComponent } from "../issues/issues.component";
+import { NewIssueComponent } from "./new-issue/new-issue.component";
 
 const routes: Routes = [
   {
@@ -18,6 +19,7 @@ const routes: Routes = [
         resolve: { issues: UserIssuesResolver },
         data: { searchFor: SearchFor.UserIssues },
       },
+      { path: "new-issue", component: NewIssueComponent },
       { path: "**", redirectTo: "issues", pathMatch: "full" },
     ],
   },

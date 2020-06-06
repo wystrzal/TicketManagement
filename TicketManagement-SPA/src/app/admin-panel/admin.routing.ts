@@ -5,6 +5,7 @@ import { IssuesComponent } from "../issues/issues.component";
 import { SearchFor } from "../models/enums/searchFor.enum";
 import { AllIssuesResolver } from "../issues/resolvers/all-issues.resolver";
 import { SupportIssuesResolver } from "../issues/resolvers/support-issues.resolver";
+import { IssueDetailComponent } from "../issues/issue-detail/issue-detail.component";
 
 const routes: Routes = [
   {
@@ -13,6 +14,7 @@ const routes: Routes = [
     canActivate: [AuthGuard],
     component: AdminPanelComponent,
     children: [
+      { path: "issue/:id", component: IssueDetailComponent },
       {
         path: "issues",
         component: IssuesComponent,
@@ -20,7 +22,7 @@ const routes: Routes = [
         data: { searchFor: SearchFor.AllIssues },
       },
       {
-        path: "my-issues",
+        path: "assigned-issues",
         component: IssuesComponent,
         resolve: { issues: SupportIssuesResolver },
         data: { searchFor: SearchFor.SupportIssues },

@@ -14,5 +14,8 @@ namespace TicketManagement.API.Dtos.IssueDtos
         public string Description { get; set; }
         public Status Status { get; set; }
         public string DeclarantId { get; set; }
+
+        public string Declarant { get; set; }
+        public string Departament { get; set; }
     }
 }

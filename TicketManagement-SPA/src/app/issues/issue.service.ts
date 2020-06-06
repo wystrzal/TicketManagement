@@ -3,10 +3,11 @@ import { HttpClient, HttpParams } from "@angular/common/http";
 import { environment } from "src/environments/environment";
 import { SearchSpecificationModel } from "src/app/models/searchSpecification.model";
 import { Observable } from "rxjs";
-import { IssueModel } from "src/app/models/issue.model";
 import { PaginatedItemsModel } from "../models/paginatedItems.model";
 import { map } from "rxjs/operators";
 import { Status } from "../models/enums/status.enum";
+import { DepartamentModel } from "../models/departament.model";
+import { IssueModel } from "../models/issue.model";
 
 @Injectable({
   providedIn: "root",
@@ -76,5 +77,22 @@ export class IssueService {
           return paginatedItems;
         })
       );
+  }
+
+  getIssue(id: number): Observable<IssueModel> {
+    return this.http.get<IssueModel>(this.baseUrl + id).pipe(
+      map((issue: IssueModel) => {
+        issue.status = Status[issue.status];
+        return issue;
+      })
+    );
+  }
+
+  getIssueDepartaments(): Observable<DepartamentModel[]> {
+    return this.http.get<DepartamentModel[]>(this.baseUrl + "departament");
+  }
+
+  changeIssueStatus(id: number, status: Status) {
+    return this.http.post(this.baseUrl + id + "/status/" + status, {});
   }
 }

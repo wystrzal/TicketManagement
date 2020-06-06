@@ -15,6 +15,7 @@ namespace TicketManagement.API.Core.Interfaces
         Task<bool> ChangeIssueStatus(int issueId, Status status);
         Task<PaginatedItemsDto<GetIssueListDto>> GetIssues(SearchSpecificationDto searchSpecification);
         Task<GetIssueDto> GetIssue(int id);
+        Task<List<GetIssueDepartamentsDto>> GetIssueDepartaments();
 
 
     }

@@ -6,6 +6,7 @@ import { FormsModule } from "@angular/forms";
 import { HttpClientModule } from "@angular/common/http";
 import { HasRoleDirective } from "./directives/hasRole.directive";
 import { PaginationModule } from "ngx-bootstrap/pagination";
+import { RouterModule } from "@angular/router";
 
 @NgModule({
   declarations: [NavComponent, HasRoleDirective],
@@ -15,7 +16,14 @@ import { PaginationModule } from "ngx-bootstrap/pagination";
     ModalModule.forRoot(),
     FormsModule,
     PaginationModule.forRoot(),
+    RouterModule,
   ],
-  exports: [NavComponent, FormsModule, PaginationModule, CommonModule],
+  exports: [
+    NavComponent,
+    FormsModule,
+    PaginationModule,
+    CommonModule,
+    RouterModule,
+  ],
 })
 export class SharedModule {}

@@ -60,7 +60,8 @@ namespace TicketManagement.API.Infrastructure.Services
 
         public async Task<GetIssueDto> GetIssue(int id)
         {
-            var issue = await unitOfWork.Repository<Issue>().GetById(id);
+            var issue = await unitOfWork.Repository<Issue>()
+                .GetByConditionWithIncludeFirst(x => x.Id == id, y => y.Declarant.Departament);
 
             if (issue == null)
             {
@@ -68,6 +69,13 @@ namespace TicketManagement.API.Infrastructure.Services
             }
 
             return mapper.Map<GetIssueDto>(issue);
+        }
+
+        public async Task<List<GetIssueDepartamentsDto>> GetIssueDepartaments()
+        {
+            var departaments = await unitOfWork.Repository<Departament>().GetAll();
+
+            return mapper.Map<List<GetIssueDepartamentsDto>>(departaments);
         }
 
         public async Task<PaginatedItemsDto<GetIssueListDto>> GetIssues(SearchSpecificationDto searchSpecification)

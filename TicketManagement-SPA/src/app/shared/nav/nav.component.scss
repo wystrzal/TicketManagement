@@ -23,3 +23,9 @@
     }
   }
 }
+
+.active {
+  color: lighten($color: $beige, $amount: 20) !important;
+  font-weight: 700;
+  text-decoration: none;
+}

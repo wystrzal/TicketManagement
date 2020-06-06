@@ -1,10 +1,11 @@
 import { Component, OnInit } from "@angular/core";
 import { SearchSpecificationModel } from "src/app/models/searchSpecification.model";
 import { IssueService } from "./issue.service";
-import { IssueModel } from "src/app/models/issue.model";
 import { ActivatedRoute } from "@angular/router";
-import { SearchFor } from "src/app/models/enums/searchFor.enum";
 import { PaginatedItemsModel } from "../models/paginatedItems.model";
+import { ErrorService } from "../core/helpers/error.service";
+import { Status } from "../models/enums/status.enum";
+import { AuthService } from "../core/auth.service";
 
 @Component({
   selector: "app-issues",
@@ -13,19 +14,62 @@ import { PaginatedItemsModel } from "../models/paginatedItems.model";
 })
 export class IssuesComponent implements OnInit {
   paginatedIssues: PaginatedItemsModel;
-  searchFor: SearchFor;
+  currentPage: number;
+  searchSpec: SearchSpecificationModel = {
+    departament: null,
+    declarantLastName: null,
+    status: null,
+    title: null,
+    userId: null,
+    pageIndex: null,
+    pageSize: null,
+    searchFor: null,
+  };
 
   constructor(
     private issueService: IssueService,
-    private route: ActivatedRoute
+    private route: ActivatedRoute,
+    private errorService: ErrorService,
+    private authService: AuthService
   ) {}
 
   ngOnInit() {
     this.paginatedIssues = this.route.snapshot.data.issues;
-    this.searchFor = this.route.snapshot.data.searchFor;
+  }
+
+  showIssue(id: number, status: string) {
+    const enumStatus = Status[status];
+
+    if (enumStatus == 1) {
+      this.issueService.changeIssueStatus(id, Status.Open).subscribe(
+        () => {},
+        (error) => {
+          this.errorService.newError(error);
+        }
+      );
+    }
   }
 
   search(searchModel: any) {
-    console.log(searchModel);
+    this.searchSpec = searchModel;
+    this.searchSpec.searchFor = this.route.snapshot.data.searchFor;
+    this.searchSpec.userId = this.authService.decodedToken.nameid;
+
+    this.issueService.getIssues(this.searchSpec).subscribe(
+      (data) => {
+        this.paginatedIssues = data;
+      },
+      (error) => {
+        this.errorService.newError(error);
+      }
+    );
+
+    this.currentPage = 1;
+  }
+
+  changePage(pageIndex) {
+    this.searchSpec.pageIndex = pageIndex.page;
+
+    this.search(this.searchSpec);
   }
 }

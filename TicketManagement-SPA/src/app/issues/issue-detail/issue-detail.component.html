@@ -1,24 +1,23 @@
 <div class="container-fluid issue">
   <div class="row">
     <div class="col-lg-4 col-12 text-center">
-      <div class="issue__heading col-12 mb-2">New</div>
+      <div class="issue__heading col-12 mb-2">{{ issue?.status }}</div>
       <div class="col-12 issue__content">
         <div class="col-6 offset-3">
-          <div class="issue__number mt-3">#12</div>
+          <div class="issue__number mt-3">#{{ issue?.id }}</div>
         </div>
         <div class="col-12 mt-4">
           <div>
             <div class="issue__customer mb-2">
-              Patryk Kowal
+              {{ issue?.declarant }}
             </div>
             <div class="border col-4 offset-4"></div>
-            <div class="mt-2 issue__customer">Warehouse</div>
+            <div class="mt-2 issue__customer">{{ issue?.departament }}</div>
           </div>
         </div>
         <div class="col-12 my-4 border-bottom">
           <div class="mb-2">
-            Lorem ipsum dolor sit amet consectetur adipisicing elit. Numquam,
-            sed facilis, cupiditate earum at perferendis unde dignissimos omnis
+            {{ issue?.description }}
           </div>
         </div>
       </div>
