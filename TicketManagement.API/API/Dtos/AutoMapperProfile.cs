@@ -6,6 +6,7 @@ using System.Threading.Tasks;
 using TicketManagement.API.Core.Models;
 using TicketManagement.API.Dtos.AccountDtos;
 using TicketManagement.API.Dtos.IssueDtos;
+using TicketManagement.API.Dtos.MessageDtos;
 
 namespace TicketManagement.API.Dtos
 {
@@ -35,6 +36,14 @@ namespace TicketManagement.API.Dtos
                 opt.MapFrom(src => src.Declarant.Departament.Name));
 
             CreateMap<Departament, GetIssueDepartamentsDto>();
+
+            //MessageDtos
+
+            CreateMap<NewMessageDto, Message>();
+
+            CreateMap<Message, GetIssueMessagesDto>()
+                .ForMember(x => x.Sender, opt =>
+                opt.MapFrom(src => src.Sender.Firstname + " " + src.Sender.Lastname));
         }
     }
 }

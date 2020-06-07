@@ -245,6 +245,36 @@ namespace TicketManagement.API_TEST.Services
             Assert.NotNull(action.Data);
         }
 
+        [Fact]
+        public async Task GetIssueDepartamentsSuccess()
+        {
+            //Arrange
+            var departaments = new List<Departament>()
+            {
+                new Departament {Id = 1, Name = "test"},
+                new Departament {Id = 2, Name = "test"}
+            };
+
+            var issueDepartaments = new List<GetIssueDepartamentsDto>()
+            {
+                new GetIssueDepartamentsDto {Name = "test"},
+                new GetIssueDepartamentsDto {Name = "test"}
+            };
+
+            unitOfWork.Setup(x => x.Repository<Departament>().GetAll()).Returns(Task.FromResult(departaments));
+
+            mapper.Setup(x => x.Map<List<GetIssueDepartamentsDto>>(departaments)).Returns(issueDepartaments);
+
+            var service = new IssueService(unitOfWork.Object, mapper.Object, searchIssuesBox.Object);
+
+            //Act
+            var action = await service.GetIssueDepartaments();
+
+            //Assert
+            Assert.NotNull(action);
+            Assert.Equal(2, action.Count);
+        }
+
         private List<Issue> GetIssues()
         {
             return new List<Issue>()

@@ -10,7 +10,7 @@ using TicketManagement.API.Infrastructure.Data;
 namespace TicketManagement.API.Migrations
 {
     [DbContext(typeof(DataContext))]
-    [Migration("20200601221739_InitDb")]
+    [Migration("20200606221217_InitDb")]
     partial class InitDb
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -206,12 +206,14 @@ namespace TicketManagement.API.Migrations
                     b.Property<int>("IssueId")
                         .HasColumnType("int");
 
-                    b.Property<int>("SenderId")
-                        .HasColumnType("int");
+                    b.Property<string>("SenderId")
+                        .HasColumnType("nvarchar(450)");
 
                     b.HasKey("Id");
 
                     b.HasIndex("IssueId");
+
+                    b.HasIndex("SenderId");
 
                     b.ToTable("Messages");
                 });
@@ -374,6 +376,10 @@ namespace TicketManagement.API.Migrations
                         .HasForeignKey("IssueId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
+
+                    b.HasOne("TicketManagement.API.Core.Models.User", "Sender")
+                        .WithMany("Messages")
+                        .HasForeignKey("SenderId");
                 });
 
             modelBuilder.Entity("TicketManagement.API.Core.Models.SupportIssues", b =>

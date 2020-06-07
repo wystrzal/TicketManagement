@@ -1,17 +1,20 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Threading.Tasks;
 
-namespace TicketManagement.API.Core.Models
+namespace TicketManagement.API.Dtos.MessageDtos
 {
-    public class Message
+    public class NewMessageDto
     {
-        public int Id { get; set; }
+        [Required]
         public string Content { get; set; }
+
+        [Required]
         public int IssueId { get; set; }
-        public Issue Issue { get; set; }
+
+        [Required]
         public string SenderId { get; set; }
-        public User Sender { get; set; }
     }
 }

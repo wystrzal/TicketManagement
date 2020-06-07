@@ -1,5 +1,6 @@
 ﻿using Microsoft.Extensions.DependencyInjection;
 using TicketManagement.API.Core.Interfaces;
+using TicketManagement.API.Core.Interfaces.MessageInterfaces;
 using TicketManagement.API.Infrastructure.Data.Repositories;
 using TicketManagement.API.Infrastructure.Services;
 using TicketManagement.API.Infrastructure.Services.SearchIssue;
@@ -19,6 +20,8 @@ namespace TicketManagement.API.Extensions
             services.AddScoped<IIssueService, IssueService>();
             services.AddScoped<IIssueRepository, IssueRepository>();
             services.AddScoped<ISearchIssuesBox, SearchIssuesBox>();
+
+            services.AddScoped<IMessageService, MessageService>();
         }
     }
 }

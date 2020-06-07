@@ -20,5 +20,6 @@ namespace TicketManagement.API.Core.Models
 
         public virtual ICollection<Issue> DeclarantedIssues { get; set; }
         public virtual ICollection<SupportIssues> SupportIssues { get; set; }
+        public virtual ICollection<Message> Messages { get; set; }
     }
 }

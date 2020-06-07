@@ -204,7 +204,7 @@ namespace TicketManagement.API.Migrations
                         .Annotation("SqlServer:Identity", "1, 1"),
                     Content = table.Column<string>(nullable: true),
                     IssueId = table.Column<int>(nullable: false),
-                    SenderId = table.Column<int>(nullable: false)
+                    SenderId = table.Column<string>(nullable: true)
                 },
                 constraints: table =>
                 {
@@ -215,6 +215,12 @@ namespace TicketManagement.API.Migrations
                         principalTable: "Issues",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
+                    table.ForeignKey(
+                        name: "FK_Messages_AspNetUsers_SenderId",
+                        column: x => x.SenderId,
+                        principalTable: "AspNetUsers",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Restrict);
                 });
 
             migrationBuilder.CreateTable(
@@ -294,6 +300,11 @@ namespace TicketManagement.API.Migrations
                 name: "IX_Messages_IssueId",
                 table: "Messages",
                 column: "IssueId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_Messages_SenderId",
+                table: "Messages",
+                column: "SenderId");
 
             migrationBuilder.CreateIndex(
                 name: "IX_SupportedIssues_SupportId",

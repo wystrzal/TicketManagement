@@ -55,21 +55,16 @@ namespace TicketManagement.API.Controllers
             return BadRequest("Something goes wrong.");
         }
 
-
         [HttpGet]
         public async Task<IActionResult> GetIssues([FromQuery]SearchSpecificationDto searchSpecification)
         {          
-            PaginatedItemsDto<GetIssueListDto> paginatedItems = await issueService.GetIssues(searchSpecification);
-
-            return Ok(paginatedItems);
+            return Ok(await issueService.GetIssues(searchSpecification));
         }
 
         [HttpGet("departament")]
         public async Task<IActionResult> GetIssueDepartaments()
         {
-            List<GetIssueDepartamentsDto> getIssueDepartaments = await issueService.GetIssueDepartaments();
-
-            return Ok(getIssueDepartaments);
+            return Ok(await issueService.GetIssueDepartaments());
         }
 
         [HttpGet("{id}")]
@@ -84,6 +79,5 @@ namespace TicketManagement.API.Controllers
 
             return BadRequest("Something goes wrong.");
         }
-
     }
 }

@@ -35,12 +35,7 @@ namespace TicketManagement.API.Infrastructure.Services
 
             unitOfWork.Repository<Issue>().Add(issueToAdd);
 
-            if (await unitOfWork.SaveAllAsync())
-            {
-                return true;
-            }
-
-            return false;
+            return await unitOfWork.SaveAllAsync();
         }
 
         public async Task<bool> ChangeIssueStatus(int issueId, Status status)
@@ -49,12 +44,7 @@ namespace TicketManagement.API.Infrastructure.Services
 
             issue.Status = status;
 
-            if (await unitOfWork.SaveAllAsync())
-            {
-                return true;
-            }
-
-            return false;
+            return await unitOfWork.SaveAllAsync();
         }
 
 

@@ -176,6 +176,30 @@ namespace TicketManagement.API_TEST.Controllers
             Assert.NotNull(action.Value);
         }
 
+        [Fact]
+        public async Task GetIssueDepartamentsOkObjectResponse()
+        {
+            //Arrange
+            var getIssueDepartaments = new List<GetIssueDepartamentsDto>()
+            {
+                new GetIssueDepartamentsDto { Name = "test"},
+                new GetIssueDepartamentsDto { Name = "test"}
+            };
+
+            issueService.Setup(x => x.GetIssueDepartaments()).Returns(Task.FromResult(getIssueDepartaments));
+
+            var controller = new IssueController(issueService.Object);
+
+            //Act
+            var action = await controller.GetIssueDepartaments() as OkObjectResult;
+            var item = action.Value as List<GetIssueDepartamentsDto>;
+
+            //Assert
+            Assert.Equal(200, action.StatusCode);
+            Assert.Equal(2, item.Count);
+
+        }
+
 
 
         private PaginatedItemsDto<GetIssueListDto> GetPaginatedItems(int pageIndex, int count, int pageSize)
