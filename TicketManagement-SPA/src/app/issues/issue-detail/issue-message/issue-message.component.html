@@ -1,27 +1,40 @@
 <div class="col-12 text-center issue-chat">
   <div class="text-left issue-chat__title mt-3">
-    #{{ issue.id }} - {{ issue.title }}
+    #{{ issue?.id }} - {{ issue?.title }}
   </div>
-  <div>
-    <div class="col-12 text-left mt-5 mb-1 issue-chat__user">
-      Robert
-    </div>
-    <div class="col-10 mb-2 text-left issue-chat__sender">
-      Lorem ipsum
+  <div *ngFor="let message of issueMessages">
+    <div *ngIf="message.senderId != currentUser">
+      <div class="col-12 text-left mt-5 mb-1 issue-chat__user">
+        {{ message.sender }}
+      </div>
+      <div class="col-10 mb-2 text-left issue-chat__sender">
+        {{ message.content }}
+      </div>
     </div>
 
-    <div class="col-12 text-right mt-5 mb-1 issue-chat__user">
-      Me
-    </div>
-    <div class="col-10 offset-2 mb-2 text-left issue-chat__sender">
-      Lorem ipsum
+    <div *ngIf="message.senderId == currentUser">
+      <div class="col-12 text-right mt-5 mb-1 issue-chat__user">
+        Me
+      </div>
+      <div class="col-10 offset-2 mb-2 text-left issue-chat__sender">
+        {{ message.content }}
+      </div>
     </div>
   </div>
 </div>
 
 <div class="issue-chat__panel text-right">
-  <form>
-    <textarea class="form-control" rows="4" style="resize: none;"></textarea>
-    <button class="btn btn-success my-3">Submit as Pending</button>
+  <form #messageForm="ngForm" (ngSubmit)="sendMessage()">
+    <textarea
+      [(ngModel)]="messageModel.content"
+      name="content"
+      required
+      class="form-control"
+      rows="4"
+      style="resize: none;"
+    ></textarea>
+    <button [disabled]="!messageForm.valid" class="btn btn-success my-3">
+      Submit as Pending
+    </button>
   </form>
 </div>
