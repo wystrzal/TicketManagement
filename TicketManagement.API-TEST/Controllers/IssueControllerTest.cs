@@ -180,10 +180,10 @@ namespace TicketManagement.API_TEST.Controllers
         public async Task GetIssueDepartamentsOkObjectResponse()
         {
             //Arrange
-            var getIssueDepartaments = new List<GetIssueDepartamentsDto>()
+            var getIssueDepartaments = new List<GetIssueDepartamentDto>()
             {
-                new GetIssueDepartamentsDto { Name = "test"},
-                new GetIssueDepartamentsDto { Name = "test"}
+                new GetIssueDepartamentDto { Name = "test"},
+                new GetIssueDepartamentDto { Name = "test"}
             };
 
             issueService.Setup(x => x.GetIssueDepartaments()).Returns(Task.FromResult(getIssueDepartaments));
@@ -192,7 +192,7 @@ namespace TicketManagement.API_TEST.Controllers
 
             //Act
             var action = await controller.GetIssueDepartaments() as OkObjectResult;
-            var item = action.Value as List<GetIssueDepartamentsDto>;
+            var item = action.Value as List<GetIssueDepartamentDto>;
 
             //Assert
             Assert.Equal(200, action.StatusCode);

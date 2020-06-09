@@ -17,6 +17,8 @@ export class IssueMessageService {
   }
 
   getIssueMessages(issueId: number): Observable<IssueMessageModel[]> {
-    return this.http.get<IssueMessageModel[]>(this.baseUrl + issueId);
+    return this.http.get<IssueMessageModel[]>(
+      this.baseUrl + "issue/" + issueId
+    );
   }
 }

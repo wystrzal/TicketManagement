@@ -95,4 +95,8 @@ export class IssueService {
   changeIssueStatus(id: number, status: Status) {
     return this.http.post(this.baseUrl + id + "/status/" + status, {});
   }
+
+  addNewIssue(issueModel: any) {
+    return this.http.post(this.baseUrl, issueModel);
+  }
 }

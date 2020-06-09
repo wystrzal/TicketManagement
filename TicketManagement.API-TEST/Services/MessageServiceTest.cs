@@ -80,17 +80,17 @@ namespace TicketManagement.API_TEST.Services
                 new Message {Id = 2, Content = "test"}
             };
 
-            var getIssueMessages = new List<GetIssueMessagesDto>
+            var getIssueMessages = new List<GetIssueMessageDto>
             {
-                new GetIssueMessagesDto {Content = "test"},
-                new GetIssueMessagesDto {Content = "test"}
+                new GetIssueMessageDto {Content = "test"},
+                new GetIssueMessageDto {Content = "test"}
             };
 
             unitOfWork.Setup(x => x.Repository<Message>()
                 .GetByConditionWithIncludeToList(It.IsAny<Func<Message, bool>>(), It.IsAny<Expression<Func<Message,User>>>()))
                 .Returns(Task.FromResult(messages));
 
-            mapper.Setup(x => x.Map<List<GetIssueMessagesDto>>(messages)).Returns(getIssueMessages);
+            mapper.Setup(x => x.Map<List<GetIssueMessageDto>>(messages)).Returns(getIssueMessages);
 
             var service = new MessageService(unitOfWork.Object, mapper.Object);
 
@@ -99,6 +99,25 @@ namespace TicketManagement.API_TEST.Services
 
             //Assert
             Assert.Equal(2, action.Count);
+        }
+
+        [Fact]
+        public async Task GetMessageSuccess()
+        {
+            //Arrange
+            var messageId = 1;
+            var message = new Message { Id = 1, Content = "test" };
+
+            var service = new MessageService(unitOfWork.Object, mapper.Object);
+
+            unitOfWork.Setup(x => x.Repository<Message>().GetById(messageId)).Returns(Task.FromResult(message));
+
+            //Act
+            var action = await service.GetIssueMessage(messageId);
+
+            //Arrange
+            Assert.NotNull(action);
+            Assert.Equal("test", action.Content);
         }
 
     }

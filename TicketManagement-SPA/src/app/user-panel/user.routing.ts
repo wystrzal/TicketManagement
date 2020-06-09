@@ -4,7 +4,7 @@ import { AuthGuard } from "../core/auth.guard";
 import { UserIssuesResolver } from "../issues/resolvers/user-issues.resolver";
 import { SearchFor } from "../models/enums/searchFor.enum";
 import { IssuesComponent } from "../issues/issues.component";
-import { NewIssueComponent } from "./new-issue/new-issue.component";
+import { NewIssueComponent } from "../issues/new-issue/new-issue.component";
 
 const routes: Routes = [
   {

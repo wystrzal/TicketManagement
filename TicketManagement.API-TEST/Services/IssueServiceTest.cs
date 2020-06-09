@@ -116,23 +116,6 @@ namespace TicketManagement.API_TEST.Services
         }
 
         [Fact]
-        public async Task GetIssueNull()
-        {
-            //Arrange
-            int id = 1;
-
-            unitOfWork.Setup(x => x.Repository<Issue>().GetById(id)).Returns(Task.FromResult((Issue)null));
-
-            var service = new IssueService(unitOfWork.Object, mapper.Object, searchIssuesBox.Object);
-
-            //Act
-            var action = await service.GetIssue(id);
-
-            //Assert
-            Assert.Null(action);
-        }
-
-        [Fact]
         public async Task GetIssueSuccess()
         {
             //Arrange
@@ -255,15 +238,15 @@ namespace TicketManagement.API_TEST.Services
                 new Departament {Id = 2, Name = "test"}
             };
 
-            var issueDepartaments = new List<GetIssueDepartamentsDto>()
+            var issueDepartaments = new List<GetIssueDepartamentDto>()
             {
-                new GetIssueDepartamentsDto {Name = "test"},
-                new GetIssueDepartamentsDto {Name = "test"}
+                new GetIssueDepartamentDto {Name = "test"},
+                new GetIssueDepartamentDto {Name = "test"}
             };
 
             unitOfWork.Setup(x => x.Repository<Departament>().GetAll()).Returns(Task.FromResult(departaments));
 
-            mapper.Setup(x => x.Map<List<GetIssueDepartamentsDto>>(departaments)).Returns(issueDepartaments);
+            mapper.Setup(x => x.Map<List<GetIssueDepartamentDto>>(departaments)).Returns(issueDepartaments);
 
             var service = new IssueService(unitOfWork.Object, mapper.Object, searchIssuesBox.Object);
 

@@ -53,19 +53,14 @@ namespace TicketManagement.API.Infrastructure.Services
             var issue = await unitOfWork.Repository<Issue>()
                 .GetByConditionWithIncludeFirst(x => x.Id == id, y => y.Declarant.Departament);
 
-            if (issue == null)
-            {
-                return null;
-            }
-
             return mapper.Map<GetIssueDto>(issue);
         }
 
-        public async Task<List<GetIssueDepartamentsDto>> GetIssueDepartaments()
+        public async Task<List<GetIssueDepartamentDto>> GetIssueDepartaments()
         {
             var departaments = await unitOfWork.Repository<Departament>().GetAll();
 
-            return mapper.Map<List<GetIssueDepartamentsDto>>(departaments);
+            return mapper.Map<List<GetIssueDepartamentDto>>(departaments);
         }
 
         public async Task<PaginatedItemsDto<GetIssueListDto>> GetIssues(SearchSpecificationDto searchSpecification)

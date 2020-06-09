@@ -22,14 +22,30 @@ namespace TicketManagement.API.Controllers
             this.messageService = messageService;
         }
 
+        //TEST
+        [HttpGet("{messageId}")]
+        public async Task<IActionResult> GetMessage(int messageId)
+        {
+            var message = await messageService.GetIssueMessage(messageId);
+
+            if (message == null)
+            {
+                return BadRequest("Something goes wrong");
+            }
+
+            return Ok(message);
+        }
+
         [HttpPost]
         public async Task<IActionResult> AddNewMessage(NewMessageDto newMessage)
         {
             if (ModelState.IsValid)
             {
-                if (await messageService.AddNewMessage(newMessage))
+                GetIssueMessageDto message = await messageService.AddNewMessage(newMessage);
+
+                if (message != null)
                 {
-                    return Ok();
+                    return CreatedAtAction("GetMessage", new { messageId = message.Id }, message);
                 }
 
                 return BadRequest("Something goes wrong");
@@ -38,7 +54,7 @@ namespace TicketManagement.API.Controllers
             return BadRequest("Model state is valid");
         }
 
-        [HttpGet("{issueId}")]
+        [HttpGet("issue/{issueId}")]
         public async Task<IActionResult> GetIssueMessages(int issueId)
         {
             return Ok(await messageService.GetIssueMessages(issueId));

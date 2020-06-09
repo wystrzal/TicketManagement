@@ -27,7 +27,6 @@ namespace TicketManagement.API.Controllers
             this.issueService = issueService;
         }
 
-        //Add to SPA.
         [HttpPost]
         public async Task<IActionResult> AddNewIssue(NewIssueDto newIssue)
         {

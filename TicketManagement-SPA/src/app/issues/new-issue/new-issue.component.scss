@@ -1,0 +1,18 @@
+@import "../../variables";
+
+.issue__btn {
+  box-shadow: 3px 3px 5px $blue-sapphire;
+  background-color: lighten($color: $blue-sapphire, $amount: 10);
+  color: $ghost-white;
+  transition: all 300ms linear;
+
+  &:hover {
+    transform: scale(1.05);
+    box-shadow: 4px 4px 10px $blue-sapphire;
+  }
+
+  &:active {
+    transform: scale(1);
+    box-shadow: 3px 3px 5px $blue-sapphire;
+  }
+}

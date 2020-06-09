@@ -5,7 +5,7 @@ using System.Threading.Tasks;
 
 namespace TicketManagement.API.Dtos.IssueDtos
 {
-    public class GetIssueDepartamentsDto
+    public class GetIssueDepartamentDto
     {
         public string Name { get; set; }
     }

@@ -7,6 +7,7 @@ import { SharedModule } from "../shared/shared.module";
 import { UserIssuesResolver } from "./resolvers/user-issues.resolver";
 import { SupportIssuesResolver } from "./resolvers/support-issues.resolver";
 import { IssuesSearchComponent } from "./issues-search/issues-search.component";
+import { NewIssueComponent } from "./new-issue/new-issue.component";
 
 @NgModule({
   declarations: [
@@ -14,6 +15,7 @@ import { IssuesSearchComponent } from "./issues-search/issues-search.component";
     IssueDetailComponent,
     IssueMessageComponent,
     IssuesSearchComponent,
+    NewIssueComponent,
   ],
   imports: [SharedModule],
   providers: [AllIssuesResolver, UserIssuesResolver, SupportIssuesResolver],

@@ -21,21 +21,36 @@ namespace TicketManagement.API.Infrastructure.Services
             this.mapper = mapper;
         }
 
-        public async Task<bool> AddNewMessage(NewMessageDto newMessage)
+        public async Task<GetIssueMessageDto> GetIssueMessage(int messageId)
+        {
+            var message = await unitOfWork.Repository<Message>().GetById(messageId);
+
+            return mapper.Map<GetIssueMessageDto>(message);
+        }
+
+        public async Task<GetIssueMessageDto> AddNewMessage(NewMessageDto newMessage)
         {
             var messageToAdd = mapper.Map<Message>(newMessage);
 
             unitOfWork.Repository<Message>().Add(messageToAdd);
 
-            return await unitOfWork.SaveAllAsync();
+            if (await unitOfWork.SaveAllAsync())
+            {
+                var messageToReturn = await unitOfWork.Repository<Message>()
+                    .GetByConditionWithIncludeFirst(x => x.Id == messageToAdd.Id, y => y.Sender);
+
+                 return mapper.Map<GetIssueMessageDto>(messageToReturn);               
+            }
+
+            return null;       
         }
 
-        public async Task<List<GetIssueMessagesDto>> GetIssueMessages(int issueId)
+        public async Task<List<GetIssueMessageDto>> GetIssueMessages(int issueId)
         {
             var message = await unitOfWork.Repository<Message>()
                 .GetByConditionWithIncludeToList(x => x.IssueId == issueId, y => y.Sender);
 
-            return mapper.Map<List<GetIssueMessagesDto>>(message);
+            return mapper.Map<List<GetIssueMessageDto>>(message);
         }
     }
 }

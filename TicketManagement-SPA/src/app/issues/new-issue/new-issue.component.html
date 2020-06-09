@@ -1,0 +1,36 @@
+<div class="container">
+  <div class="row">
+    <form #newIssueForm="ngForm" class="mt-5 col-12" (ngSubmit)="addNewIssue()">
+      <div class="form-group">
+        <input
+          type="text"
+          placeholder="Title (max 30 words)"
+          maxlength="30"
+          required
+          [(ngModel)]="issueModel.title"
+          name="title"
+          class="form-control"
+        />
+      </div>
+      <div class="form-group">
+        <textarea
+          class="form-control"
+          required
+          placeholder="Description"
+          rows="10"
+          [(ngModel)]="issueModel.description"
+          name="description"
+        ></textarea>
+      </div>
+      <div class="form-group">
+        <button
+          type="submit"
+          class="btn issue__btn"
+          [disabled]="!newIssueForm.valid"
+        >
+          Create New Issue
+        </button>
+      </div>
+    </form>
+  </div>
+</div>
