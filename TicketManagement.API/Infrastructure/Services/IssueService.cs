@@ -42,9 +42,13 @@ namespace TicketManagement.API.Infrastructure.Services
         {
             var issue = await unitOfWork.Repository<Issue>().GetById(issueId);
 
-            issue.Status = status;
+            if (issue.Status != status)
+            {
+                issue.Status = status;
+                return await unitOfWork.SaveAllAsync();
+            }
 
-            return await unitOfWork.SaveAllAsync();
+            return true;
         }
 
 

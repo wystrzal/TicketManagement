@@ -24,7 +24,7 @@ namespace TicketManagement.API.Controllers
 
         //TEST
         [HttpGet("{messageId}")]
-        public async Task<IActionResult> GetMessage(int messageId)
+        public async Task<IActionResult> GetIssueMessage(int messageId)
         {
             var message = await messageService.GetIssueMessage(messageId);
 
@@ -45,7 +45,7 @@ namespace TicketManagement.API.Controllers
 
                 if (message != null)
                 {
-                    return CreatedAtAction("GetMessage", new { messageId = message.Id }, message);
+                    return CreatedAtAction("GetIssueMessage", new { messageId = message.Id }, message);
                 }
 
                 return BadRequest("Something goes wrong");

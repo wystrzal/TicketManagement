@@ -43,7 +43,7 @@ namespace TicketManagement.API_TEST.Services
             var action = await service.AddNewMessage(newMessage);
 
             //Assert
-            Assert.False(action);
+            Assert.Null(action);
         }
 
         [Fact]
@@ -52,6 +52,7 @@ namespace TicketManagement.API_TEST.Services
             //Arrange
             var message = new Message { Id = 1, Content = "test" };
             var newMessage = new NewMessageDto { Content = "test" };
+            var issueMessage = new GetIssueMessageDto { Content = "test" };
 
             mapper.Setup(x => x.Map<Message>(newMessage)).Returns(message);
 
@@ -59,13 +60,20 @@ namespace TicketManagement.API_TEST.Services
 
             unitOfWork.Setup(x => x.SaveAllAsync()).Returns(Task.FromResult(true));
 
+            unitOfWork.Setup(x => x.Repository<Message>()
+                .GetByConditionWithIncludeFirst(It.IsAny<Func<Message, bool>>(), y => y.Sender))
+                .Returns(Task.FromResult(message));
+
+            mapper.Setup(x => x.Map<GetIssueMessageDto>(message)).Returns(issueMessage);
+
             var service = new MessageService(unitOfWork.Object, mapper.Object);
 
             //Act
             var action = await service.AddNewMessage(newMessage);
 
             //Assert
-            Assert.True(action);
+            Assert.NotNull(action);
+            Assert.Equal("test", action.Content);
         }
 
         [Fact]
@@ -102,15 +110,18 @@ namespace TicketManagement.API_TEST.Services
         }
 
         [Fact]
-        public async Task GetMessageSuccess()
+        public async Task GetIssueMessageSuccess()
         {
             //Arrange
             var messageId = 1;
             var message = new Message { Id = 1, Content = "test" };
+            var issueMessage = new GetIssueMessageDto { Id = 1, Content = "test" };
 
             var service = new MessageService(unitOfWork.Object, mapper.Object);
 
             unitOfWork.Setup(x => x.Repository<Message>().GetById(messageId)).Returns(Task.FromResult(message));
+
+            mapper.Setup(x => x.Map<GetIssueMessageDto>(message)).Returns(issueMessage);
 
             //Act
             var action = await service.GetIssueMessage(messageId);

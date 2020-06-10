@@ -36,14 +36,14 @@ namespace TicketManagement.API_TEST.Controllers
         }
 
         [Fact]
-        public async Task AddNewMessageModelFailed()
+        public async Task AddNewMessageFailed()
         {
             //Arrange
             var newMessage = new NewMessageDto { Content = "test", IssueId = 1, SenderId = "test" };
 
             var controller = new MessageController(messageService.Object);
 
-            messageService.Setup(x => x.AddNewMessage(newMessage)).Returns(Task.FromResult(false));
+            messageService.Setup(x => x.AddNewMessage(newMessage)).Returns(Task.FromResult((GetIssueMessageDto)null));
 
             //Act
             var action = await controller.AddNewMessage(newMessage) as BadRequestObjectResult;
@@ -58,16 +58,18 @@ namespace TicketManagement.API_TEST.Controllers
         {
             //Arrange
             var newMessage = new NewMessageDto { Content = "test", IssueId = 1, SenderId = "test" };
+            var issueMessage = new GetIssueMessageDto { Content = "test" };
 
             var controller = new MessageController(messageService.Object);
 
-            messageService.Setup(x => x.AddNewMessage(newMessage)).Returns(Task.FromResult(true));
+            messageService.Setup(x => x.AddNewMessage(newMessage)).Returns(Task.FromResult(issueMessage));
 
             //Act
-            var action = await controller.AddNewMessage(newMessage) as OkResult;
+            var action = await controller.AddNewMessage(newMessage) as CreatedAtActionResult;
 
             //Assert
-            Assert.Equal(200, action.StatusCode);
+            Assert.Equal(201, action.StatusCode);
+            Assert.Equal("GetIssueMessage", action.ActionName);
         }
 
         [Fact]
@@ -91,6 +93,41 @@ namespace TicketManagement.API_TEST.Controllers
             //Assert
             Assert.Equal(200, action.StatusCode);
             Assert.Equal(2, item.Count);
+        }
+
+        [Fact]
+        public async Task GetIssueMessageFailed()
+        {
+            //Arrange
+            messageService.Setup(x => x.GetIssueMessage(1)).Returns(Task.FromResult((GetIssueMessageDto)null));
+
+            var controller = new MessageController(messageService.Object);
+
+            //Act
+            var action = await controller.GetIssueMessage(1) as BadRequestObjectResult;
+
+            //Assert
+            Assert.Equal(400, action.StatusCode);
+            Assert.NotNull(action.Value);
+        }
+
+        [Fact]
+        public async Task GetIssueMessageSuccess()
+        {
+            //Arrange
+            var issueMessage = new GetIssueMessageDto { Id = 1, Content = "test" };
+
+            messageService.Setup(x => x.GetIssueMessage(1)).Returns(Task.FromResult(issueMessage));
+
+            var controller = new MessageController(messageService.Object);
+
+            //Act
+            var action = await controller.GetIssueMessage(1) as OkObjectResult;
+            var item = action.Value as GetIssueMessageDto;
+
+            //Assert
+            Assert.Equal(200, action.StatusCode);
+            Assert.Equal("test", item.Content);
         }
     }
 }

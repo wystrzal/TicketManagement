@@ -24,7 +24,7 @@
 </div>
 
 <div class="issue-chat__panel text-right">
-  <form #messageForm="ngForm" (ngSubmit)="sendMessage()">
+  <form #messageForm="ngForm" (ngSubmit)="sendMessage(messageForm)">
     <textarea
       [(ngModel)]="messageModel.content"
       name="content"

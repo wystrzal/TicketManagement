@@ -5,6 +5,7 @@ import { UserIssuesResolver } from "../issues/resolvers/user-issues.resolver";
 import { SearchFor } from "../models/enums/searchFor.enum";
 import { IssuesComponent } from "../issues/issues.component";
 import { NewIssueComponent } from "../issues/new-issue/new-issue.component";
+import { IssueDetailComponent } from "../issues/issue-detail/issue-detail.component";
 
 const routes: Routes = [
   {
@@ -13,6 +14,7 @@ const routes: Routes = [
     canActivate: [AuthGuard],
     runGuardsAndResolvers: "always",
     children: [
+      { path: "issue/:id", component: IssueDetailComponent },
       {
         path: "issues",
         component: IssuesComponent,

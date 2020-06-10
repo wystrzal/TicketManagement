@@ -27,16 +27,17 @@ export class IssueMessageComponent implements OnInit {
 
     setTimeout(() => {
       this.getIssueMessages();
-    }, 100);
+    }, 1000);
   }
 
-  sendMessage() {
+  sendMessage(form: any) {
     this.messageModel.issueId = this.issue.id;
     this.messageModel.senderId = this.currentUser;
 
     this.issueMessageService.addNewMessage(this.messageModel).subscribe(
       (data: IssueMessageModel) => {
         this.issueMessages.push(data);
+        form.reset();
       },
       (error) => this.errorService.newError(error)
     );

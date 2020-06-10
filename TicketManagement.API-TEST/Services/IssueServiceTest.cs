@@ -1,8 +1,10 @@
 ﻿using AutoMapper;
+using Castle.DynamicProxy.Generators.Emitters.SimpleAST;
 using Moq;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Linq.Expressions;
 using System.Text;
 using System.Threading.Tasks;
 using TicketManagement.API.Core.Interfaces;
@@ -119,22 +121,22 @@ namespace TicketManagement.API_TEST.Services
         public async Task GetIssueSuccess()
         {
             //Arrange
-            int id = 1;
-            var issue = new Issue { Id = id };
-            var getIssueDto = new GetIssueDto { Id = id };
+            var issue = new Issue { Id = 1, Title = "test" };
+            var getIssueDto = new GetIssueDto { Id = 1, Title = "test" };
 
-            unitOfWork.Setup(x => x.Repository<Issue>().GetById(id)).Returns(Task.FromResult(issue));
+            unitOfWork.Setup(x => x.Repository<Issue>().GetByConditionWithIncludeFirst(It.IsAny<Func<Issue,bool>>(),
+                y => y.Declarant.Departament)).Returns(Task.FromResult(issue));
 
             mapper.Setup(x => x.Map<GetIssueDto>(issue)).Returns(getIssueDto);
 
             var service = new IssueService(unitOfWork.Object, mapper.Object, searchIssuesBox.Object);
 
             //Action
-            var action = await service.GetIssue(id);
+            var action = await service.GetIssue(1);
 
             //Assert
-            Assert.NotNull(action);
-            Assert.Equal(id, action.Id);
+            Assert.NotNull(action.Title);
+            Assert.Equal(1, action.Id);
         }
 
         [Fact]
