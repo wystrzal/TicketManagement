@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using TicketManagement.API.API.Dtos.IssueDtos;
 using TicketManagement.API.Core.Models;
 using TicketManagement.API.Dtos;
 using TicketManagement.API.Dtos.IssueDtos;
@@ -16,7 +17,8 @@ namespace TicketManagement.API.Core.Interfaces
         Task<PaginatedItemsDto<GetIssueListDto>> GetIssues(SearchSpecificationDto searchSpecification);
         Task<GetIssueDto> GetIssue(int id);
         Task<List<GetIssueDepartamentDto>> GetIssueDepartaments();
-
+        Task<List<GetIssueSupportDto>> GetIssueSupport(int id);
+        Task<bool> AssignToIssue(int issueId, string supportId);
 
     }
 }

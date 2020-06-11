@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Linq.Expressions;
 using System.Threading.Tasks;
+using TicketManagement.API.API.Dtos.IssueDtos;
 using TicketManagement.API.Core.Interfaces;
 using TicketManagement.API.Core.Models;
 using TicketManagement.API.Dtos;
@@ -58,6 +59,28 @@ namespace TicketManagement.API.Infrastructure.Services
                 .GetByConditionWithIncludeFirst(x => x.Id == id, y => y.Declarant.Departament);
 
             return mapper.Map<GetIssueDto>(issue);
+        }
+
+        public async Task<List<GetIssueSupportDto>> GetIssueSupport(int id)
+        {
+            var supportIssue = await unitOfWork.Repository<SupportIssues>()
+                .GetByConditionWithIncludeToList(x => x.IssueId == id, y => y.User);
+
+            return mapper.Map<List<GetIssueSupportDto>>(supportIssue);
+        }
+
+        public async Task<bool> AssignToIssue(int issueId, string supportId)
+        {
+            var supportIssue = new SupportIssues { IssueId = issueId, SupportId = supportId };
+
+            unitOfWork.Repository<SupportIssues>().Add(supportIssue);
+
+            if (await unitOfWork.SaveAllAsync())
+            {
+                return true;
+            }
+
+            return false;
         }
 
         public async Task<List<GetIssueDepartamentDto>> GetIssueDepartaments()

@@ -8,6 +8,7 @@ import { map } from "rxjs/operators";
 import { Status } from "../models/enums/status.enum";
 import { DepartamentModel } from "../models/departament.model";
 import { IssueModel } from "../models/issue.model";
+import { IssueSupportModel } from "../models/issueSupport.model";
 
 @Injectable({
   providedIn: "root",
@@ -98,5 +99,15 @@ export class IssueService {
 
   addNewIssue(issueModel: any) {
     return this.http.post(this.baseUrl, issueModel);
+  }
+
+  assignToIssue(issueId: number, supportId: string) {
+    return this.http.post(this.baseUrl + issueId + "/assign/" + supportId, {});
+  }
+
+  getIssueSupport(issueId: number): Observable<IssueSupportModel[]> {
+    return this.http.get<IssueSupportModel[]>(
+      this.baseUrl + issueId + "/support"
+    );
   }
 }

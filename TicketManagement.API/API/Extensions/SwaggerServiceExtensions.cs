@@ -14,7 +14,7 @@ namespace TicketManagement.API.Extensions
         {
             services.AddSwaggerGen(c => 
             {
-                c.SwaggerDoc("v1", new OpenApiInfo {Title = "EmployeeManagement API", Version = "v1"});
+                c.SwaggerDoc("v1", new OpenApiInfo {Title = "TicketManagement API", Version = "v1"});
 
                 var securitySchema = new OpenApiSecurityScheme
                 {
@@ -42,7 +42,7 @@ namespace TicketManagement.API.Extensions
         {
             app.UseSwagger();
             app.UseSwaggerUI(c => {c
-                .SwaggerEndpoint("/swagger/v1/swagger.json", "EmployeeManagement API v1");});
+                .SwaggerEndpoint("/swagger/v1/swagger.json", "TicketManagement API v1");});
 
             return app;
         }

@@ -24,6 +24,7 @@ import { RouterModule } from "@angular/router";
     PaginationModule,
     CommonModule,
     RouterModule,
+    HasRoleDirective,
   ],
 })
 export class SharedModule {}

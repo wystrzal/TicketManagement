@@ -27,7 +27,7 @@ export class IssueMessageComponent implements OnInit {
 
     setTimeout(() => {
       this.getIssueMessages();
-    }, 1000);
+    }, 100);
   }
 
   sendMessage(form: any) {

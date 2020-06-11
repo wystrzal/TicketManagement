@@ -7,6 +7,7 @@ using System.Linq;
 using System.Linq.Expressions;
 using System.Text;
 using System.Threading.Tasks;
+using TicketManagement.API.API.Dtos.IssueDtos;
 using TicketManagement.API.Core.Interfaces;
 using TicketManagement.API.Core.Models;
 using TicketManagement.API.Dtos.IssueDtos;
@@ -34,10 +35,10 @@ namespace TicketManagement.API_TEST.Services
         public async Task AddNewIssueFailed()
         {
             //Arrange
-            var newIssue = new NewIssueDto { Title = "test", Description = "test", DeclarantId = "1" };
-            var issue = new Issue { Title = "test", Description = "test", DeclarantId = "1" };
+            var issue = GetIssue();
+            var newIssueDto = GetNewIssueDto();
 
-            mapper.Setup(x => x.Map<Issue>(newIssue)).Returns(issue);
+            mapper.Setup(x => x.Map<Issue>(newIssueDto)).Returns(issue);
 
             unitOfWork.Setup(x => x.Repository<Issue>().Add(issue)).Verifiable();
 
@@ -46,7 +47,7 @@ namespace TicketManagement.API_TEST.Services
             var service = new IssueService(unitOfWork.Object, mapper.Object, searchIssuesBox.Object);
 
             //Act
-            var action = await service.AddNewIssue(newIssue);
+            var action = await service.AddNewIssue(newIssueDto);
 
             //Assert
             Assert.False(action);
@@ -57,10 +58,10 @@ namespace TicketManagement.API_TEST.Services
         public async Task AddNewIssueSuccess()
         {
             //Arrange
-            var newIssue = new NewIssueDto { Title = "test", Description = "test", DeclarantId = "1" };
-            var issue = new Issue { Title = "test", Description = "test", DeclarantId = "1" };
+            var issue = GetIssue();
+            var newIssueDto = GetNewIssueDto();
 
-            mapper.Setup(x => x.Map<Issue>(newIssue)).Returns(issue);
+            mapper.Setup(x => x.Map<Issue>(newIssueDto)).Returns(issue);
 
             unitOfWork.Setup(x => x.Repository<Issue>().Add(issue)).Verifiable();
 
@@ -69,7 +70,7 @@ namespace TicketManagement.API_TEST.Services
             var service = new IssueService(unitOfWork.Object, mapper.Object, searchIssuesBox.Object);
 
             //Act
-            var action = await service.AddNewIssue(newIssue);
+            var action = await service.AddNewIssue(newIssueDto);
 
             //Assert
             Assert.True(action);
@@ -81,7 +82,7 @@ namespace TicketManagement.API_TEST.Services
         {
             //Arrange
             int id = 1;
-            var issue = new Issue {Id = id, DeclarantId = "1", Description = "test", Title = "test", Status = Status.New };
+            var issue = GetIssue();
 
             unitOfWork.Setup(x => x.Repository<Issue>().GetById(id)).Returns(Task.FromResult(issue));
 
@@ -101,7 +102,7 @@ namespace TicketManagement.API_TEST.Services
         {
             //Arrange
             int id = 1;
-            var issue = new Issue { Id = id, Status = Status.New };
+            var issue = GetIssue();
 
             unitOfWork.Setup(x => x.Repository<Issue>().GetById(id)).Returns(Task.FromResult(issue));
 
@@ -145,14 +146,14 @@ namespace TicketManagement.API_TEST.Services
             //Arrange
             var searchSpecification = new SearchSpecificationDto();
             var type = typeof(SearchIssuesWithoutClosed);
-            var filteredIssueList = new FilteredIssueListDto { totalIssues = 3, Issues = GetIssues() };
+            var filteredIssueList = new FilteredIssueListDto { totalIssues = 3, Issues = GetIssueList() };
 
             var service = new IssueService(unitOfWork.Object, mapper.Object, searchIssuesBox.Object);
 
             searchIssuesBox.Setup(x => x.ConcreteSearch(type, searchSpecification).SearchIssues(x => x.Id != 0))
                 .Returns(Task.FromResult(filteredIssueList));
 
-            mapper.Setup(x => x.Map<List<GetIssueListDto>>(filteredIssueList.Issues)).Returns(GetIssuesDto());
+            mapper.Setup(x => x.Map<List<GetIssueListDto>>(filteredIssueList.Issues)).Returns(GetIssueListDto());
 
             //Act
             var action = await service.GetIssues(searchSpecification);
@@ -167,14 +168,14 @@ namespace TicketManagement.API_TEST.Services
             //Arrange
             var searchSpecification = new SearchSpecificationDto() { Status = Status.New, Departament = "test" };
             var type = typeof(SearchIssuesByStatusDepartament);
-            var filteredIssueList = new FilteredIssueListDto { totalIssues = 2, Issues = GetIssues() };
+            var filteredIssueList = new FilteredIssueListDto { totalIssues = 2, Issues = GetIssueList() };
 
             var service = new IssueService(unitOfWork.Object, mapper.Object, searchIssuesBox.Object);
 
             searchIssuesBox.Setup(x => x.ConcreteSearch(type, searchSpecification).SearchIssues(x => x.Id != 0))
                 .Returns(Task.FromResult(filteredIssueList));
 
-            mapper.Setup(x => x.Map<List<GetIssueListDto>>(filteredIssueList.Issues)).Returns(GetIssuesDto());
+            mapper.Setup(x => x.Map<List<GetIssueListDto>>(filteredIssueList.Issues)).Returns(GetIssueListDto());
 
             //Act
             var action = await service.GetIssues(searchSpecification);
@@ -190,14 +191,14 @@ namespace TicketManagement.API_TEST.Services
             //Arrange
             var searchSpecification = new SearchSpecificationDto() { Status = Status.New };
             var type = typeof(SearchIssuesByStatus);
-            var filteredIssueList = new FilteredIssueListDto { totalIssues = 2, Issues = GetIssues() };
+            var filteredIssueList = new FilteredIssueListDto { totalIssues = 2, Issues = GetIssueList() };
 
             var service = new IssueService(unitOfWork.Object, mapper.Object, searchIssuesBox.Object);
 
             searchIssuesBox.Setup(x => x.ConcreteSearch(type, searchSpecification).SearchIssues(x => x.Id != 0))
                 .Returns(Task.FromResult(filteredIssueList));
 
-            mapper.Setup(x => x.Map<List<GetIssueListDto>>(filteredIssueList.Issues)).Returns(GetIssuesDto());
+            mapper.Setup(x => x.Map<List<GetIssueListDto>>(filteredIssueList.Issues)).Returns(GetIssueListDto());
 
             //Act
             var action = await service.GetIssues(searchSpecification);
@@ -213,14 +214,14 @@ namespace TicketManagement.API_TEST.Services
             //Arrange
             var searchSpecification = new SearchSpecificationDto() { Departament = "test" };
             var type = typeof(SearchIssuesByDepartament);
-            var filteredIssueList = new FilteredIssueListDto { totalIssues = 2, Issues = GetIssues() };
+            var filteredIssueList = new FilteredIssueListDto { totalIssues = 2, Issues = GetIssueList() };
 
             var service = new IssueService(unitOfWork.Object, mapper.Object, searchIssuesBox.Object);
 
             searchIssuesBox.Setup(x => x.ConcreteSearch(type, searchSpecification).SearchIssues(x => x.Id != 0))
                 .Returns(Task.FromResult(filteredIssueList));
 
-            mapper.Setup(x => x.Map<List<GetIssueListDto>>(filteredIssueList.Issues)).Returns(GetIssuesDto());
+            mapper.Setup(x => x.Map<List<GetIssueListDto>>(filteredIssueList.Issues)).Returns(GetIssueListDto());
 
             //Act
             var action = await service.GetIssues(searchSpecification);
@@ -234,17 +235,9 @@ namespace TicketManagement.API_TEST.Services
         public async Task GetIssueDepartamentsSuccess()
         {
             //Arrange
-            var departaments = new List<Departament>()
-            {
-                new Departament {Id = 1, Name = "test"},
-                new Departament {Id = 2, Name = "test"}
-            };
+            var departaments = GetDepartamentList();
 
-            var issueDepartaments = new List<GetIssueDepartamentDto>()
-            {
-                new GetIssueDepartamentDto {Name = "test"},
-                new GetIssueDepartamentDto {Name = "test"}
-            };
+            var issueDepartaments = GetIssueDepartamentListDto();
 
             unitOfWork.Setup(x => x.Repository<Departament>().GetAll()).Returns(Task.FromResult(departaments));
 
@@ -260,7 +253,110 @@ namespace TicketManagement.API_TEST.Services
             Assert.Equal(2, action.Count);
         }
 
-        private List<Issue> GetIssues()
+        [Fact]
+        public async Task GetIssueSupportSuccess()
+        {
+            //Arrange
+            var supportIssue = GetSupportIssuesList();
+
+            var issueSupportDto = GetIssueSupportListDto();
+
+            unitOfWork.Setup(x => x.Repository<SupportIssues>()
+            .GetByConditionWithIncludeToList(It.IsAny<Func<SupportIssues, bool>>(), y => y.User)).Returns(Task.FromResult(supportIssue));
+
+            mapper.Setup(x => x.Map<List<GetIssueSupportDto>>(supportIssue)).Returns(issueSupportDto);
+
+            var service = new IssueService(unitOfWork.Object, mapper.Object, searchIssuesBox.Object);
+
+            //Act
+            var action = await service.GetIssueSupport(1);
+
+            //Assert
+            Assert.Equal(2, action.Count);
+        }
+
+        [Fact]
+        public async Task AssignToIssueFailed()
+        {
+            //Arrange
+            var supportIssue = GetSupportIssue();
+
+            unitOfWork.Setup(x => x.Repository<SupportIssues>().Add(supportIssue)).Verifiable();
+
+            unitOfWork.Setup(x => x.SaveAllAsync()).Returns(Task.FromResult(false));
+
+            var service = new IssueService(unitOfWork.Object, mapper.Object, searchIssuesBox.Object);
+
+            //Act
+            var action = await service.AssignToIssue(1, "1");
+
+            //Assert
+            Assert.False(action);
+        }
+
+        [Fact]
+        public async Task AssignToIssueSuccess()
+        {
+            //Arrange
+            var supportIssue = GetSupportIssue();
+
+            unitOfWork.Setup(x => x.Repository<SupportIssues>().Add(supportIssue)).Verifiable();
+
+            unitOfWork.Setup(x => x.SaveAllAsync()).Returns(Task.FromResult(true));
+
+            var service = new IssueService(unitOfWork.Object, mapper.Object, searchIssuesBox.Object);
+
+            //Act
+            var action = await service.AssignToIssue(1, "1");
+
+            //Assert
+            Assert.True(action);
+        }
+
+
+
+        private List<GetIssueDepartamentDto> GetIssueDepartamentListDto()
+        {
+            return new List<GetIssueDepartamentDto>()
+            {
+                new GetIssueDepartamentDto {Name = "test"},
+                new GetIssueDepartamentDto {Name = "test"}
+            };
+        }
+
+        private List<Departament> GetDepartamentList()
+        {
+            return new List<Departament>()
+            {
+                new Departament {Id = 1, Name = "test"},
+                new Departament {Id = 2, Name = "test"}
+            };
+        }
+
+        private SupportIssues GetSupportIssue()
+        {
+            return new SupportIssues { IssueId = 1, SupportId = "1" };
+        }
+
+        private List<GetIssueSupportDto> GetIssueSupportListDto()
+        {
+            return new List<GetIssueSupportDto>
+            {
+                new GetIssueSupportDto {SupportId = "1"},
+                new GetIssueSupportDto {SupportId = "2"}
+            };
+        }
+
+        private List<SupportIssues> GetSupportIssuesList()
+        {
+            return new List<SupportIssues>
+            {
+                new SupportIssues {IssueId = 1, SupportId = "1"},
+                new SupportIssues {IssueId = 1, SupportId = "2"}
+            };
+        }
+
+        private List<Issue> GetIssueList()
         {
             return new List<Issue>()
             {
@@ -269,7 +365,17 @@ namespace TicketManagement.API_TEST.Services
             };
         }
 
-        private List<GetIssueListDto> GetIssuesDto()
+        private Issue GetIssue()
+        {
+            return new Issue { Title = "test", Description = "test", DeclarantId = "1", Status = Status.New };
+        }
+
+        private NewIssueDto GetNewIssueDto()
+        {
+            return new NewIssueDto { Title = "test", Description = "test", DeclarantId = "1" };
+        }
+
+        private List<GetIssueListDto> GetIssueListDto()
         {
             return new List<GetIssueListDto>()
             {

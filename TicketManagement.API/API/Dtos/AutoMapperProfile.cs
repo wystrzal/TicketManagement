@@ -3,6 +3,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using TicketManagement.API.API.Dtos.IssueDtos;
 using TicketManagement.API.Core.Models;
 using TicketManagement.API.Dtos.AccountDtos;
 using TicketManagement.API.Dtos.IssueDtos;
@@ -36,6 +37,12 @@ namespace TicketManagement.API.Dtos
                 opt.MapFrom(src => src.Declarant.Departament.Name));
 
             CreateMap<Departament, GetIssueDepartamentDto>();
+
+            CreateMap<SupportIssues, GetIssueSupportDto>()
+                .ForMember(x => x.SupportId, opt =>
+                opt.MapFrom(src => src.User.Id))
+                .ForMember(x => x.SupportName, opt =>
+                opt.MapFrom(src => src.User.Firstname + " " + src.User.Lastname));
 
             //MessageDtos
 

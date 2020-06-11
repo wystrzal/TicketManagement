@@ -6,6 +6,7 @@
         <div class="col-6 offset-3">
           <div class="issue__number mt-3">#{{ issue?.id }}</div>
         </div>
+
         <div class="col-12 mt-4">
           <div>
             <div class="issue__customer mb-2">
@@ -15,24 +16,37 @@
             <div class="mt-2 issue__customer">{{ issue?.departament }}</div>
           </div>
         </div>
+
         <div class="col-12 my-4 border-bottom">
           <div class="mb-2">
             {{ issue?.description }}
           </div>
         </div>
       </div>
-      <div class="col-12">
+
+      <div *hasRole="'admin'" class="col-12">
         <select
           class="form-control"
           (change)="changeIssueStatus($event.target.value)"
         >
-          <option selected>Choose status</option>
+          <option disabled selected>Change status</option>
+          <option value="2">Open</option>
           <option value="3">Progress</option>
-          <option value="4">Pending</option>
           <option value="5">Close</option>
         </select>
       </div>
-      <div class="col-12">Assign Support</div>
+
+      <div *ngFor="let support of issueSupport">
+        <div class="col-12 mt-4 issue-support">
+          {{ support.supportName }}
+        </div>
+      </div>
+
+      <div *hasRole="'admin'">
+        <div class="col-12" *ngIf="showAssign && issue.status == 'Open'">
+          <a (click)="assignToIssue()" class="issue-assign mb-5">+</a>
+        </div>
+      </div>
     </div>
 
     <div class="col-lg-8 col-12 border-left">

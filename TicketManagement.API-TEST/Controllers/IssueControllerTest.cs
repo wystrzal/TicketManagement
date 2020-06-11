@@ -5,6 +5,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using TicketManagement.API.API.Dtos.IssueDtos;
 using TicketManagement.API.Controllers;
 using TicketManagement.API.Core.Interfaces;
 using TicketManagement.API.Core.Models;
@@ -197,9 +198,61 @@ namespace TicketManagement.API_TEST.Controllers
             //Assert
             Assert.Equal(200, action.StatusCode);
             Assert.Equal(2, item.Count);
-
         }
 
+        [Fact]
+        public async Task GetIssueSupportOkObjectResponse()
+        {
+            //Arrange 
+            var issueSupport = new List<GetIssueSupportDto>
+            {
+                new GetIssueSupportDto {SupportId = "1"},
+                new GetIssueSupportDto {SupportId = "2"}
+            };
+
+            issueService.Setup(x => x.GetIssueSupport(1)).Returns(Task.FromResult(issueSupport));
+
+            var controller = new IssueController(issueService.Object);
+
+            //Act
+            var action = await controller.GetIssueSupport(1) as OkObjectResult;
+            var item = action.Value as List<GetIssueSupportDto>;
+
+            //Assert
+            Assert.Equal(200, action.StatusCode);
+            Assert.Equal(2, item.Count);
+        }
+
+        [Fact]
+        public async Task AssignToIssueBadRequestResponse()
+        {
+            //Arrange
+            issueService.Setup(x => x.AssignToIssue(1, "1")).Returns(Task.FromResult(false));
+
+            var controller = new IssueController(issueService.Object);
+
+            //Act
+            var action = await controller.AssignToIssue(1, "1") as BadRequestObjectResult;
+
+            //Assert
+            Assert.NotNull(action.Value);
+            Assert.Equal(400, action.StatusCode);
+        }
+
+        [Fact]
+        public async Task AssignToIssueOkResponse()
+        {
+            //Arrange
+            issueService.Setup(x => x.AssignToIssue(1, "1")).Returns(Task.FromResult(true));
+
+            var controller = new IssueController(issueService.Object);
+
+            //Act
+            var action = await controller.AssignToIssue(1, "1") as OkResult;
+
+            //Assert
+            Assert.Equal(200, action.StatusCode);
+        }
 
 
         private PaginatedItemsDto<GetIssueListDto> GetPaginatedItems(int pageIndex, int count, int pageSize)

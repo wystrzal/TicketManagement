@@ -54,4 +54,17 @@
       font-size: 18px;
     }
   }
+
+  &-support {
+    background-color: $blue-sapphire;
+    padding: 5px 0px;
+    border-radius: 50px;
+    color: $ghost-white;
+  }
+
+  &-assign {
+    color: $blue-sapphire !important;
+    font-size: 100px;
+    cursor: pointer;
+  }
 }

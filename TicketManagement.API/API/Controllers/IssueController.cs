@@ -78,5 +78,24 @@ namespace TicketManagement.API.Controllers
 
             return BadRequest("Something goes wrong.");
         }
+
+        //Test
+        [HttpGet("{id}/support")]
+        public async Task<IActionResult> GetIssueSupport(int id)
+        {
+            return Ok(await issueService.GetIssueSupport(id));
+        }
+
+        //TEST
+        [HttpPost("{issueId}/assign/{supportId}")]
+        public async Task<IActionResult> AssignToIssue(int issueId, string supportId)
+        {
+            if (await issueService.AssignToIssue(issueId, supportId))
+            {
+                return Ok();
+            }
+
+            return BadRequest("Something goes wrong");
+        }
     }
 }

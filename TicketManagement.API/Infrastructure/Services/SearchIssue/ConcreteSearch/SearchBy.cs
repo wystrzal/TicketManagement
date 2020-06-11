@@ -29,7 +29,7 @@ namespace TicketManagement.API.Infrastructure.Services.SearchIssue.ConcreteSearc
         {
             FilteredIssueListDto filteredIssueList = new FilteredIssueListDto();
 
-            //Compie expression from given parameters.
+            //Compile expression from given parameters.
             var specificationValue = specification.Compile();
             var searchForValue = searchFor.Compile();
 
@@ -54,6 +54,7 @@ namespace TicketManagement.API.Infrastructure.Services.SearchIssue.ConcreteSearc
             //Compile expression from given specification.
             var specificationValue = specification.Compile();
 
+            //searchSpecification.Title != null
             Func<Issue, bool> combindedSpecification = 
                 x => x.Title.Contains(searchSpecification.Title) && specificationValue(x);
 
