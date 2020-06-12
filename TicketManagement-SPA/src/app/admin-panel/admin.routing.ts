@@ -6,6 +6,7 @@ import { SearchFor } from "../models/enums/searchFor.enum";
 import { AllIssuesResolver } from "../issues/resolvers/all-issues.resolver";
 import { SupportIssuesResolver } from "../issues/resolvers/support-issues.resolver";
 import { IssueDetailComponent } from "../issues/issue-detail/issue-detail.component";
+import { NewUserComponent } from "./new-user/new-user.component";
 
 const routes: Routes = [
   {
@@ -21,6 +22,7 @@ const routes: Routes = [
         resolve: { issues: AllIssuesResolver },
         data: { searchFor: SearchFor.AllIssues },
       },
+      { path: "users", component: NewUserComponent },
       {
         path: "assigned-issues",
         component: IssuesComponent,

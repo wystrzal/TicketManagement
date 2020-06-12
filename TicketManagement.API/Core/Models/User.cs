@@ -16,6 +16,7 @@ namespace TicketManagement.API.Core.Models
         public string Lastname { get; set; }
 
         [Required]
+        public int DepartamentId { get; set; }
         public Departament Departament { get; set; }
 
         public virtual ICollection<Issue> DeclarantedIssues { get; set; }

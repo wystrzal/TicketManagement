@@ -5,12 +5,14 @@ using System.Threading.Tasks;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using TicketManagement.API.API.Dtos.AccountDtos;
 using TicketManagement.API.Core.Interfaces;
 using TicketManagement.API.Dtos.AccountDtos;
 using TicketManagement.API.Extensions;
 
 namespace TicketManagement.API.Controllers
 {
+    [AllowAnonymous]
     [Route("api/[controller]")]
     [ApiController]
     public class AccountController : ControllerBase
@@ -22,7 +24,6 @@ namespace TicketManagement.API.Controllers
             this.accountService = accountService;
         }
 
-        [AllowAnonymous]
         [HttpPost("login")]
         public async Task<IActionResult> Login(LoginDto loginDto)
         {
@@ -57,5 +58,6 @@ namespace TicketManagement.API.Controllers
 
             return BadRequest("Password must have minimum 6 signs (1 digit, 1 uppercase letter).");
         }
+
     }
 }

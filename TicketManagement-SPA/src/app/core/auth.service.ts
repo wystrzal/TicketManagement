@@ -44,4 +44,8 @@ export class AuthService {
     }
     return false;
   }
+
+  createUser(userModel: any) {
+    return this.http.post(this.baseUrl + "register", userModel);
+  }
 }

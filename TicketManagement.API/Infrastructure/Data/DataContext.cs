@@ -42,6 +42,13 @@ namespace TicketManagement.API.Infrastructure.Data
                 .WithMany(x => x.SupportIssues)
                 .HasForeignKey(x => x.IssueId);            
             });
+
+            builder.Entity<User>(user =>
+            {
+                user.HasOne(x => x.Departament)
+                .WithMany(x => x.Users)
+                .HasForeignKey(x => x.DepartamentId);
+            });
         }
 
         public DbSet<Issue> Issues { get; set; }

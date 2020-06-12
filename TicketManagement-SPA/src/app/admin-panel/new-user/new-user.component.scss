@@ -1,0 +1,30 @@
+@import "../../variables";
+
+.user {
+  &__btn {
+    box-shadow: 3px 3px 5px $blue-sapphire;
+    transition: all 300ms linear;
+    width: 120px;
+    background-color: lighten($color: $blue-sapphire, $amount: 10);
+    color: $ghost-white;
+
+    &:hover {
+      transform: scale(1.05);
+      box-shadow: 4px 4px 10px $blue-sapphire;
+    }
+
+    &:active {
+      transform: scale(1);
+      box-shadow: 3px 3px 5px $blue-sapphire;
+    }
+  }
+
+  &__title {
+    color: $blue-sapphire;
+    font-weight: 700;
+  }
+
+  &__validation {
+    background-color: rgba($color: red, $alpha: 0.3);
+  }
+}

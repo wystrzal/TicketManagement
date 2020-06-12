@@ -1,5 +1,6 @@
 ﻿using Microsoft.Extensions.DependencyInjection;
 using TicketManagement.API.Core.Interfaces;
+using TicketManagement.API.Core.Interfaces.DepartamentInterfaces;
 using TicketManagement.API.Core.Interfaces.MessageInterfaces;
 using TicketManagement.API.Infrastructure.Data.Repositories;
 using TicketManagement.API.Infrastructure.Services;
@@ -12,6 +13,8 @@ namespace TicketManagement.API.Extensions
         public static void AddApplicationServices(this IServiceCollection services)
         {
             services.AddScoped<IAccountService, AccountService>();
+
+            services.AddScoped<IDepartamentService, DepartamentService>();
 
             services.AddScoped<ITokenService, TokenService>();
 

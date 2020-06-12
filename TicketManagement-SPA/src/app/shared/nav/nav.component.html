@@ -15,7 +15,13 @@
         routerLinkActive="active"
         >Assigned Issues</a
       >
-      <a type="button" class="nav__btn">Users</a>
+      <a
+        type="button"
+        class="nav__btn"
+        [routerLink]="['/admin/users']"
+        routerLinkActive="active"
+        >Users</a
+      >
     </div>
     <div class="d-inline" *hasRole="'user'">
       <a
