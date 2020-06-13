@@ -1,4 +1,10 @@
-import { Component, OnInit, Input } from "@angular/core";
+import {
+  Component,
+  OnInit,
+  Input,
+  OnChanges,
+  SimpleChanges,
+} from "@angular/core";
 import { IssueModel } from "src/app/models/issue.model";
 import { AuthService } from "src/app/core/auth.service";
 import { IssueMessageService } from "./issue-message.service";
@@ -12,7 +18,7 @@ import { Status } from "src/app/models/enums/status.enum";
   templateUrl: "./issue-message.component.html",
   styleUrls: ["./issue-message.component.scss"],
 })
-export class IssueMessageComponent implements OnInit {
+export class IssueMessageComponent implements OnInit, OnChanges {
   @Input() issue: IssueModel;
   currentUser: string;
   messageModel: any = {};
@@ -25,12 +31,12 @@ export class IssueMessageComponent implements OnInit {
     private issueService: IssueService
   ) {}
 
+  ngOnChanges() {
+    this.getIssueMessages();
+  }
+
   ngOnInit() {
     this.currentUser = this.authService.decodedToken.nameid;
-
-    setTimeout(() => {
-      this.getIssueMessages();
-    }, 100);
   }
 
   sendMessage(form: any) {

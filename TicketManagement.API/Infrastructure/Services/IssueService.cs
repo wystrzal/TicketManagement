@@ -91,7 +91,7 @@ namespace TicketManagement.API.Infrastructure.Services
             return mapper.Map<List<GetIssueDepartamentDto>>(departaments);
         }
 
-        public async Task<PaginatedItemsDto<GetIssueListDto>> GetIssues(SearchSpecificationDto searchSpecification)
+        public async Task<PaginatedItemsDto<GetIssueListDto, IssueCount>> GetIssues(SearchSpecificationDto searchSpecification)
         {
             Expression<Func<Issue, bool>> searchFor = null;
             FilteredIssueListDto filteredIssueList = null;
@@ -133,7 +133,7 @@ namespace TicketManagement.API.Infrastructure.Services
 
             var issuesToReturn = mapper.Map<List<GetIssueListDto>>(filteredIssueList.Issues);
 
-            return new PaginatedItemsDto<GetIssueListDto>(searchSpecification.PageIndex, filteredIssueList.totalIssues,
+            return new PaginatedItemsDto<GetIssueListDto, IssueCount>(searchSpecification.PageIndex, filteredIssueList.Count,
                 issuesToReturn, searchSpecification.PageSize);
         }
 

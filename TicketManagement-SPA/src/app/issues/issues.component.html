@@ -2,12 +2,15 @@
   <div class="container-fluid">
     <div class="row text-center">
       <div class="col-12 col-md-3">
-        <app-issues-search (startSearch)="search($event)"></app-issues-search>
+        <app-issues-search
+          [issueCount]="paginatedIssues.count"
+          (startSearch)="search($event)"
+        ></app-issues-search>
       </div>
 
       <div class="col-12 col-md-9">
         <div class="ml-3 issues__title">
-          Issues - {{ paginatedIssues.count }}
+          Issues - {{ paginatedIssues.count.filteredIssue }}
         </div>
         <div class="col-12">
           <div class="row text-center issues-list mb-4">

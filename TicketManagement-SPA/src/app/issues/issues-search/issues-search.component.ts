@@ -1,4 +1,12 @@
-import { Component, OnInit, Output, EventEmitter } from "@angular/core";
+import {
+  Component,
+  OnInit,
+  Output,
+  EventEmitter,
+  Input,
+  OnChanges,
+  SimpleChanges,
+} from "@angular/core";
 import { DepartamentModel } from "src/app/models/departament.model";
 import { IssueService } from "../issue.service";
 import { ErrorService } from "src/app/core/helpers/error.service";
@@ -8,22 +16,27 @@ import { ErrorService } from "src/app/core/helpers/error.service";
   templateUrl: "./issues-search.component.html",
   styleUrls: ["./issues-search.component.scss"],
 })
-export class IssuesSearchComponent implements OnInit {
+export class IssuesSearchComponent implements OnInit, OnChanges {
   @Output() startSearch = new EventEmitter();
+  @Input() issueCount: any;
   searchModel: any = { status: null, departament: null };
-  searchStatusList: any[] = [
-    { status: "New", value: 1 },
-    { status: "Open", value: 2 },
-    { status: "Progress", value: 3 },
-    { status: "Pending", value: 4 },
-    { status: "Close", value: 5 },
-  ];
+  searchStatusList: any[];
   departaments: DepartamentModel[];
 
   constructor(
     private issueService: IssueService,
     private errorService: ErrorService
   ) {}
+
+  ngOnChanges() {
+    this.searchStatusList = [
+      { status: "New", value: 1, count: this.issueCount.newIssue },
+      { status: "Open", value: 2, count: this.issueCount.openIssue },
+      { status: "Progress", value: 3, count: this.issueCount.progressIssue },
+      { status: "Pending", value: 4, count: this.issueCount.pendingIssue },
+      { status: "Close", value: 5, count: "-" },
+    ];
+  }
 
   ngOnInit() {
     this.getDepartaments();

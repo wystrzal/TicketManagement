@@ -8,6 +8,8 @@ using TicketManagement.API.Core.Interfaces;
 using TicketManagement.API.Core.Models;
 using TicketManagement.API.Dtos;
 using TicketManagement.API.Dtos.IssueDtos;
+using static TicketManagement.API.Core.Models.Enums.IssueStatus;
+
 namespace TicketManagement.API.Infrastructure.Services.SearchIssue.ConcreteSearch
 {
     public abstract class SearchBy : ISearchBy
@@ -24,10 +26,11 @@ namespace TicketManagement.API.Infrastructure.Services.SearchIssue.ConcreteSearc
             this.searchSpecification = searchSpecification;
         }
 
-        //Search Issues by specification.
+      
         public virtual async Task<FilteredIssueListDto> SearchIssues(Expression<Func<Issue, bool>> searchFor)
         {
             FilteredIssueListDto filteredIssueList = new FilteredIssueListDto();
+            IssueCount issueCount = new IssueCount();
 
             //Compile expression from given parameters.
             var specificationValue = specification.Compile();
@@ -38,17 +41,25 @@ namespace TicketManagement.API.Infrastructure.Services.SearchIssue.ConcreteSearc
                 filteredIssueList.Issues = await issueRepository.GetIssues(x => specificationValue(x) && searchForValue(x),
                     searchSpecification.PageIndex, searchSpecification.PageSize);
 
-                filteredIssueList.totalIssues = await issueRepository.CountIssues(x => specificationValue(x) && searchForValue(x));
+                issueCount.FilteredIssue = await issueRepository.CountIssues(x => specificationValue(x) && searchForValue(x));
             }
             else
             {
                 filteredIssueList = await SearchByContent(x => specificationValue(x) && searchForValue(x));
             }
 
+            //Count issues by specific status 
+            issueCount.NewIssue = await issueRepository.CountIssues(x => x.Status == Status.New && searchForValue(x));
+            issueCount.OpenIssue = await issueRepository.CountIssues(x => x.Status == Status.Open && searchForValue(x));
+            issueCount.ProgressIssue = await issueRepository.CountIssues(x => x.Status == Status.Progress && searchForValue(x));
+            issueCount.PendingIssue = await issueRepository.CountIssues(x => x.Status == Status.Pending && searchForValue(x));
+
+            filteredIssueList.Count = issueCount;
+
             return filteredIssueList;
         }
 
-        //Search Issues by specification + content e.g. status + title.
+        //Search by content e.g title + specification from parameter.
         public async Task<FilteredIssueListDto> SearchByContent(Expression<Func<Issue, bool>> specification)
         {
             //Compile expression from given specification.
@@ -72,10 +83,13 @@ namespace TicketManagement.API.Infrastructure.Services.SearchIssue.ConcreteSearc
 
             var issues = await issueRepository
                 .GetIssues(combindedSpecification, searchSpecification.PageIndex, searchSpecification.PageSize);
-       
-            var totalIssues = await issueRepository.CountIssues(combindedSpecification);
 
-            return new FilteredIssueListDto() { Issues = issues, totalIssues = totalIssues };
+            var issueCount = new IssueCount
+            {
+                FilteredIssue = await issueRepository.CountIssues(combindedSpecification)
+            };
+
+            return new FilteredIssueListDto() { Issues = issues, Count = issueCount};
         }
     }
 }

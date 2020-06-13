@@ -133,7 +133,7 @@ namespace TicketManagement.API_TEST.Controllers
 
             //Act
             var action = await controller.GetIssues(searchSpecification) as OkObjectResult;
-            var item = action.Value as PaginatedItemsDto<GetIssueListDto>;
+            var item = action.Value as PaginatedItemsDto<GetIssueListDto, IssueCount>;
 
             //Arrange
             Assert.Equal(200, action.StatusCode);
@@ -255,7 +255,7 @@ namespace TicketManagement.API_TEST.Controllers
         }
 
 
-        private PaginatedItemsDto<GetIssueListDto> GetPaginatedItems(int pageIndex, int count, int pageSize)
+        private PaginatedItemsDto<GetIssueListDto, IssueCount> GetPaginatedItems(int pageIndex, int count, int pageSize)
         {
             var issueList = new List<GetIssueListDto>()
             {
@@ -263,7 +263,7 @@ namespace TicketManagement.API_TEST.Controllers
                 new GetIssueListDto {Status = Status.New, Declarant = "1", Id = 2, Title = "test2", Departament = "production"},
             };
 
-            return new PaginatedItemsDto<GetIssueListDto>(pageIndex, count, issueList, pageSize);
+            return new PaginatedItemsDto<GetIssueListDto, IssueCount>(pageIndex, count, issueList, pageSize);
         }
     }
 }

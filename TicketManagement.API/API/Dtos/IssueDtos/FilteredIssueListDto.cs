@@ -9,6 +9,6 @@ namespace TicketManagement.API.Dtos.IssueDtos
     public class FilteredIssueListDto
     {
         public List<Issue> Issues { get; set; }
-        public int totalIssues { get; set; }
+        public IssueCount Count { get; set; }
     }
 }
