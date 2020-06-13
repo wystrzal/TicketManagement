@@ -3,6 +3,7 @@ export interface IssueModel {
   title: string;
   status: string;
   declarant: string;
+  declarantId: string;
   departament: string;
   description: string;
 }

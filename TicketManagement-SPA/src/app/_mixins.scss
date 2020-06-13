@@ -1,0 +1,45 @@
+@mixin status-bg {
+  font-weight: 700;
+  &--close {
+    background-color: lighten($color: $blue-sapphire, $amount: 20);
+  }
+
+  &--open {
+    background-color: $status-open;
+  }
+
+  &--new {
+    background-color: $status-new;
+  }
+
+  &--pending {
+    background-color: $status-pending;
+  }
+
+  &--progress {
+    background-color: $status-progress;
+  }
+}
+
+@mixin status-color {
+  font-weight: 700;
+  &--close {
+    color: lighten($color: $blue-sapphire, $amount: 20);
+  }
+
+  &--open {
+    color: $status-open;
+  }
+
+  &--new {
+    color: $status-new;
+  }
+
+  &--pending {
+    color: $status-pending;
+  }
+
+  &--progress {
+    color: $status-progress;
+  }
+}

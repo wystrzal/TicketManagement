@@ -12,7 +12,6 @@ export const AppRoutes: Routes = [
       {
         path: "admin",
         loadChildren: "./admin-panel/admin-panel.module#AdminPanelModule",
-        data: { role: "admin" },
       },
       {
         path: "user",

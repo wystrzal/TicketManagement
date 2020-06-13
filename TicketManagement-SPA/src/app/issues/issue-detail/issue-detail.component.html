@@ -1,10 +1,32 @@
 <div class="container-fluid issue">
   <div class="row">
     <div class="col-lg-4 col-12 text-center">
-      <div class="issue__heading col-12 mb-2">{{ issue?.status }}</div>
+      <div
+        class="issue__heading col-12 mb-2"
+        [ngClass]="{
+          'status-name--open': issue?.status == 'Open',
+          'status-name--new': issue?.status == 'New',
+          'status-name--close': issue?.status == 'Close',
+          'status-name--pending': issue?.status == 'Pending',
+          'status-name--progress': issue?.status == 'Progress'
+        }"
+      >
+        {{ issue?.status }}
+      </div>
       <div class="col-12 issue__content">
         <div class="col-6 offset-3">
-          <div class="issue__number mt-3">#{{ issue?.id }}</div>
+          <div
+            class="issue__number mt-3"
+            [ngClass]="{
+              'status-id--open': issue?.status == 'Open',
+              'status-id--new': issue?.status == 'New',
+              'status-id--close': issue?.status == 'Close',
+              'status-id--pending': issue?.status == 'Pending',
+              'status-id--progress': issue?.status == 'Progress'
+            }"
+          >
+            #{{ issue?.id }}
+          </div>
         </div>
 
         <div class="col-12 mt-4">
@@ -17,11 +39,7 @@
           </div>
         </div>
 
-        <div class="col-12 my-4 border-bottom">
-          <div class="mb-2">
-            {{ issue?.description }}
-          </div>
-        </div>
+        <div class="col-12 my-4 border-bottom"></div>
       </div>
 
       <div *hasRole="'admin'" class="col-12">
@@ -43,8 +61,15 @@
       </div>
 
       <div *hasRole="'admin'">
-        <div class="col-12" *ngIf="showAssign && issue.status == 'Open'">
-          <a (click)="assignToIssue()" class="issue-assign mb-5">+</a>
+        <div
+          class="col-12"
+          *ngIf="
+            showAssign && (issue?.status == 'Open' || issue?.status == 'New')
+          "
+        >
+          <a (click)="assignToIssue(issue.status)" class="issue-assign mb-5"
+            >+</a
+          >
         </div>
       </div>
     </div>

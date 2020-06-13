@@ -1,4 +1,5 @@
 @import "../variables";
+@import "../mixins";
 
 .issues {
   &__title {
@@ -17,11 +18,6 @@
       align-items: center;
       justify-content: center;
       border: 1px solid #dee2e6;
-
-      &--id {
-        background-color: $blue-sapphire;
-        color: $ghost-white;
-      }
     }
   }
 }
@@ -41,4 +37,25 @@
       box-shadow: none;
     }
   }
+}
+
+.status {
+  @include status-bg();
+}
+
+.capitalize {
+  display: inline-block;
+}
+
+.capitalize:first-letter {
+  text-transform: capitalize;
+}
+
+.priority {
+  position: absolute;
+  left: 0;
+  background-color: $ghost-white;
+  height: 100%;
+  width: 25px;
+  font-size: 18px;
 }

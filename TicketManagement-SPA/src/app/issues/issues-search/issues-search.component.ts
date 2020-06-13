@@ -11,6 +11,13 @@ import { ErrorService } from "src/app/core/helpers/error.service";
 export class IssuesSearchComponent implements OnInit {
   @Output() startSearch = new EventEmitter();
   searchModel: any = { status: null, departament: null };
+  searchStatusList: any[] = [
+    { status: "New", value: 1 },
+    { status: "Open", value: 2 },
+    { status: "Progress", value: 3 },
+    { status: "Pending", value: 4 },
+    { status: "Close", value: 5 },
+  ];
   departaments: DepartamentModel[];
 
   constructor(

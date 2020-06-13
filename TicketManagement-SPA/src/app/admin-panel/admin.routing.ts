@@ -14,6 +14,7 @@ const routes: Routes = [
     runGuardsAndResolvers: "always",
     canActivate: [AuthGuard],
     component: AdminPanelComponent,
+    data: { role: "admin" },
     children: [
       { path: "issue/:id", component: IssueDetailComponent },
       {

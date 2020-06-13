@@ -3,6 +3,7 @@ using Microsoft.AspNetCore.Identity;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Security.Claims;
 using System.Threading.Tasks;
 using TicketManagement.API.API.Dtos.AccountDtos;
 using TicketManagement.API.Core.Interfaces;
@@ -54,6 +55,15 @@ namespace TicketManagement.API.Infrastructure.Services
 
             if (result.Succeeded)
             {
+                if (registerDto.IsAdmin)
+                {
+                    await userManager.AddClaimAsync(userToCreate, new Claim(ClaimTypes.Role, "admin"));
+                }
+                else
+                {
+                    await userManager.AddClaimAsync(userToCreate, new Claim(ClaimTypes.Role, "user"));
+                }
+
                 return true;
             }
 

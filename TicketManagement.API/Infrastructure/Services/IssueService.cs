@@ -33,6 +33,7 @@ namespace TicketManagement.API.Infrastructure.Services
             var issueToAdd = mapper.Map<Issue>(newIssue);
 
             issueToAdd.Status = Status.New;
+            issueToAdd.Title = issueToAdd.Title.ToLower();
 
             unitOfWork.Repository<Issue>().Add(issueToAdd);
 

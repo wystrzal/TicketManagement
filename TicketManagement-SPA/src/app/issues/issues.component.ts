@@ -37,19 +37,6 @@ export class IssuesComponent implements OnInit {
     this.paginatedIssues = this.route.snapshot.data.issues;
   }
 
-  showIssue(id: number, status: string) {
-    const enumStatus = Status[status];
-
-    if (enumStatus == 1) {
-      this.issueService.changeIssueStatus(id, Status.Open).subscribe(
-        () => {},
-        (error) => {
-          this.errorService.newError(error);
-        }
-      );
-    }
-  }
-
   search(searchModel: any) {
     this.searchSpec = searchModel;
     this.searchSpec.searchFor = this.route.snapshot.data.searchFor;

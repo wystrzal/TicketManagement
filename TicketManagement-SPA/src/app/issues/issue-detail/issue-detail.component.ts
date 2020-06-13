@@ -59,11 +59,15 @@ export class IssueDetailComponent implements OnInit {
     );
   }
 
-  assignToIssue() {
+  assignToIssue(status: string) {
     this.issueService.assignToIssue(this.issue.id, this.currentUser).subscribe(
       () => {
         this.showAssign = false;
-        this.issueSupport[0] = { supportName: "Assigned", supportId: "0" };
+        this.issueSupport.push({ supportName: "Assigned", supportId: "0" });
+
+        if (Status[status] == 1) {
+          this.changeIssueStatus(Status.Open);
+        }
       },
       (error) => {
         this.errorSerivce.newError(error);

@@ -48,7 +48,7 @@ export class NewUserComponent implements OnInit {
 
   createUser(form: any) {
     this.userModel.departamentId = parseInt(this.userModel.departamentId);
-    console.log(this.userModel);
+
     this.authService.createUser(this.userModel).subscribe(
       () => {
         form.reset();

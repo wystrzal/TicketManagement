@@ -40,18 +40,21 @@
         </div>
 
         <div class="col-12" *ngFor="let issue of paginatedIssues.data">
-          <div
-            (click)="showIssue(issue.id, issue.status)"
-            routerLink="../issue/{{ issue.id }}"
-            style="cursor: pointer;"
-          >
+          <div routerLink="../issue/{{ issue.id }}" style="cursor: pointer;">
             <div class="row text-center issues-list mb-4">
               <div
-                class="col-md-2 col-12 issues-list__item issues-list__item--id"
+                class="col-md-2 col-12 issues-list__item status"
+                [ngClass]="{
+                  'status--open': issue.status == 'Open',
+                  'status--new': issue.status == 'New',
+                  'status--close': issue.status == 'Close',
+                  'status--pending': issue.status == 'Pending',
+                  'status--progress': issue.status == 'Progress'
+                }"
               >
-                #{{ issue.id }}
+                <span class="priority">!!!!</span> #{{ issue.id }}
               </div>
-              <div class="col-md-3 col-12 issues-list__item">
+              <div class="col-md-3 col-12 issues-list__item capitalize">
                 {{ issue.title }}
               </div>
               <div class="col-md-2 col-12 issues-list__item">

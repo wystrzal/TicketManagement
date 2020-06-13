@@ -1,4 +1,5 @@
 @import "../../variables";
+@import "../../mixins";
 
 .issue {
   &__content {
@@ -26,10 +27,9 @@
   }
 
   &__number {
-    background-color: $blue-sapphire;
     padding: 5px 0px;
     border-radius: 50px;
-    color: $ghost-white;
+    font-weight: 700;
   }
 
   &__customer {
@@ -66,5 +66,15 @@
     color: $blue-sapphire !important;
     font-size: 100px;
     cursor: pointer;
+  }
+}
+
+.status {
+  &-id {
+    @include status-bg();
+  }
+
+  &-name {
+    @include status-color();
   }
 }

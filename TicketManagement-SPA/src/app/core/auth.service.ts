@@ -38,10 +38,14 @@ export class AuthService {
   }
 
   roleMatch(allowedRole: string): boolean {
-    const userRole = this.decodedToken.role.toString();
-    if (allowedRole === userRole) {
-      return true;
+    if (this.decodedToken) {
+      const userRole = this.decodedToken.role.toString();
+
+      if (allowedRole === userRole) {
+        return true;
+      }
     }
+
     return false;
   }
 

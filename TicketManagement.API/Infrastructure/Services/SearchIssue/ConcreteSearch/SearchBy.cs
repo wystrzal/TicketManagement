@@ -53,6 +53,7 @@ namespace TicketManagement.API.Infrastructure.Services.SearchIssue.ConcreteSearc
         {
             //Compile expression from given specification.
             var specificationValue = specification.Compile();
+            searchSpecification.Title = searchSpecification.Title.ToLower();
 
             //searchSpecification.Title != null
             Func<Issue, bool> combindedSpecification = 

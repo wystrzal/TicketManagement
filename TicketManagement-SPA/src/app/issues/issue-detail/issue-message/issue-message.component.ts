@@ -4,6 +4,8 @@ import { AuthService } from "src/app/core/auth.service";
 import { IssueMessageService } from "./issue-message.service";
 import { IssueMessageModel } from "src/app/models/issueMessage.model";
 import { ErrorService } from "src/app/core/helpers/error.service";
+import { IssueService } from "../../issue.service";
+import { Status } from "src/app/models/enums/status.enum";
 
 @Component({
   selector: "app-issue-message",
@@ -19,7 +21,8 @@ export class IssueMessageComponent implements OnInit {
   constructor(
     private authService: AuthService,
     private issueMessageService: IssueMessageService,
-    private errorService: ErrorService
+    private errorService: ErrorService,
+    private issueService: IssueService
   ) {}
 
   ngOnInit() {
@@ -37,6 +40,27 @@ export class IssueMessageComponent implements OnInit {
     this.issueMessageService.addNewMessage(this.messageModel).subscribe(
       (data: IssueMessageModel) => {
         this.issueMessages.push(data);
+
+        if (this.currentUser != this.issue.declarantId) {
+          this.issueService
+            .changeIssueStatus(this.issue.id, Status.Pending)
+            .subscribe(
+              () => {},
+              (error) => {
+                this.errorService.newError(error);
+              }
+            );
+        } else {
+          this.issueService
+            .changeIssueStatus(this.issue.id, Status.Progress)
+            .subscribe(
+              () => {},
+              (error) => {
+                this.errorService.newError(error);
+              }
+            );
+        }
+
         form.reset();
       },
       (error) => this.errorService.newError(error)
