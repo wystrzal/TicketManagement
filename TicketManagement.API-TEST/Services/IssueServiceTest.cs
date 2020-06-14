@@ -22,13 +22,13 @@ namespace TicketManagement.API_TEST.Services
     {
         private readonly Mock<IUnitOfWork> unitOfWork;
         private readonly Mock<IMapper> mapper;
-        private readonly Mock<ISearchIssuesBox> searchIssuesBox;
+        private readonly Mock<ISearchSpecificationBox> searchIssuesBox;
 
         public IssueServiceTest()
         {
             unitOfWork = new Mock<IUnitOfWork>();
             mapper = new Mock<IMapper>();
-            searchIssuesBox = new Mock<ISearchIssuesBox>();
+            searchIssuesBox = new Mock<ISearchSpecificationBox>();
         }
 
         [Fact]
@@ -141,17 +141,19 @@ namespace TicketManagement.API_TEST.Services
         }
 
         [Fact]
-        public async Task GetIssuesWithoutClosed()
+        public async Task GetIssuesByExampleType()
         {
             //Arrange
             var searchSpecification = new SearchSpecificationDto();
             var type = typeof(SearchIssuesWithoutClosed);
-            var filteredIssueList = new FilteredIssueListDto { totalIssues = 3, Issues = GetIssueList() };
+            var issueCount = new IssueCount { FilteredIssue = 2 };
+            var filteredIssueList = new FilteredIssueListDto {Count = issueCount , Issues = GetIssueList() };
 
             var service = new IssueService(unitOfWork.Object, mapper.Object, searchIssuesBox.Object);
 
-            searchIssuesBox.Setup(x => x.ConcreteSearch(type, searchSpecification).SearchIssues(x => x.Id != 0))
-                .Returns(Task.FromResult(filteredIssueList));
+            searchIssuesBox.Setup(x => x.ConcreteSearch(It.IsAny<Type>(), searchSpecification)).Verifiable();
+
+            searchIssuesBox.Setup(x => x.Search(x => x.Id != 0, searchSpecification)).Returns(Task.FromResult(filteredIssueList));
 
             mapper.Setup(x => x.Map<List<GetIssueListDto>>(filteredIssueList.Issues)).Returns(GetIssueListDto());
 
@@ -160,75 +162,7 @@ namespace TicketManagement.API_TEST.Services
 
             //Assert
             Assert.NotNull(action.Data);
-        }
-
-        [Fact]
-        public async Task GetIssuesByStatusDepartament()
-        {
-            //Arrange
-            var searchSpecification = new SearchSpecificationDto() { Status = Status.New, Departament = "test" };
-            var type = typeof(SearchIssuesByStatusDepartament);
-            var filteredIssueList = new FilteredIssueListDto { totalIssues = 2, Issues = GetIssueList() };
-
-            var service = new IssueService(unitOfWork.Object, mapper.Object, searchIssuesBox.Object);
-
-            searchIssuesBox.Setup(x => x.ConcreteSearch(type, searchSpecification).SearchIssues(x => x.Id != 0))
-                .Returns(Task.FromResult(filteredIssueList));
-
-            mapper.Setup(x => x.Map<List<GetIssueListDto>>(filteredIssueList.Issues)).Returns(GetIssueListDto());
-
-            //Act
-            var action = await service.GetIssues(searchSpecification);
-
-            //Assert
-            Assert.NotNull(action);
-            Assert.NotNull(action.Data);
-        }
-
-        [Fact]
-        public async Task GetIssuesByStatus()
-        {
-            //Arrange
-            var searchSpecification = new SearchSpecificationDto() { Status = Status.New };
-            var type = typeof(SearchIssuesByStatus);
-            var filteredIssueList = new FilteredIssueListDto { totalIssues = 2, Issues = GetIssueList() };
-
-            var service = new IssueService(unitOfWork.Object, mapper.Object, searchIssuesBox.Object);
-
-            searchIssuesBox.Setup(x => x.ConcreteSearch(type, searchSpecification).SearchIssues(x => x.Id != 0))
-                .Returns(Task.FromResult(filteredIssueList));
-
-            mapper.Setup(x => x.Map<List<GetIssueListDto>>(filteredIssueList.Issues)).Returns(GetIssueListDto());
-
-            //Act
-            var action = await service.GetIssues(searchSpecification);
-
-            //Assert
-            Assert.NotNull(action);
-            Assert.NotNull(action.Data);
-        }
-
-        [Fact]
-        public async Task GetIssuesByDepartament()
-        {
-            //Arrange
-            var searchSpecification = new SearchSpecificationDto() { Departament = "test" };
-            var type = typeof(SearchIssuesByDepartament);
-            var filteredIssueList = new FilteredIssueListDto { totalIssues = 2, Issues = GetIssueList() };
-
-            var service = new IssueService(unitOfWork.Object, mapper.Object, searchIssuesBox.Object);
-
-            searchIssuesBox.Setup(x => x.ConcreteSearch(type, searchSpecification).SearchIssues(x => x.Id != 0))
-                .Returns(Task.FromResult(filteredIssueList));
-
-            mapper.Setup(x => x.Map<List<GetIssueListDto>>(filteredIssueList.Issues)).Returns(GetIssueListDto());
-
-            //Act
-            var action = await service.GetIssues(searchSpecification);
-
-            //Assert
-            Assert.NotNull(action);
-            Assert.NotNull(action.Data);
+            searchIssuesBox.Verify(x => x.ConcreteSearch(It.IsAny<Type>(), searchSpecification), Times.Once);
         }
 
         [Fact]

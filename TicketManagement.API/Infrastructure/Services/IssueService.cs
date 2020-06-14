@@ -19,9 +19,9 @@ namespace TicketManagement.API.Infrastructure.Services
     {
         private readonly IUnitOfWork unitOfWork;
         private readonly IMapper mapper;
-        private readonly ISearchIssuesBox searchIssuesBox;
+        private readonly ISearchSpecificationBox searchIssuesBox;
 
-        public IssueService(IUnitOfWork unitOfWork, IMapper mapper, ISearchIssuesBox searchIssuesBox)
+        public IssueService(IUnitOfWork unitOfWork, IMapper mapper, ISearchSpecificationBox searchIssuesBox)
         {
             this.unitOfWork = unitOfWork;
             this.mapper = mapper;
@@ -96,7 +96,28 @@ namespace TicketManagement.API.Infrastructure.Services
             Expression<Func<Issue, bool>> searchFor = null;
             FilteredIssueListDto filteredIssueList = null;
 
-            var typeOfSearch = typeof(SearchIssuesWithoutClosed);
+            //Choose type of search.
+            if (searchSpecification.Status != null)
+            {
+                searchIssuesBox.ConcreteSearch(typeof(SearchIssuesByStatus), searchSpecification);
+            }
+            else
+            {
+                searchIssuesBox.ConcreteSearch(typeof(SearchIssuesWithoutClosed), searchSpecification);
+            }
+
+            if (searchSpecification.Departament != null)
+            {
+                searchIssuesBox.ConcreteSearch(typeof(SearchIssuesByDepartament), searchSpecification);
+            }
+            if (searchSpecification.Title != null)
+            {
+                searchIssuesBox.ConcreteSearch(typeof(SearchIssuesByTitle), searchSpecification);
+            }
+            if (searchSpecification.DeclarantLastName != null)
+            {
+                searchIssuesBox.ConcreteSearch(typeof(SearchIssuesByDeclarantLastName), searchSpecification);
+            }
 
             //Choose for what must search.
             switch (searchSpecification.SearchFor)
@@ -114,22 +135,7 @@ namespace TicketManagement.API.Infrastructure.Services
                     break;
             }
 
-            //Choose type of search.
-            if (searchSpecification.Status != null && searchSpecification.Departament != null)
-            {
-                typeOfSearch = typeof(SearchIssuesByStatusDepartament);
-            }
-            else if (searchSpecification.Status != null)
-            {
-                typeOfSearch = typeof(SearchIssuesByStatus);
-            } 
-            else if (searchSpecification.Departament != null)
-            {
-                typeOfSearch = typeof(SearchIssuesByDepartament);
-            }
-
-            filteredIssueList = await searchIssuesBox.ConcreteSearch(typeOfSearch, searchSpecification)
-                .SearchIssues(searchFor);
+            filteredIssueList = await searchIssuesBox.Search(searchFor, searchSpecification);
 
             var issuesToReturn = mapper.Map<List<GetIssueListDto>>(filteredIssueList.Issues);
 

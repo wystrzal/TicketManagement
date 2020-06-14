@@ -115,30 +115,30 @@ namespace TicketManagement.API_TEST.Controllers
             Assert.Equal(200, action.StatusCode);
         }
 
-        [Fact]
-        public async Task GetIssuesOkObjectResponse()
-        {
-            //Arrange
-            int pageIndex = 1;
-            int pageSize = 2;
-            int count = 2;
+        //[Fact]
+        //public async Task GetIssuesOkObjectResponse()
+        //{
+        //    //Arrange
+        //    int pageIndex = 1;
+        //    int pageSize = 2;
+        //    int count = 2;
 
-            var searchSpecification
-                = new SearchSpecificationDto { PageIndex = pageIndex, PageSize = pageSize, SearchFor = SearchFor.AllIssues};
+        //    var searchSpecification
+        //        = new SearchSpecificationDto { PageIndex = pageIndex, PageSize = pageSize, SearchFor = SearchFor.AllIssues};
 
-            issueService.Setup(x => x.GetIssues(searchSpecification))
-                .Returns(Task.FromResult(GetPaginatedItems(pageIndex, count, pageSize)));
+        //    issueService.Setup(x => x.GetIssues(searchSpecification))
+        //        .Returns(Task.FromResult(GetPaginatedItems(pageIndex, count, pageSize)));
 
-            var controller = new IssueController(issueService.Object);
+        //    var controller = new IssueController(issueService.Object);
 
-            //Act
-            var action = await controller.GetIssues(searchSpecification) as OkObjectResult;
-            var item = action.Value as PaginatedItemsDto<GetIssueListDto, IssueCount>;
+        //    //Act
+        //    var action = await controller.GetIssues(searchSpecification) as OkObjectResult;
+        //    var item = action.Value as PaginatedItemsDto<GetIssueListDto, IssueCount>;
 
-            //Arrange
-            Assert.Equal(200, action.StatusCode);
-            Assert.Equal(2, item.Data.Count());
-        }
+        //    //Arrange
+        //    Assert.Equal(200, action.StatusCode);
+        //    Assert.Equal(2, item.Data.Count());
+        //}
 
         [Fact]
         public async Task GetIssueBadRequestResponse()
@@ -255,15 +255,15 @@ namespace TicketManagement.API_TEST.Controllers
         }
 
 
-        private PaginatedItemsDto<GetIssueListDto, IssueCount> GetPaginatedItems(int pageIndex, int count, int pageSize)
-        {
-            var issueList = new List<GetIssueListDto>()
-            {
-                new GetIssueListDto {Status = Status.New, Declarant = "1", Id = 1, Title = "test1", Departament = "production"},
-                new GetIssueListDto {Status = Status.New, Declarant = "1", Id = 2, Title = "test2", Departament = "production"},
-            };
+        //private PaginatedItemsDto<GetIssueListDto, IssueCount> GetPaginatedItems(int pageIndex, int count, int pageSize)
+        //{
+        //    var issueList = new List<GetIssueListDto>()
+        //    {
+        //        new GetIssueListDto {Status = Status.New, Declarant = "1", Id = 1, Title = "test1", Departament = "production"},
+        //        new GetIssueListDto {Status = Status.New, Declarant = "1", Id = 2, Title = "test2", Departament = "production"},
+        //    };
 
-            return new PaginatedItemsDto<GetIssueListDto, IssueCount>(pageIndex, count, issueList, pageSize);
-        }
+        //    return new PaginatedItemsDto<GetIssueListDto, IssueCount>(pageIndex, count, issueList, pageSize);
+        //}
     }
 }

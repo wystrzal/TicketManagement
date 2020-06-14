@@ -10,14 +10,13 @@ namespace TicketManagement.API.Core.Interfaces
 {
     public interface ISearchBy
     {
-
-        /// Summary:
-        /// <summary>
-        /// Search issues by specified specification.
-        /// </summary>
         /// Parameters: 
         /// searchFor: Type what you want search
-        /// e.g x => x.DeclarantId == searchSpecification.UserId;
-        Task<FilteredIssueListDto> SearchIssues(Expression<Func<Issue, bool>> searchFor);
+        /// e.g (x => x.DeclarantId == searchSpecification.UserId)
+        /// specification: Search issues by specified specification
+        /// e.g (x => x.Status == Status.Close)
+        /// searchSpecification: Model with all specifications for search
+        Task<FilteredIssueListDto> SearchIssues(Expression<Func<Issue, bool>> searchFor,
+            Expression<Func<Issue, bool>> specification, SearchSpecificationDto searchSpecification);
     }
 }

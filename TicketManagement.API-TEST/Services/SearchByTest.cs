@@ -7,8 +7,10 @@ using System.Threading.Tasks;
 using TicketManagement.API.Core.Interfaces;
 using TicketManagement.API.Core.Models;
 using TicketManagement.API.Dtos.IssueDtos;
+using TicketManagement.API.Infrastructure.Services.SearchIssue;
 using TicketManagement.API.Infrastructure.Services.SearchIssue.ConcreteSearch;
 using Xunit;
+using static TicketManagement.API.Core.Models.Enums.IssueStatus;
 
 namespace TicketManagement.API_TEST.Services
 {
@@ -34,35 +36,7 @@ namespace TicketManagement.API_TEST.Services
 
             int totalIssues = 2;
 
-            var service = new SearchIssuesByDepartament(issueRepository.Object, searchSpecification);
-
-            issueRepository.Setup(x => x.GetIssues(It.IsAny<Func<Issue,bool>>(), It.IsAny<int>(), It.IsAny<int>()))
-                .Returns(Task.FromResult(issues));
-
-            issueRepository.Setup(x => x.CountIssues(It.IsAny<Func<Issue, bool>>())).Returns(Task.FromResult(totalIssues));
-
-            //Act
-            var action = await service.SearchIssues(x => x.Id != 0);
-
-
-            //Assert
-            Assert.Equal(totalIssues, action.Issues.Count);
-            Assert.Equal(totalIssues, action.totalIssues);
-        }
-
-        [Fact]
-        public async Task SearchByContentTest()
-        {
-            //Arrange
-            var issues = new List<Issue>()
-            {
-                new Issue {Id = 1},
-                new Issue {Id = 2}
-            };
-
-            int totalIssues = 2;
-
-            var service = new SearchIssuesByDepartament(issueRepository.Object, searchSpecification);
+            var service = new SearchBy(issueRepository.Object);
 
             issueRepository.Setup(x => x.GetIssues(It.IsAny<Func<Issue, bool>>(), It.IsAny<int>(), It.IsAny<int>()))
                 .Returns(Task.FromResult(issues));
@@ -70,11 +44,14 @@ namespace TicketManagement.API_TEST.Services
             issueRepository.Setup(x => x.CountIssues(It.IsAny<Func<Issue, bool>>())).Returns(Task.FromResult(totalIssues));
 
             //Act
-            var action = await service.SearchByContent(x => x.Id != 0);
+            var action = await service.SearchIssues(x => x.Id != 0, x => x.Status != Status.Close, searchSpecification);
+
 
             //Assert
             Assert.Equal(totalIssues, action.Issues.Count);
-            Assert.Equal(totalIssues, action.totalIssues);
+            Assert.Equal(totalIssues, action.Count.FilteredIssue);
         }
+
+
     }
 }

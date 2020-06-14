@@ -5,6 +5,7 @@ using TicketManagement.API.Core.Interfaces.MessageInterfaces;
 using TicketManagement.API.Infrastructure.Data.Repositories;
 using TicketManagement.API.Infrastructure.Services;
 using TicketManagement.API.Infrastructure.Services.SearchIssue;
+using TicketManagement.API.Infrastructure.Services.SearchIssue.ConcreteSearch;
 
 namespace TicketManagement.API.Extensions
 {
@@ -22,7 +23,8 @@ namespace TicketManagement.API.Extensions
 
             services.AddScoped<IIssueService, IssueService>();
             services.AddScoped<IIssueRepository, IssueRepository>();
-            services.AddScoped<ISearchIssuesBox, SearchIssuesBox>();
+            services.AddScoped<ISearchSpecificationBox, SearchSpecificationBox>();
+            services.AddScoped<ISearchBy, SearchBy>();
 
             services.AddScoped<IMessageService, MessageService>();
         }

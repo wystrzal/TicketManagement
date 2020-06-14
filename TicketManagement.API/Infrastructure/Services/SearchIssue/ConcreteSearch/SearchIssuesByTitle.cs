@@ -1,29 +1,25 @@
-﻿using AutoMapper;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Linq.Expressions;
 using System.Threading.Tasks;
-using TicketManagement.API.Core.Interfaces;
 using TicketManagement.API.Core.Interfaces.IssueInterfaces;
 using TicketManagement.API.Core.Models;
-using TicketManagement.API.Dtos;
 using TicketManagement.API.Dtos.IssueDtos;
 
 namespace TicketManagement.API.Infrastructure.Services.SearchIssue.ConcreteSearch
 {
-    public class SearchIssuesByDepartament : IConcreteSearch
+    public class SearchIssuesByTitle : IConcreteSearch
     {
-        private SearchSpecificationDto searchSpecification;
-        public SearchIssuesByDepartament(SearchSpecificationDto searchSpecification)
+        private readonly SearchSpecificationDto searchSpecification;
+
+        public SearchIssuesByTitle(SearchSpecificationDto searchSpecification)
         {
             this.searchSpecification = searchSpecification;
         }
-        
+
         public Predicate<Issue> getSpecification()
         {
-            return x => x.Declarant.Departament.Name == searchSpecification.Departament;
+            return x => x.Title.Contains(searchSpecification.Title.ToLower());
         }
-
     }
 }
