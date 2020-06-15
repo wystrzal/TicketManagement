@@ -18,6 +18,25 @@
   </label>
 </div>
 
+<div class="col-12 issues__search">Priority</div>
+<div *ngFor="let searchPriority of searchPriorityList">
+  <input
+    (change)="search()"
+    class="form-check-input col-2"
+    type="radio"
+    name="priority"
+    id="priority-{{ searchPriority.priority }}"
+    value="{{ searchPriority.value }}"
+    [(ngModel)]="searchModel.priority"
+  />
+  <label
+    class="col-10 issues__search--item"
+    for="priority-{{ searchPriority.priority }}"
+  >
+    {{ searchPriority.priority }}
+  </label>
+</div>
+
 <div class="col-12 issues__search">Department</div>
 <div *ngFor="let departament of departaments">
   <input

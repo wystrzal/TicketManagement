@@ -14,6 +14,7 @@ using TicketManagement.API.Dtos.IssueDtos;
 using TicketManagement.API.Infrastructure.Services;
 using TicketManagement.API.Infrastructure.Services.SearchIssue.ConcreteSearch;
 using Xunit;
+using static TicketManagement.API.Core.Models.Enums.IssuePriority;
 using static TicketManagement.API.Core.Models.Enums.IssueStatus;
 
 namespace TicketManagement.API_TEST.Services
@@ -75,6 +76,47 @@ namespace TicketManagement.API_TEST.Services
             //Assert
             Assert.True(action);
             unitOfWork.Verify(x => x.Repository<Issue>().Add(issue), Times.Once);
+        }
+
+        [Fact]
+        public async Task ChangeIssuePriorityFailed()
+        {
+            //Arrange
+            int id = 1;
+            var issue = GetIssue();
+
+            unitOfWork.Setup(x => x.Repository<Issue>().GetById(id)).Returns(Task.FromResult(issue));
+
+            unitOfWork.Setup(x => x.SaveAllAsync()).Returns(Task.FromResult(false));
+
+            var service = new IssueService(unitOfWork.Object, mapper.Object, searchIssuesBox.Object);
+
+            //Act
+            var action = await service.ChangeIssuePriority(id, Priority.High);
+
+            //Assert
+            Assert.False(action);
+        }
+
+        [Fact]
+        public async Task ChangeIssuePrioritySuccess()
+        {
+            //Arrange
+            int id = 1;
+            var issue = GetIssue();
+
+            unitOfWork.Setup(x => x.Repository<Issue>().GetById(id)).Returns(Task.FromResult(issue));
+
+            unitOfWork.Setup(x => x.SaveAllAsync()).Returns(Task.FromResult(true));
+
+            var service = new IssueService(unitOfWork.Object, mapper.Object, searchIssuesBox.Object);
+
+            //Act
+            var action = await service.ChangeIssuePriority(id, Priority.High);
+
+            //Assert
+            Assert.True(action);
+            Assert.Equal(Priority.High, issue.Priority);
         }
 
         [Fact]

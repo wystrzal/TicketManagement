@@ -10,7 +10,7 @@ using TicketManagement.API.Infrastructure.Data;
 namespace TicketManagement.API.Migrations
 {
     [DbContext(typeof(DataContext))]
-    [Migration("20200612023850_InitDb")]
+    [Migration("20200615154117_InitDb")]
     partial class InitDb
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -179,6 +179,9 @@ namespace TicketManagement.API.Migrations
 
                     b.Property<string>("Description")
                         .HasColumnType("nvarchar(max)");
+
+                    b.Property<int>("Priority")
+                        .HasColumnType("int");
 
                     b.Property<int>("Status")
                         .HasColumnType("int");

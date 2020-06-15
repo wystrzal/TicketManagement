@@ -9,6 +9,7 @@ import { Status } from "../models/enums/status.enum";
 import { DepartamentModel } from "../models/departament.model";
 import { IssueModel } from "../models/issue.model";
 import { IssueSupportModel } from "../models/issueSupport.model";
+import { Priority } from "../models/enums/priority.enum";
 
 @Injectable({
   providedIn: "root",
@@ -36,6 +37,13 @@ export class IssueService {
 
     if (searchSpecification.status != null) {
       params = params.append("status", searchSpecification.status.toString());
+    }
+
+    if (searchSpecification.priority != null) {
+      params = params.append(
+        "priority",
+        searchSpecification.priority.toString()
+      );
     }
 
     if (searchSpecification.title != null) {
@@ -71,8 +79,9 @@ export class IssueService {
       .get<PaginatedItemsModel>(this.baseUrl, { params })
       .pipe(
         map((paginatedItems: PaginatedItemsModel) => {
-          paginatedItems.data.forEach((element) => {
+          paginatedItems.data.forEach((element: IssueModel) => {
             element.status = Status[element.status];
+            element.priority = Priority[element.priority];
           });
 
           return paginatedItems;

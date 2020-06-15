@@ -10,6 +10,7 @@ using TicketManagement.API.Core.Interfaces;
 using TicketManagement.API.Core.Models;
 using TicketManagement.API.Dtos;
 using TicketManagement.API.Dtos.IssueDtos;
+using static TicketManagement.API.Core.Models.Enums.IssuePriority;
 using static TicketManagement.API.Core.Models.Enums.IssueStatus;
 
 namespace TicketManagement.API.Controllers
@@ -54,6 +55,17 @@ namespace TicketManagement.API.Controllers
             return BadRequest("Something goes wrong.");
         }
 
+        [HttpPost("{id}/priority/{priority}")]
+        public async Task<IActionResult> ChangeIssuePriority(int id, Priority priority)
+        {
+            if (await issueService.ChangeIssuePriority(id, priority))
+            {
+                return Ok();
+            }
+
+            return BadRequest("Something goes wrong.");
+        }
+
         [HttpGet]
         public async Task<IActionResult> GetIssues([FromQuery]SearchSpecificationDto searchSpecification)
         {          
@@ -79,7 +91,6 @@ namespace TicketManagement.API.Controllers
             return BadRequest("Something goes wrong.");
         }
 
-        //Test
         [HttpGet("{id}/support")]
         public async Task<IActionResult> GetIssueSupport(int id)
         {

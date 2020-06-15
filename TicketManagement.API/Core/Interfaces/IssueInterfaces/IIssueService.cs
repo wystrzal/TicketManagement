@@ -6,6 +6,7 @@ using TicketManagement.API.API.Dtos.IssueDtos;
 using TicketManagement.API.Core.Models;
 using TicketManagement.API.Dtos;
 using TicketManagement.API.Dtos.IssueDtos;
+using static TicketManagement.API.Core.Models.Enums.IssuePriority;
 using static TicketManagement.API.Core.Models.Enums.IssueStatus;
 
 namespace TicketManagement.API.Core.Interfaces
@@ -14,6 +15,7 @@ namespace TicketManagement.API.Core.Interfaces
     {
         Task<bool> AddNewIssue(NewIssueDto newIssue);
         Task<bool> ChangeIssueStatus(int issueId, Status status);
+        Task<bool> ChangeIssuePriority(int issueId, Priority priority);
         Task<PaginatedItemsDto<GetIssueListDto, IssueCount>> GetIssues(SearchSpecificationDto searchSpecification);
         Task<GetIssueDto> GetIssue(int id);
         Task<List<GetIssueDepartamentDto>> GetIssueDepartaments();

@@ -19,8 +19,9 @@ import { ErrorService } from "src/app/core/helpers/error.service";
 export class IssuesSearchComponent implements OnInit, OnChanges {
   @Output() startSearch = new EventEmitter();
   @Input() issueCount: any;
-  searchModel: any = { status: null, departament: null };
+  searchModel: any = { status: null, departament: null, priority: null };
   searchStatusList: any[];
+  searchPriorityList: any[];
   departaments: DepartamentModel[];
 
   constructor(
@@ -35,6 +36,12 @@ export class IssuesSearchComponent implements OnInit, OnChanges {
       { status: "Progress", value: 3, count: this.issueCount.progressIssue },
       { status: "Pending", value: 4, count: this.issueCount.pendingIssue },
       { status: "Close", value: 5, count: "-" },
+    ];
+    this.searchPriorityList = [
+      { priority: "Low", value: 1 },
+      { priority: "Medium", value: 2 },
+      { priority: "High", value: 3 },
+      { priority: "Very High", value: 4 },
     ];
   }
 
@@ -59,7 +66,7 @@ export class IssuesSearchComponent implements OnInit, OnChanges {
   }
 
   reset() {
-    this.searchModel = { status: null, departament: null };
+    this.searchModel = { status: null, departament: null, priority: null };
     this.search();
   }
 }

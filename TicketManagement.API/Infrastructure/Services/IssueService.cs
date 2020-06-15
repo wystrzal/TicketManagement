@@ -10,6 +10,7 @@ using TicketManagement.API.Core.Models;
 using TicketManagement.API.Dtos;
 using TicketManagement.API.Dtos.IssueDtos;
 using TicketManagement.API.Infrastructure.Services.SearchIssue.ConcreteSearch;
+using static TicketManagement.API.Core.Models.Enums.IssuePriority;
 using static TicketManagement.API.Core.Models.Enums.IssueStatus;
 using static TicketManagement.API.Core.Models.Enums.TypeOfSearch;
 
@@ -33,6 +34,7 @@ namespace TicketManagement.API.Infrastructure.Services
             var issueToAdd = mapper.Map<Issue>(newIssue);
 
             issueToAdd.Status = Status.New;
+            issueToAdd.Priority = Priority.Lack;
             issueToAdd.Title = issueToAdd.Title.ToLower();
 
             unitOfWork.Repository<Issue>().Add(issueToAdd);
@@ -47,6 +49,19 @@ namespace TicketManagement.API.Infrastructure.Services
             if (issue.Status != status)
             {
                 issue.Status = status;
+                return await unitOfWork.SaveAllAsync();
+            }
+
+            return true;
+        }
+
+        public async Task<bool> ChangeIssuePriority(int issueId, Priority priority)
+        {
+            var issue = await unitOfWork.Repository<Issue>().GetById(issueId);
+
+            if (issue.Priority != priority)
+            {
+                issue.Priority = priority;
                 return await unitOfWork.SaveAllAsync();
             }
 
@@ -117,6 +132,10 @@ namespace TicketManagement.API.Infrastructure.Services
             if (searchSpecification.DeclarantLastName != null)
             {
                 searchIssuesBox.ConcreteSearch(typeof(SearchIssuesByDeclarantLastName), searchSpecification);
+            }
+            if (searchSpecification.Priority != null)
+            {
+                searchIssuesBox.ConcreteSearch(typeof(SearchIssuesByPriority), searchSpecification);
             }
 
             //Choose for what must search.

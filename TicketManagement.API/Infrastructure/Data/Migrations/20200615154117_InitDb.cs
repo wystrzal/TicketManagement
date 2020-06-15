@@ -183,6 +183,7 @@ namespace TicketManagement.API.Migrations
                     Title = table.Column<string>(nullable: true),
                     Description = table.Column<string>(nullable: true),
                     Status = table.Column<int>(nullable: false),
+                    Priority = table.Column<int>(nullable: false),
                     DeclarantId = table.Column<string>(nullable: true)
                 },
                 constraints: table =>
