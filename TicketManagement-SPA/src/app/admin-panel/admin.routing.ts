@@ -7,6 +7,7 @@ import { AllIssuesResolver } from "../issues/resolvers/all-issues.resolver";
 import { SupportIssuesResolver } from "../issues/resolvers/support-issues.resolver";
 import { IssueDetailComponent } from "../issues/issue-detail/issue-detail.component";
 import { NewUserComponent } from "./new-user/new-user.component";
+import { UsersComponent } from "./users/users.component";
 
 const routes: Routes = [
   {
@@ -23,7 +24,8 @@ const routes: Routes = [
         resolve: { issues: AllIssuesResolver },
         data: { searchFor: SearchFor.AllIssues },
       },
-      { path: "users", component: NewUserComponent },
+      { path: "add-user", component: NewUserComponent },
+      { path: "users", component: UsersComponent },
       {
         path: "assigned-issues",
         component: IssuesComponent,

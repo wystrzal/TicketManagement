@@ -7,29 +7,57 @@
     }}
   </div>
   <div class="mt-3 text-left">{{ issue?.description }}</div>
-  <div *ngFor="let message of issueMessages">
-    <div *ngIf="message.senderId != currentUser">
-      <div class="col-12 text-left mt-5 mb-1 issue-chat__user">
-        {{ message.sender }}
+
+  <div *ngIf="!supportMessages">
+    <div *ngFor="let message of issueUserMessages">
+      <div *ngIf="message.senderId != currentUser">
+        <div class="col-12 text-left mt-5 mb-1 issue-chat__user">
+          {{ message.sender }}
+        </div>
+        <div class="col-10 mb-2 text-left issue-chat__sender">
+          {{ message.content }}
+        </div>
       </div>
-      <div class="col-10 mb-2 text-left issue-chat__sender">
-        {{ message.content }}
+
+      <div *ngIf="message.senderId == currentUser">
+        <div class="col-12 text-right mt-5 mb-1 issue-chat__user">
+          Me
+        </div>
+        <div class="col-10 offset-2 mb-2 text-left issue-chat__sender">
+          {{ message.content }}
+        </div>
       </div>
     </div>
+  </div>
 
-    <div *ngIf="message.senderId == currentUser">
-      <div class="col-12 text-right mt-5 mb-1 issue-chat__user">
-        Me
+  <div *ngIf="supportMessages">
+    <div *ngFor="let message of issueSupportMessages">
+      <div *ngIf="message.senderId != currentUser">
+        <div class="col-12 text-left mt-5 mb-1 issue-chat__user">
+          {{ message.sender }}
+        </div>
+        <div class="col-10 mb-2 text-left issue-chat__sender">
+          {{ message.content }}
+        </div>
       </div>
-      <div class="col-10 offset-2 mb-2 text-left issue-chat__sender">
-        {{ message.content }}
+
+      <div *ngIf="message.senderId == currentUser">
+        <div class="col-12 text-right mt-5 mb-1 issue-chat__user">
+          Me
+        </div>
+        <div class="col-10 offset-2 mb-2 text-left issue-chat__sender">
+          {{ message.content }}
+        </div>
       </div>
     </div>
   </div>
 </div>
 
-<div class="issue-chat__panel text-right">
-  <form #messageForm="ngForm" (ngSubmit)="sendMessage(messageForm)">
+<div class="issue-chat__panel text-right mb-3">
+  <form
+    #messageForm="ngForm"
+    (ngSubmit)="sendMessage(messageForm, supportMessages)"
+  >
     <textarea
       [(ngModel)]="messageModel.content"
       name="content"
@@ -38,7 +66,29 @@
       rows="4"
       style="resize: none;"
     ></textarea>
-    <button [disabled]="!messageForm.valid" class="btn btn-success my-3">
+
+    <div class="d-inline" *hasRole="'admin'">
+      <button
+        type="button"
+        (click)="supportMessages = false"
+        class="btn btn-info mx-1"
+      >
+        User
+      </button>
+      <button
+        type="button"
+        (click)="supportMessages = true"
+        class="btn btn-info mx-1"
+      >
+        Support
+      </button>
+    </div>
+
+    <button
+      type="submit"
+      [disabled]="!messageForm.valid"
+      class="btn btn-success ml-3 my-3"
+    >
       Send
     </button>
   </form>

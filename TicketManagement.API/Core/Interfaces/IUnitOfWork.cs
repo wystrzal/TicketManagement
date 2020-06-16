@@ -1,4 +1,5 @@
-﻿using System;
+﻿using AutoMapper;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
@@ -9,5 +10,6 @@ namespace TicketManagement.API.Core.Interfaces
     {
         IRepository<T> Repository<T>() where T : class;
         Task<bool> SaveAllAsync();
+        IMapper Mapper();
     }
 }

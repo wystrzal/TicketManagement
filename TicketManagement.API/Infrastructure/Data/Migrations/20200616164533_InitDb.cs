@@ -194,7 +194,7 @@ namespace TicketManagement.API.Migrations
                         column: x => x.DeclarantId,
                         principalTable: "AspNetUsers",
                         principalColumn: "Id",
-                        onDelete: ReferentialAction.Restrict);
+                        onDelete: ReferentialAction.Cascade);
                 });
 
             migrationBuilder.CreateTable(
@@ -205,7 +205,8 @@ namespace TicketManagement.API.Migrations
                         .Annotation("SqlServer:Identity", "1, 1"),
                     Content = table.Column<string>(nullable: true),
                     IssueId = table.Column<int>(nullable: false),
-                    SenderId = table.Column<string>(nullable: true)
+                    SenderId = table.Column<string>(nullable: true),
+                    IsSupportMessage = table.Column<bool>(nullable: false)
                 },
                 constraints: table =>
                 {
@@ -220,8 +221,7 @@ namespace TicketManagement.API.Migrations
                         name: "FK_Messages_AspNetUsers_SenderId",
                         column: x => x.SenderId,
                         principalTable: "AspNetUsers",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Restrict);
+                        principalColumn: "Id");
                 });
 
             migrationBuilder.CreateTable(
@@ -244,8 +244,7 @@ namespace TicketManagement.API.Migrations
                         name: "FK_SupportedIssues_AspNetUsers_SupportId",
                         column: x => x.SupportId,
                         principalTable: "AspNetUsers",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
+                        principalColumn: "Id");
                 });
 
             migrationBuilder.CreateIndex(

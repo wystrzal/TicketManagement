@@ -10,7 +10,7 @@ namespace TicketManagement.API.Core.Interfaces.MessageInterfaces
     public interface IMessageService
     {
         Task<GetIssueMessageDto> AddNewMessage(NewMessageDto newMessage);
-        Task<List<GetIssueMessageDto>> GetIssueMessages(int issueId);
+        Task<List<GetIssueMessageDto>> GetIssueMessages(int issueId, bool supportMessages);
         Task<GetIssueMessageDto> GetIssueMessage(int messageId);
     }
 }

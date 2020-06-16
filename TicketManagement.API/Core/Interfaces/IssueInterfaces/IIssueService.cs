@@ -14,6 +14,7 @@ namespace TicketManagement.API.Core.Interfaces
     public interface IIssueService
     {
         Task<bool> AddNewIssue(NewIssueDto newIssue);
+        Task<bool> DeleteIssue(int issueId);
         Task<bool> ChangeIssueStatus(int issueId, Status status);
         Task<bool> ChangeIssuePriority(int issueId, Priority priority);
         Task<PaginatedItemsDto<GetIssueListDto, IssueCount>> GetIssues(SearchSpecificationDto searchSpecification);

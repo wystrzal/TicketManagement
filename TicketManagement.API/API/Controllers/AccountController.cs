@@ -24,6 +24,25 @@ namespace TicketManagement.API.Controllers
             this.accountService = accountService;
         }
 
+        //TEST
+        [HttpGet]
+        public async Task<IActionResult> GetUsers()
+        {
+            return Ok(await accountService.GetUsers());
+        }
+
+        //TEST
+        [HttpDelete("{userId}")]
+        public async Task<IActionResult> DeleteUser(string userId)
+        {
+            if (await accountService.DeleteUser(userId))
+            {
+                return Ok();
+            }
+
+            return BadRequest("Something goes wrong.");
+        }
+
         [HttpPost("login")]
         public async Task<IActionResult> Login(LoginDto loginDto)
         {

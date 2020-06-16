@@ -13,24 +13,22 @@ namespace TicketManagement.API.Infrastructure.Services
     public class MessageService : IMessageService
     {
         private readonly IUnitOfWork unitOfWork;
-        private readonly IMapper mapper;
 
-        public MessageService(IUnitOfWork unitOfWork, IMapper mapper)
+        public MessageService(IUnitOfWork unitOfWork)
         {
             this.unitOfWork = unitOfWork;
-            this.mapper = mapper;
         }
 
         public async Task<GetIssueMessageDto> GetIssueMessage(int messageId)
         {
             var message = await unitOfWork.Repository<Message>().GetById(messageId);
 
-            return mapper.Map<GetIssueMessageDto>(message);
+            return unitOfWork.Mapper().Map<GetIssueMessageDto>(message);
         }
 
         public async Task<GetIssueMessageDto> AddNewMessage(NewMessageDto newMessage)
         {
-            var messageToAdd = mapper.Map<Message>(newMessage);
+            var messageToAdd = unitOfWork.Mapper().Map<Message>(newMessage);
 
             unitOfWork.Repository<Message>().Add(messageToAdd);
 
@@ -39,18 +37,29 @@ namespace TicketManagement.API.Infrastructure.Services
                 var messageToReturn = await unitOfWork.Repository<Message>()
                     .GetByConditionWithIncludeFirst(x => x.Id == messageToAdd.Id, y => y.Sender);
 
-                 return mapper.Map<GetIssueMessageDto>(messageToReturn);               
+                 return unitOfWork.Mapper().Map<GetIssueMessageDto>(messageToReturn);               
             }
 
             return null;       
         }
 
-        public async Task<List<GetIssueMessageDto>> GetIssueMessages(int issueId)
+        //TEST
+        public async Task<List<GetIssueMessageDto>> GetIssueMessages(int issueId, bool supportMessages)
         {
-            var message = await unitOfWork.Repository<Message>()
-                .GetByConditionWithIncludeToList(x => x.IssueId == issueId, y => y.Sender);
+            List<Message> message = null;
 
-            return mapper.Map<List<GetIssueMessageDto>>(message);
+            if (supportMessages)
+            {
+                message = await unitOfWork.Repository<Message>()
+                    .GetByConditionWithIncludeToList(x => x.IssueId == issueId && x.IsSupportMessage == true, y => y.Sender);
+            } 
+            else
+            {
+                message = await unitOfWork.Repository<Message>()
+                    .GetByConditionWithIncludeToList(x => x.IssueId == issueId && x.IsSupportMessage == false, y => y.Sender);
+            }
+
+            return unitOfWork.Mapper().Map<List<GetIssueMessageDto>>(message);
         }
     }
 }

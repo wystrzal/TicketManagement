@@ -10,7 +10,7 @@ using TicketManagement.API.Infrastructure.Data;
 namespace TicketManagement.API.Migrations
 {
     [DbContext(typeof(DataContext))]
-    [Migration("20200615154117_InitDb")]
+    [Migration("20200616164533_InitDb")]
     partial class InitDb
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -206,6 +206,9 @@ namespace TicketManagement.API.Migrations
                     b.Property<string>("Content")
                         .HasColumnType("nvarchar(max)");
 
+                    b.Property<bool>("IsSupportMessage")
+                        .HasColumnType("bit");
+
                     b.Property<int>("IssueId")
                         .HasColumnType("int");
 
@@ -369,7 +372,8 @@ namespace TicketManagement.API.Migrations
                 {
                     b.HasOne("TicketManagement.API.Core.Models.User", "Declarant")
                         .WithMany("DeclarantedIssues")
-                        .HasForeignKey("DeclarantId");
+                        .HasForeignKey("DeclarantId")
+                        .OnDelete(DeleteBehavior.Cascade);
                 });
 
             modelBuilder.Entity("TicketManagement.API.Core.Models.Message", b =>
@@ -382,7 +386,8 @@ namespace TicketManagement.API.Migrations
 
                     b.HasOne("TicketManagement.API.Core.Models.User", "Sender")
                         .WithMany("Messages")
-                        .HasForeignKey("SenderId");
+                        .HasForeignKey("SenderId")
+                        .OnDelete(DeleteBehavior.NoAction);
                 });
 
             modelBuilder.Entity("TicketManagement.API.Core.Models.SupportIssues", b =>
@@ -396,7 +401,7 @@ namespace TicketManagement.API.Migrations
                     b.HasOne("TicketManagement.API.Core.Models.User", "User")
                         .WithMany("SupportIssues")
                         .HasForeignKey("SupportId")
-                        .OnDelete(DeleteBehavior.Cascade)
+                        .OnDelete(DeleteBehavior.NoAction)
                         .IsRequired();
                 });
 

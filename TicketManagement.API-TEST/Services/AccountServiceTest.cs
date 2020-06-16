@@ -33,13 +33,13 @@ namespace TicketManagement.API_TEST.Services
                            _contextAccessor.Object, _userPrincipalFactory.Object, null, null, null, null);
         }
 
-        private readonly Mock<IMapper> mapper;
         private readonly Mock<ITokenService> tokenService;
+        private readonly Mock<IUnitOfWork> unitOfWork;
 
         public AccountServiceTest()
         {
-            mapper = new Mock<IMapper>();
             tokenService = new Mock<ITokenService>();
+            unitOfWork = new Mock<IUnitOfWork>(); 
         }
 
         [Fact]
@@ -52,7 +52,7 @@ namespace TicketManagement.API_TEST.Services
             userManager.Setup(x => x.FindByNameAsync(loginDto.Username)).Returns(Task.FromResult((User)null));
 
             var service = new AccountService(tokenService.Object, userManager.Object,
-                GetMockSignInManager().Object, mapper.Object);
+                GetMockSignInManager().Object, unitOfWork.Object);
 
             //Act
             var action = await service.TryLogin(loginDto);
@@ -76,7 +76,7 @@ namespace TicketManagement.API_TEST.Services
                 .Returns(Task.FromResult(SignInResult.Failed));
 
             var service = new AccountService(tokenService.Object, userManager.Object,
-                signInManager.Object, mapper.Object);
+                signInManager.Object, unitOfWork.Object);
 
             //Act
             var action = await service.TryLogin(loginDto);
@@ -102,7 +102,7 @@ namespace TicketManagement.API_TEST.Services
             tokenService.Setup(x => x.GenerateToken(user, userManager.Object)).Returns(Task.FromResult("very long token"));
 
             var service = new AccountService(tokenService.Object, userManager.Object,
-                signInManager.Object, mapper.Object);
+                signInManager.Object, unitOfWork.Object);
 
             //Act
             var action = await service.TryLogin(loginDto);
@@ -119,12 +119,12 @@ namespace TicketManagement.API_TEST.Services
             var user = new User { UserName = "test" };
             var userManager = GetMockUserManager();
 
-            mapper.Setup(x => x.Map<User>(registerDto)).Returns(user);
+            unitOfWork.Setup(x => x.Mapper().Map<User>(registerDto)).Returns(user);
 
             userManager.Setup(x => x.CreateAsync(user, registerDto.Password)).Returns(Task.FromResult(IdentityResult.Failed()));
 
             var service = new AccountService(tokenService.Object, userManager.Object,
-                GetMockSignInManager().Object, mapper.Object);
+                GetMockSignInManager().Object, unitOfWork.Object);
 
             //Act
             var action = await service.AddUser(registerDto);
@@ -141,12 +141,12 @@ namespace TicketManagement.API_TEST.Services
             var user = new User { UserName = "test" };
             var userManager = GetMockUserManager();
 
-            mapper.Setup(x => x.Map<User>(registerDto)).Returns(user);
+            unitOfWork.Setup(x => x.Mapper().Map<User>(registerDto)).Returns(user);
 
             userManager.Setup(x => x.CreateAsync(user, registerDto.Password)).Returns(Task.FromResult(IdentityResult.Success));
 
             var service = new AccountService(tokenService.Object, userManager.Object,
-                GetMockSignInManager().Object, mapper.Object);
+                GetMockSignInManager().Object, unitOfWork.Object);
 
             //Act
             var action = await service.AddUser(registerDto);

@@ -14,29 +14,19 @@
         </div>
         <div class="col-12">
           <div class="row text-center issues-list mb-4">
-            <div
-              class="col-md-2 col-12 issues-list__item issues-list__item--heading"
-            >
+            <div class="col-md-2 col-12 issues-list__item">
               ID
             </div>
-            <div
-              class="col-md-3 col-12 issues-list__item issues-list__item--heading"
-            >
+            <div class="col-md-3 col-12 issues-list__item">
               Title
             </div>
-            <div
-              class="col-md-2 col-12 issues-list__item issues-list__item--heading"
-            >
+            <div class="col-md-2 col-12 issues-list__item">
               Departament
             </div>
-            <div
-              class="col-md-3 col-12 issues-list__item issues-list__item--heading"
-            >
+            <div class="col-md-3 col-12 issues-list__item">
               Declarant
             </div>
-            <div
-              class="col-md-2 col-12 issues-list__item issues-list__item--heading"
-            >
+            <div class="col-md-2 col-12 issues-list__item">
               Status
             </div>
           </div>
@@ -71,6 +61,16 @@
               </div>
               <div class="col-md-2 col-12 issues-list__item">
                 {{ issue.status }}
+              </div>
+              <div
+                class="col-12 issues-list__item"
+                *ngIf="issue.assignedSupport.length > 0"
+              >
+                Assigned:&nbsp;<span
+                  *ngFor="let issueSupport of issue.assignedSupport"
+                  class="border"
+                  >&nbsp;{{ issueSupport }}&nbsp;</span
+                >
               </div>
             </div>
           </div>

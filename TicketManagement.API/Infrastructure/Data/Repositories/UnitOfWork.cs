@@ -1,4 +1,5 @@
-﻿using System;
+﻿using AutoMapper;
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
@@ -10,11 +11,18 @@ namespace TicketManagement.API.Infrastructure.Data.Repositories
     public class UnitOfWork : IUnitOfWork
     {
         private readonly DataContext dataContext;
+        private readonly IMapper mapper;
         private Dictionary<Type, object> repositories;
 
-        public UnitOfWork(DataContext dataContext)
+        public UnitOfWork(DataContext dataContext, IMapper mapper)
         {
             this.dataContext = dataContext;
+            this.mapper = mapper;
+        }
+
+        public IMapper Mapper()
+        {
+            return mapper;
         }
 
         public IRepository<T> Repository<T>() where T : class

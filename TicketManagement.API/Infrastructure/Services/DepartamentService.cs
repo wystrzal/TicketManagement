@@ -13,17 +13,15 @@ namespace TicketManagement.API.Infrastructure.Services
     public class DepartamentService : IDepartamentService
     {
         private readonly IUnitOfWork unitOfWork;
-        private readonly IMapper mapper;
 
-        public DepartamentService(IUnitOfWork unitOfWork, IMapper mapper)
+        public DepartamentService(IUnitOfWork unitOfWork)
         {
             this.unitOfWork = unitOfWork;
-            this.mapper = mapper;
         }
 
         public async Task<bool> AddDepartament(CreateDepartamentDto createDepartament)
         {
-            var departamentToCreate = mapper.Map<Departament>(createDepartament);
+            var departamentToCreate = unitOfWork.Mapper().Map<Departament>(createDepartament);
 
             unitOfWork.Repository<Departament>().Add(departamentToCreate);
 
@@ -34,7 +32,7 @@ namespace TicketManagement.API.Infrastructure.Services
         {
             var departaments = await unitOfWork.Repository<Departament>().GetAll();
 
-            return mapper.Map<List<GetDepartamentDto>>(departaments);
+            return unitOfWork.Mapper().Map<List<GetDepartamentDto>>(departaments);
         }
     }
 }

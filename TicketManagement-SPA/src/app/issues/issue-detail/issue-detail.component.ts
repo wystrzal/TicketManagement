@@ -2,10 +2,12 @@ import { Component, OnInit } from "@angular/core";
 import { IssueService } from "../issue.service";
 import { ErrorService } from "src/app/core/helpers/error.service";
 import { IssueModel } from "src/app/models/issue.model";
-import { ActivatedRoute } from "@angular/router";
+import { ActivatedRoute, Router } from "@angular/router";
 import { Status } from "src/app/models/enums/status.enum";
 import { IssueSupportModel } from "src/app/models/issueSupport.model";
 import { AuthService } from "src/app/core/auth.service";
+import { Priority } from "src/app/models/enums/priority.enum";
+import { Location } from "@angular/common";
 
 @Component({
   selector: "app-issue-detail",
@@ -23,7 +25,8 @@ export class IssueDetailComponent implements OnInit {
     private issueService: IssueService,
     private authService: AuthService,
     private errorSerivce: ErrorService,
-    private route: ActivatedRoute
+    private route: ActivatedRoute,
+    private location: Location
   ) {}
 
   ngOnInit() {
@@ -52,6 +55,28 @@ export class IssueDetailComponent implements OnInit {
     this.issueService.changeIssueStatus(this.issue.id, status).subscribe(
       () => {
         this.issue.status = Status[status];
+      },
+      (error) => {
+        this.errorSerivce.newError(error);
+      }
+    );
+  }
+
+  changeIssuePriority(priority: Priority) {
+    this.issueService.changeIssuePriority(this.issue.id, priority).subscribe(
+      () => {
+        this.issue.priority = Priority[priority];
+      },
+      (error) => {
+        this.errorSerivce.newError(error);
+      }
+    );
+  }
+
+  deleteIssue(issueId: number) {
+    this.issueService.deleteIssue(issueId).subscribe(
+      () => {
+        this.location.back();
       },
       (error) => {
         this.errorSerivce.newError(error);

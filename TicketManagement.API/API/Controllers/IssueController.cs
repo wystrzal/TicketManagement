@@ -44,6 +44,18 @@ namespace TicketManagement.API.Controllers
             return BadRequest("Model state is not valid.");
         }
 
+        //TEST
+        [HttpDelete("{issueId}")]
+        public async Task<IActionResult> DeleteIssue(int issueId)
+        {
+            if (await issueService.DeleteIssue(issueId))
+            {
+                return Ok();
+            }
+
+            return BadRequest("Something goes wrong.");
+        }
+
         [HttpPost("{id}/status/{status}")]
         public async Task<IActionResult> ChangeIssueStatus(int id, Status status)
         {
@@ -97,7 +109,6 @@ namespace TicketManagement.API.Controllers
             return Ok(await issueService.GetIssueSupport(id));
         }
 
-        //TEST
         [HttpPost("{issueId}/assign/{supportId}")]
         public async Task<IActionResult> AssignToIssue(int issueId, string supportId)
         {

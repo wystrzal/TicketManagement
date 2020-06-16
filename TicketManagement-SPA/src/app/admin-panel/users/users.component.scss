@@ -1,0 +1,21 @@
+@import "../../variables";
+
+.users {
+  &-list {
+    border: 2px solid $blue-sapphire;
+
+    &__item {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      border: 1px solid #dee2e6;
+
+      &--delete {
+        background-color: #ff0a2b;
+        font-weight: 700;
+        font-size: 20px;
+        color: $ghost-white;
+      }
+    }
+  }
+}

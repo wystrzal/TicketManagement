@@ -1,10 +1,4 @@
-import {
-  Component,
-  OnInit,
-  Input,
-  OnChanges,
-  SimpleChanges,
-} from "@angular/core";
+import { Component, OnInit, Input, OnChanges } from "@angular/core";
 import { IssueModel } from "src/app/models/issue.model";
 import { AuthService } from "src/app/core/auth.service";
 import { IssueMessageService } from "./issue-message.service";
@@ -22,7 +16,9 @@ export class IssueMessageComponent implements OnInit, OnChanges {
   @Input() issue: IssueModel;
   currentUser: string;
   messageModel: any = {};
-  issueMessages: IssueMessageModel[] = [];
+  issueUserMessages: IssueMessageModel[] = [];
+  issueSupportMessages: IssueMessageModel[] = [];
+  supportMessages = false;
 
   constructor(
     private authService: AuthService,
@@ -32,20 +28,27 @@ export class IssueMessageComponent implements OnInit, OnChanges {
   ) {}
 
   ngOnChanges() {
-    this.getIssueMessages();
+    setTimeout(() => {
+      this.getIssueMessages();
+    }, 100);
   }
 
   ngOnInit() {
     this.currentUser = this.authService.decodedToken.nameid;
   }
 
-  sendMessage(form: any) {
+  sendMessage(form: any, isSupportMessage: boolean) {
     this.messageModel.issueId = this.issue.id;
     this.messageModel.senderId = this.currentUser;
+    this.messageModel.isSupportMessage = isSupportMessage;
 
     this.issueMessageService.addNewMessage(this.messageModel).subscribe(
       (data: IssueMessageModel) => {
-        this.issueMessages.push(data);
+        if (this.supportMessages) {
+          this.issueSupportMessages.push(data);
+        } else {
+          this.issueUserMessages.push(data);
+        }
 
         if (this.currentUser != this.issue.declarantId) {
           this.issueService
@@ -74,9 +77,18 @@ export class IssueMessageComponent implements OnInit, OnChanges {
   }
 
   getIssueMessages() {
-    this.issueMessageService.getIssueMessages(this.issue.id).subscribe(
+    this.issueMessageService.getIssueMessages(this.issue.id, false).subscribe(
       (data) => {
-        this.issueMessages = data;
+        this.issueUserMessages = data;
+      },
+      (error) => {
+        this.errorService.newError(error);
+      }
+    );
+
+    this.issueMessageService.getIssueMessages(this.issue.id, true).subscribe(
+      (data) => {
+        this.issueSupportMessages = data;
       },
       (error) => {
         this.errorService.newError(error);

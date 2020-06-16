@@ -1,4 +1,5 @@
 ﻿using AutoMapper;
+using Microsoft.AspNetCore.Identity;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -20,6 +21,9 @@ namespace TicketManagement.API.Dtos
 
             CreateMap<RegisterDto, User>();
 
+            CreateMap<User, GetUserDto>()
+                .ForMember(dest => dest.DepartamentName, opt =>
+                opt.MapFrom(src => src.Departament.Name));
 
             //IssueDtos
 
@@ -29,7 +33,9 @@ namespace TicketManagement.API.Dtos
                 .ForMember(x => x.Declarant, opt =>
                 opt.MapFrom(src => src.Declarant.Firstname + " " + src.Declarant.Lastname))
                 .ForMember(x => x.Departament, opt =>
-                opt.MapFrom(src => src.Declarant.Departament.Name));
+                opt.MapFrom(src => src.Declarant.Departament.Name))
+                .ForMember(x => x.AssignedSupport, opt =>
+                opt.MapFrom(src => src.SupportIssues.Select(x => x.User.Firstname + " " + x.User.Lastname)));
 
             CreateMap<Issue, GetIssueDto>()
                 .ForMember(x => x.Declarant, opt =>

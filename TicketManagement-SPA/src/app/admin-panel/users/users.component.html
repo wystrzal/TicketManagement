@@ -1,0 +1,39 @@
+<div class="container">
+  <div class="col-12 my-4">
+    <div class="row text-center users-list mb-4">
+      <div class="col-md-3 col-12 users-list__item">
+        First name
+      </div>
+      <div class="col-md-3 col-12 users-list__item">
+        Last name
+      </div>
+      <div class="col-md-3 col-12 users-list__item">
+        Departament
+      </div>
+      <div class="col-md-3 col-12 users-list__item">
+        Delete
+      </div>
+    </div>
+  </div>
+
+  <div class="col-12 mt-2" *ngFor="let user of users; let i = index">
+    <div class="row text-center users-list mb-4">
+      <div class="col-md-3 col-12 users-list__item">
+        {{ user.firstname }}
+      </div>
+      <div class="col-md-3 col-12 users-list__item">
+        {{ user.lastname }}
+      </div>
+      <div class="col-md-3 col-12 users-list__item">
+        {{ user.departamentName }}
+      </div>
+      <div
+        class="col-md-3 col-12 users-list__item users-list__item--delete"
+        style="cursor: pointer;"
+        (click)="deleteUser(user.id, i)"
+      >
+        <i class="fa fa-trash" aria-hidden="true"></i>
+      </div>
+    </div>
+  </div>
+</div>

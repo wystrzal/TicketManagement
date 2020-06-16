@@ -27,7 +27,9 @@ namespace TicketManagement.API.Infrastructure.Data
 
                 issue.HasOne(x => x.Declarant)
                 .WithMany(x => x.DeclarantedIssues)
-                .HasForeignKey(x => x.DeclarantId);
+                .HasForeignKey(x => x.DeclarantId)
+                .OnDelete(DeleteBehavior.Cascade);
+
             });
 
             builder.Entity<SupportIssues>(suppIss =>
@@ -36,11 +38,13 @@ namespace TicketManagement.API.Infrastructure.Data
 
                 suppIss.HasOne(x => x.User)
                 .WithMany(x => x.SupportIssues)
-                .HasForeignKey(x => x.SupportId);
+                .HasForeignKey(x => x.SupportId)
+                .OnDelete(DeleteBehavior.NoAction);
 
                 suppIss.HasOne(x => x.Issue)
                 .WithMany(x => x.SupportIssues)
-                .HasForeignKey(x => x.IssueId);            
+                .HasForeignKey(x => x.IssueId)
+                .OnDelete(DeleteBehavior.Cascade);
             });
 
             builder.Entity<User>(user =>

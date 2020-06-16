@@ -13,5 +13,6 @@ namespace TicketManagement.API.Core.Models
         public Issue Issue { get; set; }
         public string SenderId { get; set; }
         public User Sender { get; set; }
+        public bool IsSupportMessage { get; set; }
     }
 }

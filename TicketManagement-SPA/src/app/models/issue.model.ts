@@ -7,4 +7,5 @@ export interface IssueModel {
   declarantId: string;
   departament: string;
   description: string;
+  assignedSupport: string[];
 }

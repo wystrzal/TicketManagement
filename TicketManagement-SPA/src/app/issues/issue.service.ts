@@ -79,20 +79,24 @@ export class IssueService {
       .get<PaginatedItemsModel>(this.baseUrl, { params })
       .pipe(
         map((paginatedItems: PaginatedItemsModel) => {
-          paginatedItems.data.forEach((element: IssueModel) => {
-            element.status = Status[element.status];
-            element.priority = Priority[element.priority];
+          paginatedItems.data.forEach((issue: IssueModel) => {
+            issue.status = Status[issue.status];
+            issue.priority = Priority[issue.priority];
           });
-
           return paginatedItems;
         })
       );
+  }
+
+  deleteIssue(issueId: number) {
+    return this.http.delete(this.baseUrl + issueId);
   }
 
   getIssue(id: number): Observable<IssueModel> {
     return this.http.get<IssueModel>(this.baseUrl + id).pipe(
       map((issue: IssueModel) => {
         issue.status = Status[issue.status];
+        issue.priority = Priority[issue.priority];
         return issue;
       })
     );
@@ -104,6 +108,10 @@ export class IssueService {
 
   changeIssueStatus(id: number, status: Status) {
     return this.http.post(this.baseUrl + id + "/status/" + status, {});
+  }
+
+  changeIssuePriority(id: number, priority: Priority) {
+    return this.http.post(this.baseUrl + id + "/priority/" + priority, {});
   }
 
   addNewIssue(issueModel: any) {

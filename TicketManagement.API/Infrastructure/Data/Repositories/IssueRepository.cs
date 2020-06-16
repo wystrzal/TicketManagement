@@ -32,7 +32,8 @@ namespace TicketManagement.API.Infrastructure.Data.Repositories
         public async Task<List<Issue>> GetIssues(Func<Issue, bool> specification,
             int pageIndex, int pageSize)
         {
-            List<Issue> issues = dataContext.Issues.Include(x => x.SupportIssues).Include(x => x.Declarant).ThenInclude(x => x.Departament)
+            List<Issue> issues = dataContext.Issues.Include(x => x.SupportIssues).ThenInclude(x => x.User)
+                .Include(x => x.Declarant).ThenInclude(x => x.Departament)
                 .Where(specification).Skip(pageSize * (pageIndex - 1)).Take(pageSize).ToList();
 
             return await Task.FromResult(issues);

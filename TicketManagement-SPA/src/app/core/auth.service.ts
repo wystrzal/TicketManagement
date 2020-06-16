@@ -4,6 +4,8 @@ import { environment } from "src/environments/environment";
 import { map } from "rxjs/operators";
 import { JwtHelperService } from "@auth0/angular-jwt";
 import { Router } from "@angular/router";
+import { UserModel } from "../models/user.model";
+import { Observable } from "rxjs";
 
 @Injectable({
   providedIn: "root",
@@ -51,5 +53,13 @@ export class AuthService {
 
   createUser(userModel: any) {
     return this.http.post(this.baseUrl + "register", userModel);
+  }
+
+  getUsers(): Observable<UserModel[]> {
+    return this.http.get<UserModel[]>(this.baseUrl);
+  }
+
+  deleteUser(userId: string) {
+    return this.http.delete(this.baseUrl + userId, {});
   }
 }

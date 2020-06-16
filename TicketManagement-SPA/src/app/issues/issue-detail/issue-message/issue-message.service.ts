@@ -16,9 +16,12 @@ export class IssueMessageService {
     return this.http.post(this.baseUrl, messageModel);
   }
 
-  getIssueMessages(issueId: number): Observable<IssueMessageModel[]> {
+  getIssueMessages(
+    issueId: number,
+    supportMessages: boolean
+  ): Observable<IssueMessageModel[]> {
     return this.http.get<IssueMessageModel[]>(
-      this.baseUrl + "issue/" + issueId
+      this.baseUrl + "issue/" + issueId + "/support/" + supportMessages
     );
   }
 }

@@ -18,6 +18,7 @@ namespace TicketManagement.API.Infrastructure.Data
                 {
                     new Departament {Name = "Warehouse"},
                     new Departament {Name = "Production"},
+                    new Departament {Name = "Support"}
                 };
 
                 dataContext.Departaments.AddRange(departaments);
@@ -26,7 +27,7 @@ namespace TicketManagement.API.Infrastructure.Data
 
                 List<User> user = new List<User>()
                 {
-                    new User { UserName = "admin", Departament = departaments[0], Firstname = "Patryk", Lastname = "Kowal"},
+                    new User { UserName = "admin", Departament = departaments[2], Firstname = "Patryk", Lastname = "Kowal"},
 
                     new User { UserName = "user", Departament = departaments[1], Firstname = "Patryk", Lastname = "Nowak"}
                 };

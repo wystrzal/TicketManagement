@@ -16,5 +16,8 @@ namespace TicketManagement.API.Dtos.MessageDtos
 
         [Required]
         public string SenderId { get; set; }
+
+        [Required]
+        public bool IsSupportMessage { get; set; }
     }
 }

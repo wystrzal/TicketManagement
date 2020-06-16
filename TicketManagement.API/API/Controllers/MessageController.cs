@@ -54,10 +54,10 @@ namespace TicketManagement.API.Controllers
             return BadRequest("Model state is valid");
         }
 
-        [HttpGet("issue/{issueId}")]
-        public async Task<IActionResult> GetIssueMessages(int issueId)
+        [HttpGet("issue/{issueId}/support/{supportMessages}")]
+        public async Task<IActionResult> GetIssueMessages(int issueId, bool supportMessages)
         {
-            return Ok(await messageService.GetIssueMessages(issueId));
+            return Ok(await messageService.GetIssueMessages(issueId, supportMessages));
         }
     }
 }

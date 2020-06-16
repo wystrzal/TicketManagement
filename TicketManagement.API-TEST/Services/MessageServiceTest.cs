@@ -17,11 +17,9 @@ namespace TicketManagement.API_TEST.Services
     public class MessageServiceTest
     {
         private readonly Mock<IUnitOfWork> unitOfWork;
-        private readonly Mock<IMapper> mapper;
         public MessageServiceTest()
         {
             unitOfWork = new Mock<IUnitOfWork>();
-            mapper = new Mock<IMapper>();
         }
 
         [Fact]
@@ -31,13 +29,13 @@ namespace TicketManagement.API_TEST.Services
             var message = new Message { Id = 1, Content = "test" };
             var newMessage = new NewMessageDto { Content = "test" };
 
-            mapper.Setup(x => x.Map<Message>(newMessage)).Returns(message);
+            unitOfWork.Setup(x => x.Mapper().Map<Message>(newMessage)).Returns(message);
 
             unitOfWork.Setup(x => x.Repository<Message>().Add(message)).Verifiable();
 
             unitOfWork.Setup(x => x.SaveAllAsync()).Returns(Task.FromResult(false));
 
-            var service = new MessageService(unitOfWork.Object, mapper.Object);
+            var service = new MessageService(unitOfWork.Object);
 
             //Act
             var action = await service.AddNewMessage(newMessage);
@@ -54,7 +52,7 @@ namespace TicketManagement.API_TEST.Services
             var newMessage = new NewMessageDto { Content = "test" };
             var issueMessage = new GetIssueMessageDto { Content = "test" };
 
-            mapper.Setup(x => x.Map<Message>(newMessage)).Returns(message);
+            unitOfWork.Setup(x => x.Mapper().Map<Message>(newMessage)).Returns(message);
 
             unitOfWork.Setup(x => x.Repository<Message>().Add(message)).Verifiable();
 
@@ -64,9 +62,9 @@ namespace TicketManagement.API_TEST.Services
                 .GetByConditionWithIncludeFirst(It.IsAny<Func<Message, bool>>(), y => y.Sender))
                 .Returns(Task.FromResult(message));
 
-            mapper.Setup(x => x.Map<GetIssueMessageDto>(message)).Returns(issueMessage);
+            unitOfWork.Setup(x => x.Mapper().Map<GetIssueMessageDto>(message)).Returns(issueMessage);
 
-            var service = new MessageService(unitOfWork.Object, mapper.Object);
+            var service = new MessageService(unitOfWork.Object);
 
             //Act
             var action = await service.AddNewMessage(newMessage);
@@ -98,12 +96,12 @@ namespace TicketManagement.API_TEST.Services
                 .GetByConditionWithIncludeToList(It.IsAny<Func<Message, bool>>(), It.IsAny<Expression<Func<Message,User>>>()))
                 .Returns(Task.FromResult(messages));
 
-            mapper.Setup(x => x.Map<List<GetIssueMessageDto>>(messages)).Returns(getIssueMessages);
+            unitOfWork.Setup(x => x.Mapper().Map<List<GetIssueMessageDto>>(messages)).Returns(getIssueMessages);
 
-            var service = new MessageService(unitOfWork.Object, mapper.Object);
+            var service = new MessageService(unitOfWork.Object);
 
             //Act
-            var action = await service.GetIssueMessages(issueId);
+            var action = await service.GetIssueMessages(issueId, true);
 
             //Assert
             Assert.Equal(2, action.Count);
@@ -117,11 +115,11 @@ namespace TicketManagement.API_TEST.Services
             var message = new Message { Id = 1, Content = "test" };
             var issueMessage = new GetIssueMessageDto { Id = 1, Content = "test" };
 
-            var service = new MessageService(unitOfWork.Object, mapper.Object);
+            var service = new MessageService(unitOfWork.Object);
 
             unitOfWork.Setup(x => x.Repository<Message>().GetById(messageId)).Returns(Task.FromResult(message));
 
-            mapper.Setup(x => x.Map<GetIssueMessageDto>(message)).Returns(issueMessage);
+            unitOfWork.Setup(x => x.Mapper().Map<GetIssueMessageDto>(message)).Returns(issueMessage);
 
             //Act
             var action = await service.GetIssueMessage(messageId);

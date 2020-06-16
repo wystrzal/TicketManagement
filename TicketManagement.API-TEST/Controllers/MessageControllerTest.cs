@@ -82,12 +82,12 @@ namespace TicketManagement.API_TEST.Controllers
                 new GetIssueMessageDto {Content = "test"}
             };
 
-            messageService.Setup(x => x.GetIssueMessages(It.IsAny<int>())).Returns(Task.FromResult(issueMessages));
+            messageService.Setup(x => x.GetIssueMessages(It.IsAny<int>(), true)).Returns(Task.FromResult(issueMessages));
 
             var controller = new MessageController(messageService.Object);
 
             //Act
-            var action = await controller.GetIssueMessages(1) as OkObjectResult;
+            var action = await controller.GetIssueMessages(1, true) as OkObjectResult;
             var item = action.Value as List<GetIssueMessageDto>;
 
             //Assert

@@ -37,9 +37,10 @@
               password.touched
           }"
           required
+          minlength="6"
           #password="ngModel"
           type="password"
-          placeholder="Password"
+          placeholder="Password (6 signs, 1 digit, 1 uppercase letter)"
         />
       </div>
       <div class="form-group">
@@ -52,6 +53,7 @@
               repeatPassword.touched &&
               password.touched
           }"
+          minlength="6"
           required
           class="form-control"
           type="password"

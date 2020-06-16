@@ -26,6 +26,9 @@
             }"
           >
             #{{ issue?.id }}
+            <span *ngIf="issue?.priority != 'Lack'">
+              - {{ issue?.priority }}</span
+            >
           </div>
         </div>
 
@@ -42,6 +45,12 @@
         <div class="col-12 my-4 border-bottom"></div>
       </div>
 
+      <div class="mb-4">
+        <button (click)="deleteIssue(issue.id)" class="btn btn-danger">
+          <i class="fa fa-trash" aria-hidden="true"></i>
+        </button>
+      </div>
+
       <div *hasRole="'admin'" class="col-12">
         <select
           class="form-control"
@@ -51,6 +60,19 @@
           <option value="2">Open</option>
           <option value="3">Progress</option>
           <option value="5">Close</option>
+        </select>
+      </div>
+
+      <div *hasRole="'admin'" class="col-12 mt-2">
+        <select
+          class="form-control"
+          (change)="changeIssuePriority($event.target.value)"
+        >
+          <option disabled selected>Change priority</option>
+          <option value="1">Low</option>
+          <option value="2">Medium</option>
+          <option value="3">High</option>
+          <option value="4">Very High</option>
         </select>
       </div>
 

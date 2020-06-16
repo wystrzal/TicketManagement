@@ -1,5 +1,6 @@
 ﻿using AutoMapper;
 using Microsoft.AspNetCore.Identity;
+using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -17,15 +18,15 @@ namespace TicketManagement.API.Infrastructure.Services
         private readonly ITokenService tokenService;
         private readonly UserManager<User> userManager;
         private readonly SignInManager<User> signInManager;
-        private readonly IMapper mapper;
+        private readonly IUnitOfWork unitOfWork;
 
         public AccountService(ITokenService tokenService, UserManager<User> userManager,
-            SignInManager<User> signInManager, IMapper mapper)
+            SignInManager<User> signInManager, IUnitOfWork unitOfWork)
         {
             this.tokenService = tokenService;
             this.userManager = userManager;
             this.signInManager = signInManager;
-            this.mapper = mapper;
+            this.unitOfWork = unitOfWork;
         }
 
         public async Task<string> TryLogin(LoginDto loginDto)
@@ -49,7 +50,7 @@ namespace TicketManagement.API.Infrastructure.Services
 
         public async Task<bool> AddUser(RegisterDto registerDto)
         {
-            var userToCreate = mapper.Map<User>(registerDto);
+            var userToCreate = unitOfWork.Mapper().Map<User>(registerDto);
 
             var result = await userManager.CreateAsync(userToCreate, registerDto.Password);
 
@@ -64,6 +65,53 @@ namespace TicketManagement.API.Infrastructure.Services
                     await userManager.AddClaimAsync(userToCreate, new Claim(ClaimTypes.Role, "user"));
                 }
 
+                return true;
+            }
+
+            return false;
+        }
+
+        //TEST
+        public async Task<List<GetUserDto>> GetUsers()
+        {
+            var users = await userManager.Users.Include(x => x.Departament).ToListAsync();
+
+            return unitOfWork.Mapper().Map<List<GetUserDto>>(users);
+        }
+
+        //TEST
+        public async Task<bool> DeleteUser(string userId)
+        {
+            var user = await userManager.Users.Include(x => x.SupportIssues).Include(x => x.Messages)
+                .Where(x => x.Id == userId).FirstOrDefaultAsync();
+
+            if (user.SupportIssues.Count() > 0)
+            {
+                var supportedIssues = await unitOfWork.Repository<SupportIssues>()
+                     .GetByConditionToList(x => x.SupportId == user.Id);
+
+                Parallel.ForEach(supportedIssues, supportIssue =>
+                {
+                    unitOfWork.Repository<SupportIssues>().Delete(supportIssue);
+                });            
+            }
+
+            if (user.Messages.Count() > 0)
+            {
+                var messages = await unitOfWork.Repository<Message>()
+                    .GetByConditionToList(x => x.SenderId == user.Id);
+
+                Parallel.ForEach(messages, message =>
+                {
+                    unitOfWork.Repository<Message>().Delete(message);
+                });
+            }
+            await unitOfWork.SaveAllAsync();
+
+            var deleteUser = await userManager.DeleteAsync(user);
+
+            if (deleteUser.Succeeded)
+            {
                 return true;
             }
 
