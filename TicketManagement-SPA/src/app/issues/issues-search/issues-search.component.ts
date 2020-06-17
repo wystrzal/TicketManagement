@@ -63,6 +63,7 @@ export class IssuesSearchComponent implements OnInit, OnChanges {
   search() {
     this.searchModel.pageIndex = 1;
     this.startSearch.emit(this.searchModel);
+    window.scroll(0, 0);
   }
 
   reset() {

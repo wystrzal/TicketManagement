@@ -72,9 +72,19 @@ namespace TicketManagement.API.Infrastructure.Services
         }
 
         //TEST
-        public async Task<List<GetUserDto>> GetUsers()
+        public async Task<List<GetUserDto>> GetUsers(string departament)
         {
-            var users = await userManager.Users.Include(x => x.Departament).ToListAsync();
+            List<User> users = null;
+
+            if (departament == "all")
+            {
+                users = await userManager.Users.Include(x => x.Departament).ToListAsync();
+            }
+            else
+            {
+                users = await userManager.Users.Include(x => x.Departament)
+                    .Where(x => x.Departament.Name == departament).ToListAsync();
+            }
 
             return unitOfWork.Mapper().Map<List<GetUserDto>>(users);
         }

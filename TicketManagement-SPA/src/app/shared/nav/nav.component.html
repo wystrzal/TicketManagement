@@ -1,5 +1,12 @@
 <div class="nav">
-  <div>
+  <a
+    type="button"
+    class="nav__btn nav__btn--mobile"
+    (click)="menuDisplayed = true"
+    routerLinkActive="active"
+    >Menu</a
+  >
+  <div class="nav-main">
     <div class="d-inline" *hasRole="'admin'">
       <a
         type="button"
@@ -49,5 +56,69 @@
   </div>
   <div class="d-inline">
     <a type="button" class="nav__btn" (click)="logout()">Logout</a>
+  </div>
+</div>
+
+<div class="nav-mobile text-center" *ngIf="menuDisplayed">
+  <div>
+    <a
+      type="button"
+      class="nav__btn d-inline pt-3"
+      (click)="menuDisplayed = false"
+      routerLinkActive="active"
+      >Back</a
+    >
+    <div *hasRole="'admin'">
+      <a
+        (click)="menuDisplayed = false"
+        type="button"
+        class="nav__btn d-block pt-2"
+        [routerLink]="['/admin/issues']"
+        routerLinkActive="active"
+        >Issues</a
+      >
+      <a
+        (click)="menuDisplayed = false"
+        type="button"
+        class="nav__btn d-block pt-2"
+        [routerLink]="['/admin/assigned-issues']"
+        routerLinkActive="active"
+        >Assigned Issues</a
+      >
+      <a
+        (click)="menuDisplayed = false"
+        type="button"
+        class="nav__btn d-block pt-2"
+        [routerLink]="['/admin/add-user']"
+        routerLinkActive="active"
+        >Add User</a
+      >
+      <a
+        (click)="menuDisplayed = false"
+        type="button"
+        class="nav__btn d-block pt-2"
+        [routerLink]="['/admin/users']"
+        routerLinkActive="active"
+        >Users</a
+      >
+    </div>
+    <div *hasRole="'user'">
+      <a
+        (click)="menuDisplayed = false"
+        type="button"
+        class="nav__btn d-block pt-2"
+        [routerLink]="['/user/issues']"
+        routerLinkActive="active"
+        >Issues</a
+      >
+      <a
+        (click)="menuDisplayed = false"
+        type="button"
+        class="nav__btn d-block pt-2"
+        [routerLink]="['/user/new-issue']"
+        routerLinkActive="active"
+        >New Issue</a
+      >
+    </div>
   </div>
 </div>

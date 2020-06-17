@@ -11,7 +11,7 @@ namespace TicketManagement.API.Core.Interfaces
     {
         Task<string> TryLogin(LoginDto loginDto);
         Task<bool> AddUser(RegisterDto registerDto);
-        Task<List<GetUserDto>> GetUsers();
+        Task<List<GetUserDto>> GetUsers(string departament);
         Task<bool> DeleteUser(string userId);
     }
 }

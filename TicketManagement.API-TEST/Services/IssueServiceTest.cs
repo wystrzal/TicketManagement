@@ -23,11 +23,13 @@ namespace TicketManagement.API_TEST.Services
     {
         private readonly Mock<IUnitOfWork> unitOfWork;
         private readonly Mock<ISearchSpecificationBox> searchIssuesBox;
+        private readonly Mock<IIssueRepository> issueRepository;
 
         public IssueServiceTest()
         {
             unitOfWork = new Mock<IUnitOfWork>();
             searchIssuesBox = new Mock<ISearchSpecificationBox>();
+            issueRepository = new Mock<IIssueRepository>();
         }
 
         [Fact]
@@ -43,7 +45,7 @@ namespace TicketManagement.API_TEST.Services
 
             unitOfWork.Setup(x => x.SaveAllAsync()).Returns(Task.FromResult(false));
 
-            var service = new IssueService(unitOfWork.Object, searchIssuesBox.Object);
+            var service = new IssueService(unitOfWork.Object, searchIssuesBox.Object, issueRepository.Object);
 
             //Act
             var action = await service.AddNewIssue(newIssueDto);
@@ -66,7 +68,7 @@ namespace TicketManagement.API_TEST.Services
 
             unitOfWork.Setup(x => x.SaveAllAsync()).Returns(Task.FromResult(true));
 
-            var service = new IssueService(unitOfWork.Object, searchIssuesBox.Object);
+            var service = new IssueService(unitOfWork.Object, searchIssuesBox.Object, issueRepository.Object);
 
             //Act
             var action = await service.AddNewIssue(newIssueDto);
@@ -87,7 +89,7 @@ namespace TicketManagement.API_TEST.Services
 
             unitOfWork.Setup(x => x.SaveAllAsync()).Returns(Task.FromResult(false));
 
-            var service = new IssueService(unitOfWork.Object, searchIssuesBox.Object);
+            var service = new IssueService(unitOfWork.Object, searchIssuesBox.Object, issueRepository.Object);
 
             //Act
             var action = await service.ChangeIssuePriority(id, Priority.High);
@@ -107,7 +109,7 @@ namespace TicketManagement.API_TEST.Services
 
             unitOfWork.Setup(x => x.SaveAllAsync()).Returns(Task.FromResult(true));
 
-            var service = new IssueService(unitOfWork.Object, searchIssuesBox.Object);
+            var service = new IssueService(unitOfWork.Object, searchIssuesBox.Object, issueRepository.Object);
 
             //Act
             var action = await service.ChangeIssuePriority(id, Priority.High);
@@ -128,7 +130,7 @@ namespace TicketManagement.API_TEST.Services
 
             unitOfWork.Setup(x => x.SaveAllAsync()).Returns(Task.FromResult(false));
 
-            var service = new IssueService(unitOfWork.Object, searchIssuesBox.Object);
+            var service = new IssueService(unitOfWork.Object, searchIssuesBox.Object, issueRepository.Object);
 
             //Act
             var action = await service.ChangeIssueStatus(id, Status.Close);
@@ -148,7 +150,7 @@ namespace TicketManagement.API_TEST.Services
 
             unitOfWork.Setup(x => x.SaveAllAsync()).Returns(Task.FromResult(true));
 
-            var service = new IssueService(unitOfWork.Object, searchIssuesBox.Object);
+            var service = new IssueService(unitOfWork.Object, searchIssuesBox.Object, issueRepository.Object);
 
             //Act
             var action = await service.ChangeIssueStatus(id, Status.Close);
@@ -170,7 +172,7 @@ namespace TicketManagement.API_TEST.Services
 
             unitOfWork.Setup(x => x.Mapper().Map<GetIssueDto>(issue)).Returns(getIssueDto);
 
-            var service = new IssueService(unitOfWork.Object, searchIssuesBox.Object);
+            var service = new IssueService(unitOfWork.Object, searchIssuesBox.Object, issueRepository.Object);
 
             //Action
             var action = await service.GetIssue(1);
@@ -189,7 +191,7 @@ namespace TicketManagement.API_TEST.Services
             var issueCount = new IssueCount { FilteredIssue = 2 };
             var filteredIssueList = new FilteredIssueListDto {Count = issueCount , Issues = GetIssueList() };
 
-            var service = new IssueService(unitOfWork.Object,  searchIssuesBox.Object);
+            var service = new IssueService(unitOfWork.Object,  searchIssuesBox.Object, issueRepository.Object);
 
             searchIssuesBox.Setup(x => x.ConcreteSearch(It.IsAny<Type>(), searchSpecification)).Verifiable();
 
@@ -217,7 +219,7 @@ namespace TicketManagement.API_TEST.Services
 
             unitOfWork.Setup(x => x.Mapper().Map<List<GetIssueDepartamentDto>>(departaments)).Returns(issueDepartaments);
 
-            var service = new IssueService(unitOfWork.Object, searchIssuesBox.Object);
+            var service = new IssueService(unitOfWork.Object, searchIssuesBox.Object, issueRepository.Object);
 
             //Act
             var action = await service.GetIssueDepartaments();
@@ -240,7 +242,7 @@ namespace TicketManagement.API_TEST.Services
 
             unitOfWork.Setup(x => x.Mapper().Map<List<GetIssueSupportDto>>(supportIssue)).Returns(issueSupportDto);
 
-            var service = new IssueService(unitOfWork.Object, searchIssuesBox.Object);
+            var service = new IssueService(unitOfWork.Object, searchIssuesBox.Object, issueRepository.Object);
 
             //Act
             var action = await service.GetIssueSupport(1);
@@ -259,7 +261,7 @@ namespace TicketManagement.API_TEST.Services
 
             unitOfWork.Setup(x => x.SaveAllAsync()).Returns(Task.FromResult(false));
 
-            var service = new IssueService(unitOfWork.Object, searchIssuesBox.Object);
+            var service = new IssueService(unitOfWork.Object, searchIssuesBox.Object, issueRepository.Object);
 
             //Act
             var action = await service.AssignToIssue(1, "1");
@@ -278,7 +280,7 @@ namespace TicketManagement.API_TEST.Services
 
             unitOfWork.Setup(x => x.SaveAllAsync()).Returns(Task.FromResult(true));
 
-            var service = new IssueService(unitOfWork.Object, searchIssuesBox.Object);
+            var service = new IssueService(unitOfWork.Object, searchIssuesBox.Object, issueRepository.Object);
 
             //Act
             var action = await service.AssignToIssue(1, "1");

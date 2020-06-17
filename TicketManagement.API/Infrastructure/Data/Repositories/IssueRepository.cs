@@ -38,5 +38,11 @@ namespace TicketManagement.API.Infrastructure.Data.Repositories
 
             return await Task.FromResult(issues);
         }
+
+        public async Task<Issue> GetIssue(int id)
+        {
+            return await dataContext.Issues.Include(x => x.Declarant).ThenInclude(x => x.Departament)
+                .Include(x => x.SupportIssues).Where(x => x.Id == id).FirstOrDefaultAsync();
+        }
     }
 }

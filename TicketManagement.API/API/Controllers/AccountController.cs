@@ -25,10 +25,10 @@ namespace TicketManagement.API.Controllers
         }
 
         //TEST
-        [HttpGet]
-        public async Task<IActionResult> GetUsers()
+        [HttpGet("{departament}")]
+        public async Task<IActionResult> GetUsers(string departament)
         {
-            return Ok(await accountService.GetUsers());
+            return Ok(await accountService.GetUsers(departament));
         }
 
         //TEST

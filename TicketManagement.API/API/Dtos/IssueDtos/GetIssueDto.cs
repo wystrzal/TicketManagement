@@ -18,5 +18,6 @@ namespace TicketManagement.API.Dtos.IssueDtos
         public string DeclarantId { get; set; }
         public string Declarant { get; set; }
         public string Departament { get; set; }
+        public List<string> AssignedSupport { get; set; }
     }
 }

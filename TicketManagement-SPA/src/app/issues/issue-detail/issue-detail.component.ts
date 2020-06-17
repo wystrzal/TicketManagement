@@ -8,6 +8,7 @@ import { IssueSupportModel } from "src/app/models/issueSupport.model";
 import { AuthService } from "src/app/core/auth.service";
 import { Priority } from "src/app/models/enums/priority.enum";
 import { Location } from "@angular/common";
+import { UserModel } from "src/app/models/user.model";
 
 @Component({
   selector: "app-issue-detail",
@@ -20,6 +21,7 @@ export class IssueDetailComponent implements OnInit {
   currentUser: string;
   issue: IssueModel;
   id: number;
+  supportToAssign: UserModel[];
 
   constructor(
     private issueService: IssueService,
@@ -37,6 +39,7 @@ export class IssueDetailComponent implements OnInit {
     this.currentUser = this.authService.decodedToken.nameid;
 
     this.getIssue(this.id);
+    this.getSupport();
   }
 
   getIssue(id: number) {
@@ -44,6 +47,17 @@ export class IssueDetailComponent implements OnInit {
       (data) => {
         this.issue = data;
         this.getIssueSupport();
+      },
+      (error) => {
+        this.errorSerivce.newError(error);
+      }
+    );
+  }
+
+  getSupport() {
+    this.authService.getUsers("support").subscribe(
+      (data) => {
+        this.supportToAssign = data;
       },
       (error) => {
         this.errorSerivce.newError(error);
@@ -84,11 +98,21 @@ export class IssueDetailComponent implements OnInit {
     );
   }
 
-  assignToIssue(status: string) {
-    this.issueService.assignToIssue(this.issue.id, this.currentUser).subscribe(
+  assignToIssue(status: string, userId: string) {
+    debugger;
+    if (userId == null) {
+      userId = this.currentUser;
+    } else {
+      if (this.issue.assignedSupport.indexOf(userId) !== -1) {
+        return;
+      }
+    }
+
+    this.issueService.assignToIssue(this.issue.id, userId).subscribe(
       () => {
         this.showAssign = false;
         this.issueSupport.push({ supportName: "Assigned", supportId: "0" });
+        this.issue.assignedSupport.push(userId);
 
         if (Status[status] == 1) {
           this.changeIssueStatus(Status.Open);

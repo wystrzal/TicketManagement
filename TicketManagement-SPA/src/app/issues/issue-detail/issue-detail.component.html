@@ -51,7 +51,21 @@
         </button>
       </div>
 
-      <div *hasRole="'admin'" class="col-12">
+      <div *hasRole="'boss'" class="col-12">
+        <select
+          class="form-control"
+          (change)="assignToIssue(issue.status, $event.target.value)"
+        >
+          <option disabled selected>Assign user</option>
+          <option
+            *ngFor="let support of supportToAssign"
+            value="{{ support.id }}"
+            >{{ support.firstname + " " + support.lastname }}</option
+          >
+        </select>
+      </div>
+
+      <div *hasRole="'admin'" class="col-12 mt-2">
         <select
           class="form-control"
           (change)="changeIssueStatus($event.target.value)"
@@ -89,7 +103,9 @@
             showAssign && (issue?.status == 'Open' || issue?.status == 'New')
           "
         >
-          <a (click)="assignToIssue(issue.status)" class="issue-assign mb-5"
+          <a
+            (click)="assignToIssue(issue.status, null)"
+            class="issue-assign mb-5"
             >+</a
           >
         </div>

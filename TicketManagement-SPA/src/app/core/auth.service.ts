@@ -43,7 +43,7 @@ export class AuthService {
     if (this.decodedToken) {
       const userRole = this.decodedToken.role.toString();
 
-      if (allowedRole === userRole) {
+      if (userRole.indexOf(allowedRole) !== -1) {
         return true;
       }
     }
@@ -55,8 +55,8 @@ export class AuthService {
     return this.http.post(this.baseUrl + "register", userModel);
   }
 
-  getUsers(): Observable<UserModel[]> {
-    return this.http.get<UserModel[]>(this.baseUrl);
+  getUsers(departament?: string): Observable<UserModel[]> {
+    return this.http.get<UserModel[]>(this.baseUrl + departament);
   }
 
   deleteUser(userId: string) {

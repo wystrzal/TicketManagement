@@ -11,6 +11,7 @@ namespace TicketManagement.API.Core.Interfaces
     {
         Task<List<Issue>> GetIssues(Func<Issue, bool> specification, int pageIndex, int pageSize);
         Task<int> CountIssues(Func<Issue, bool> specification);
+        Task<Issue> GetIssue(int id);
     }
 
 }

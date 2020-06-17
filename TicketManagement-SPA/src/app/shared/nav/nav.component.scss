@@ -10,12 +10,26 @@
   justify-content: space-between;
   z-index: 1000;
 
+  &-mobile {
+    position: fixed;
+    top: 0;
+    width: 100%;
+    min-height: 100vh;
+    background-color: darken($color: $blue-sapphire, $amount: 0);
+    z-index: 1000;
+    display: none;
+  }
+
   &__btn {
     color: $beige !important;
     margin: 0 20px !important;
     font-size: 22px !important;
     font-weight: 700;
     cursor: pointer;
+
+    &--mobile {
+      display: none;
+    }
 
     &:hover {
       color: lighten($color: $beige, $amount: 20) !important;
@@ -28,4 +42,21 @@
   color: lighten($color: $beige, $amount: 20) !important;
   font-weight: 700;
   text-decoration: none;
+}
+
+@media (max-width: 767px) {
+  .nav {
+    &-main {
+      display: none;
+    }
+    &-mobile {
+      display: block;
+    }
+
+    &__btn {
+      &--mobile {
+        display: inline;
+      }
+    }
+  }
 }

@@ -20,11 +20,13 @@ namespace TicketManagement.API.Infrastructure.Services
     {
         private readonly IUnitOfWork unitOfWork;
         private readonly ISearchSpecificationBox searchIssuesBox;
+        private readonly IIssueRepository issueRepository;
 
-        public IssueService(IUnitOfWork unitOfWork, ISearchSpecificationBox searchIssuesBox)
+        public IssueService(IUnitOfWork unitOfWork, ISearchSpecificationBox searchIssuesBox, IIssueRepository issueRepository)
         {
             this.unitOfWork = unitOfWork;
             this.searchIssuesBox = searchIssuesBox;
+            this.issueRepository = issueRepository;
         }
 
         public async Task<bool> AddNewIssue(NewIssueDto newIssue)
@@ -84,8 +86,7 @@ namespace TicketManagement.API.Infrastructure.Services
 
         public async Task<GetIssueDto> GetIssue(int id)
         {
-            var issue = await unitOfWork.Repository<Issue>()
-                .GetByConditionWithIncludeFirst(x => x.Id == id, y => y.Declarant.Departament);
+            var issue = await issueRepository.GetIssue(id);
 
             return unitOfWork.Mapper().Map<GetIssueDto>(issue);
         }

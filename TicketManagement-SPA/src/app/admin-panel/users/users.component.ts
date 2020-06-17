@@ -18,10 +18,11 @@ export class UsersComponent implements OnInit {
 
   ngOnInit() {
     this.getUsers();
+    console.log(this.users);
   }
 
   getUsers() {
-    this.authService.getUsers().subscribe(
+    this.authService.getUsers("all").subscribe(
       (data) => {
         this.users = data;
       },
