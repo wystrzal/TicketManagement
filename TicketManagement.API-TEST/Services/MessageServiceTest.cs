@@ -80,17 +80,9 @@ namespace TicketManagement.API_TEST.Services
             //Arrange
             int issueId = 1;
 
-            var messages = new List<Message>()
-            {
-                new Message {Id = 1, Content = "test"},
-                new Message {Id = 2, Content = "test"}
-            };
+            var messages = GetMessages();
 
-            var getIssueMessages = new List<GetIssueMessageDto>
-            {
-                new GetIssueMessageDto {Content = "test"},
-                new GetIssueMessageDto {Content = "test"}
-            };
+            var getIssueMessages = GetIssueMessagesDto();
 
             unitOfWork.Setup(x => x.Repository<Message>()
                 .GetByConditionWithIncludeToList(It.IsAny<Func<Message, bool>>(), It.IsAny<Expression<Func<Message,User>>>()))
@@ -129,5 +121,22 @@ namespace TicketManagement.API_TEST.Services
             Assert.Equal("test", action.Content);
         }
 
+        private List<Message> GetMessages()
+        {
+            return new List<Message>()
+            {
+                new Message {Id = 1, Content = "test"},
+                new Message {Id = 2, Content = "test"}
+            };
+        }
+
+        private List<GetIssueMessageDto> GetIssueMessagesDto()
+        {
+            return new List<GetIssueMessageDto>
+            {
+                new GetIssueMessageDto {Content = "test"},
+                new GetIssueMessageDto {Content = "test"}
+            };
+        }
     }
 }

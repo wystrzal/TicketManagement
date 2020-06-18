@@ -42,7 +42,6 @@ namespace TicketManagement.API.Infrastructure.Services
             return await unitOfWork.SaveAllAsync();
         }
 
-        //TEST
         public async Task<bool> DeleteIssue(int issueId)
         {
             var issue = await unitOfWork.Repository<Issue>().GetById(issueId);

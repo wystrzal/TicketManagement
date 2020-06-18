@@ -44,7 +44,6 @@ namespace TicketManagement.API.Controllers
             return BadRequest("Model state is not valid.");
         }
 
-        //TEST
         [HttpDelete("{issueId}")]
         public async Task<IActionResult> DeleteIssue(int issueId)
         {

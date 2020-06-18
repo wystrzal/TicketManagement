@@ -71,7 +71,6 @@ namespace TicketManagement.API.Infrastructure.Services
             return false;
         }
 
-        //TEST
         public async Task<List<GetUserDto>> GetUsers(string departament)
         {
             List<User> users = null;
@@ -89,7 +88,6 @@ namespace TicketManagement.API.Infrastructure.Services
             return unitOfWork.Mapper().Map<List<GetUserDto>>(users);
         }
 
-        //TEST
         public async Task<bool> DeleteUser(string userId)
         {
             var user = await userManager.Users.Include(x => x.SupportIssues).Include(x => x.Messages)

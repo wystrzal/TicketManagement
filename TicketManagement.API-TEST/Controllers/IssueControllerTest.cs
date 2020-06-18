@@ -293,6 +293,41 @@ namespace TicketManagement.API_TEST.Controllers
             Assert.Equal(200, action.StatusCode);
         }
 
+        [Fact]
+        public async Task DeleteIssueOkResponse()
+        {
+            //Arrange
+            int issueId = 1;
+
+            issueService.Setup(x => x.DeleteIssue(issueId)).Returns(Task.FromResult(true));
+
+            var controller = new IssueController(issueService.Object);
+
+            //Act
+            var action = await controller.DeleteIssue(issueId) as OkResult;
+
+            //Assert
+            Assert.Equal(200, action.StatusCode);
+        }
+
+        [Fact]
+        public async Task DeleteIssueBadRequestResponse()
+        {
+            //Arrange
+            int issueId = 1;
+
+            issueService.Setup(x => x.DeleteIssue(issueId)).Returns(Task.FromResult(false));
+
+            var controller = new IssueController(issueService.Object);
+
+            //Act
+            var action = await controller.DeleteIssue(issueId) as BadRequestObjectResult;
+
+            //Assert
+            Assert.Equal(400, action.StatusCode);
+            Assert.NotNull(action.Value);
+        }
+
         private PaginatedItemsDto<GetIssueListDto, IssueCount> GetPaginatedItems(int pageIndex, IssueCount issueCount, int pageSize)
         {
             var issueList = new List<GetIssueListDto>()

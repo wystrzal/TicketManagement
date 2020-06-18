@@ -167,8 +167,7 @@ namespace TicketManagement.API_TEST.Services
             var issue = new Issue { Id = 1, Title = "test" };
             var getIssueDto = new GetIssueDto { Id = 1, Title = "test" };
 
-            unitOfWork.Setup(x => x.Repository<Issue>().GetByConditionWithIncludeFirst(It.IsAny<Func<Issue,bool>>(),
-                y => y.Declarant.Departament)).Returns(Task.FromResult(issue));
+            issueRepository.Setup(x => x.GetIssue(issue.Id)).Returns(Task.FromResult(issue));
 
             unitOfWork.Setup(x => x.Mapper().Map<GetIssueDto>(issue)).Returns(getIssueDto);
 
@@ -287,6 +286,50 @@ namespace TicketManagement.API_TEST.Services
 
             //Assert
             Assert.True(action);
+        }
+
+        [Fact]
+        public async Task DeleteIssueSuccess()
+        {
+            //Arrange
+            var issue = GetIssue();
+
+            unitOfWork.Setup(x => x.Repository<Issue>().GetById(issue.Id)).Returns(Task.FromResult(issue));
+
+            unitOfWork.Setup(x => x.Repository<Issue>().Delete(issue)).Verifiable();
+
+            unitOfWork.Setup(x => x.SaveAllAsync()).Returns(Task.FromResult(true));
+
+            var service = new IssueService(unitOfWork.Object, searchIssuesBox.Object, issueRepository.Object);
+
+            //Act
+            var action = await service.DeleteIssue(issue.Id);
+
+            //Arrange
+            Assert.True(action);
+            unitOfWork.Verify(x => x.Repository<Issue>().Delete(issue), Times.Once);
+        }
+
+        [Fact]
+        public async Task DeleteIssueFailed()
+        {
+            //Arrange
+            var issue = GetIssue();
+
+            unitOfWork.Setup(x => x.Repository<Issue>().GetById(issue.Id)).Returns(Task.FromResult(issue));
+
+            unitOfWork.Setup(x => x.Repository<Issue>().Delete(issue)).Verifiable();
+
+            unitOfWork.Setup(x => x.SaveAllAsync()).Returns(Task.FromResult(false));
+
+            var service = new IssueService(unitOfWork.Object, searchIssuesBox.Object, issueRepository.Object);
+
+            //Act
+            var action = await service.DeleteIssue(issue.Id);
+
+            //Arrange
+            Assert.False(action);
+            unitOfWork.Verify(x => x.Repository<Issue>().Delete(issue), Times.Once);
         }
 
 

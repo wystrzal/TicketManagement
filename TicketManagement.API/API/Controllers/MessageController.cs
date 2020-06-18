@@ -22,7 +22,6 @@ namespace TicketManagement.API.Controllers
             this.messageService = messageService;
         }
 
-        //TEST
         [HttpGet("{messageId}")]
         public async Task<IActionResult> GetIssueMessage(int messageId)
         {

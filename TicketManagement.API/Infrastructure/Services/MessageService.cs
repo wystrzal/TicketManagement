@@ -43,7 +43,6 @@ namespace TicketManagement.API.Infrastructure.Services
             return null;       
         }
 
-        //TEST
         public async Task<List<GetIssueMessageDto>> GetIssueMessages(int issueId, bool supportMessages)
         {
             List<Message> message = null;

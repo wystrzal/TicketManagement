@@ -19,7 +19,6 @@ namespace TicketManagement.API.Infrastructure.Services
             this.unitOfWork = unitOfWork;
         }
 
-        //TEST
         public async Task<bool> AddDepartament(CreateDepartamentDto createDepartament)
         {
             var departamentToCreate = unitOfWork.Mapper().Map<Departament>(createDepartament);
@@ -29,7 +28,6 @@ namespace TicketManagement.API.Infrastructure.Services
             return await unitOfWork.SaveAllAsync();
         }
 
-        //TEST
         public async Task<List<GetDepartamentDto>> GetDepartaments()
         {
             var departaments = await unitOfWork.Repository<Departament>().GetAll();

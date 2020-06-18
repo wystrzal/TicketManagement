@@ -16,7 +16,6 @@ export const AppRoutes: Routes = [
       {
         path: "user",
         loadChildren: "./user-panel/user-panel.module#UserPanelModule",
-        data: { role: "user" },
       },
     ],
   },

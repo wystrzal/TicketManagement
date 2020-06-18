@@ -22,7 +22,6 @@ namespace TicketManagement.API.API.Controllers
             this.departamentService = departamentService;
         }
 
-        //TEST
         [HttpPost]
         public async Task<IActionResult> CreateDepartament(CreateDepartamentDto createDepartament)
         {
@@ -39,7 +38,6 @@ namespace TicketManagement.API.API.Controllers
             return BadRequest("Model state is not valid.");         
         }
 
-        //TEST
         [HttpGet]
         public async Task<IActionResult> GetDepartaments()
         {

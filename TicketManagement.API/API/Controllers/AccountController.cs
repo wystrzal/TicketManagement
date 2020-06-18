@@ -24,14 +24,12 @@ namespace TicketManagement.API.Controllers
             this.accountService = accountService;
         }
 
-        //TEST
         [HttpGet("{departament}")]
         public async Task<IActionResult> GetUsers(string departament)
         {
             return Ok(await accountService.GetUsers(departament));
         }
 
-        //TEST
         [HttpDelete("{userId}")]
         public async Task<IActionResult> DeleteUser(string userId)
         {
