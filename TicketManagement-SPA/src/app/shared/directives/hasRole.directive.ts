@@ -5,7 +5,7 @@ import {
   TemplateRef,
   OnInit,
 } from "@angular/core";
-import { AuthService } from "../../core/auth.service";
+import { WrapperService } from "../wrapper.service";
 
 @Directive({
   selector: "[hasRole]",
@@ -17,16 +17,16 @@ export class HasRoleDirective implements OnInit {
   constructor(
     private viewContainerRef: ViewContainerRef,
     private templateRef: TemplateRef<any>,
-    private authService: AuthService
+    private wrapperService: WrapperService
   ) {}
 
   ngOnInit() {
-    const userRole = this.authService.decodedToken.role.toString();
+    const userRole = this.wrapperService.AuthService.decodedToken.role.toString();
     if (!userRole) {
       this.viewContainerRef.clear();
     }
 
-    if (this.authService.roleMatch(this.hasRole)) {
+    if (this.wrapperService.AuthService.roleMatch(this.hasRole)) {
       if (!this.isVisible) {
         this.isVisible = true;
         this.viewContainerRef.createEmbeddedView(this.templateRef);

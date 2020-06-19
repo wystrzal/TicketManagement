@@ -21,7 +21,7 @@ namespace TicketManagement.API.Infrastructure.Services.SearchIssue.ConcreteSearc
             this.searchSpecification = searchSpecification;
         }
 
-        public Predicate<Issue> getSpecification()
+        public Predicate<Issue> getTypeOfSearch()
         {
             return x => x.Status == searchSpecification.Status;
         }

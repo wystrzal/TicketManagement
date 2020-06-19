@@ -1,8 +1,6 @@
 import { Component, OnInit } from "@angular/core";
-import { DepartamentService } from "./departament.service";
-import { ErrorService } from "src/app/core/helpers/error.service";
-import { AuthService } from "src/app/core/auth.service";
 import { DepartamentModel } from "src/app/models/departament.model";
+import { WrapperService } from "src/app/shared/wrapper.service";
 
 @Component({
   selector: "app-new-user",
@@ -14,34 +12,32 @@ export class NewUserComponent implements OnInit {
   userModel: any = {};
   departamentModel: any = {};
 
-  constructor(
-    private departamentService: DepartamentService,
-    private errorService: ErrorService,
-    private authService: AuthService
-  ) {}
+  constructor(private wrapperService: WrapperService) {}
 
   ngOnInit() {
     this.getDepartaments();
   }
 
   getDepartaments() {
-    this.departamentService.getDepartaments().subscribe(
+    this.wrapperService.DepartamentService.getDepartaments().subscribe(
       (data) => {
         this.departaments = data;
       },
       (error) => {
-        this.errorService.newError(error);
+        this.wrapperService.ErrorService.newError(error);
       }
     );
   }
 
   createDepartament(form: any) {
-    this.departamentService.addDepartament(this.departamentModel).subscribe(
+    this.wrapperService.DepartamentService.addDepartament(
+      this.departamentModel
+    ).subscribe(
       () => {
         form.reset();
       },
       (error) => {
-        this.errorService.newError(error);
+        this.wrapperService.ErrorService.newError(error);
       }
     );
   }
@@ -49,12 +45,12 @@ export class NewUserComponent implements OnInit {
   createUser(form: any) {
     this.userModel.departamentId = parseInt(this.userModel.departamentId);
 
-    this.authService.createUser(this.userModel).subscribe(
+    this.wrapperService.AuthService.createUser(this.userModel).subscribe(
       () => {
         form.reset();
       },
       (error) => {
-        this.errorService.newError(error);
+        this.wrapperService.ErrorService.newError(error);
       }
     );
   }

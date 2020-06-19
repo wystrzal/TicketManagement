@@ -1,8 +1,6 @@
 import { Component, OnInit } from "@angular/core";
 import { Router } from "@angular/router";
-import { AuthService } from "src/app/core/auth.service";
-import { IssueService } from "../issue.service";
-import { ErrorService } from "src/app/core/helpers/error.service";
+import { WrapperService } from "src/app/shared/wrapper.service";
 
 @Component({
   selector: "app-new-issue",
@@ -12,24 +10,19 @@ import { ErrorService } from "src/app/core/helpers/error.service";
 export class NewIssueComponent implements OnInit {
   issueModel: any = {};
 
-  constructor(
-    private router: Router,
-    private authService: AuthService,
-    private issueService: IssueService,
-    private errorService: ErrorService
-  ) {}
+  constructor(private router: Router, private wrapperService: WrapperService) {}
 
   ngOnInit() {}
 
   addNewIssue() {
-    this.issueModel.declarantId = this.authService.decodedToken.nameid;
+    this.issueModel.declarantId = this.wrapperService.AuthService.decodedToken.nameid;
 
-    this.issueService.addNewIssue(this.issueModel).subscribe(
+    this.wrapperService.IssueService.addNewIssue(this.issueModel).subscribe(
       () => {
         this.router.navigate(["user/issues"]);
       },
       (error) => {
-        this.errorService.newError(error);
+        this.wrapperService.ErrorService.newError(error);
       }
     );
   }

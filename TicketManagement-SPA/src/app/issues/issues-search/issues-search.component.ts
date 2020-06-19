@@ -5,11 +5,9 @@ import {
   EventEmitter,
   Input,
   OnChanges,
-  SimpleChanges,
 } from "@angular/core";
 import { DepartamentModel } from "src/app/models/departament.model";
-import { IssueService } from "../issue.service";
-import { ErrorService } from "src/app/core/helpers/error.service";
+import { WrapperService } from "src/app/shared/wrapper.service";
 
 @Component({
   selector: "app-issues-search",
@@ -24,10 +22,7 @@ export class IssuesSearchComponent implements OnInit, OnChanges {
   searchPriorityList: any[];
   departaments: DepartamentModel[];
 
-  constructor(
-    private issueService: IssueService,
-    private errorService: ErrorService
-  ) {}
+  constructor(private wrapperService: WrapperService) {}
 
   ngOnChanges() {
     this.searchStatusList = [
@@ -50,12 +45,12 @@ export class IssuesSearchComponent implements OnInit, OnChanges {
   }
 
   getDepartaments() {
-    this.issueService.getIssueDepartaments().subscribe(
+    this.wrapperService.IssueService.getIssueDepartaments().subscribe(
       (data) => {
         this.departaments = data;
       },
       (error) => {
-        this.errorService.newError(error);
+        this.wrapperService.ErrorService.newError(error);
       }
     );
   }

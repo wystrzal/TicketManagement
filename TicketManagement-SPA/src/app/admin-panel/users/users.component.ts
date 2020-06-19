@@ -1,7 +1,6 @@
 import { Component, OnInit } from "@angular/core";
-import { AuthService } from "src/app/core/auth.service";
 import { UserModel } from "src/app/models/user.model";
-import { ErrorService } from "src/app/core/helpers/error.service";
+import { WrapperService } from "src/app/shared/wrapper.service";
 
 @Component({
   selector: "app-users",
@@ -11,10 +10,7 @@ import { ErrorService } from "src/app/core/helpers/error.service";
 export class UsersComponent implements OnInit {
   users: UserModel[];
 
-  constructor(
-    private authService: AuthService,
-    private errorService: ErrorService
-  ) {}
+  constructor(private wrapperService: WrapperService) {}
 
   ngOnInit() {
     this.getUsers();
@@ -22,23 +18,23 @@ export class UsersComponent implements OnInit {
   }
 
   getUsers() {
-    this.authService.getUsers("all").subscribe(
+    this.wrapperService.AuthService.getUsers("all").subscribe(
       (data) => {
         this.users = data;
       },
       (error) => {
-        this.errorService.newError(error);
+        this.wrapperService.ErrorService.newError(error);
       }
     );
   }
 
   deleteUser(userId: string, userIndex: number) {
-    this.authService.deleteUser(userId).subscribe(
+    this.wrapperService.AuthService.deleteUser(userId).subscribe(
       () => {
         this.users.splice(userIndex, 1);
       },
       (error) => {
-        this.errorService.newError(error);
+        this.wrapperService.ErrorService.newError(error);
       }
     );
   }

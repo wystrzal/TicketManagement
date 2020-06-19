@@ -40,7 +40,7 @@ namespace TicketManagement.API.Infrastructure.Services.SearchIssue
 
             var selectedSearch = concreteSearches[type] as IConcreteSearch;
 
-            predicates.Add(selectedSearch.getSpecification());
+            predicates.Add(selectedSearch.getTypeOfSearch());
         }
 
         public async Task<FilteredIssueListDto> Search(Expression<Func<Issue, bool>> searchFor, SearchSpecificationDto searchSpecification)

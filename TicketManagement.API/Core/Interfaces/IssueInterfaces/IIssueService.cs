@@ -20,6 +20,10 @@ namespace TicketManagement.API.Core.Interfaces
         Task<PaginatedItemsDto<GetIssueListDto, IssueCount>> GetIssues(SearchSpecificationDto searchSpecification);
         Task<GetIssueDto> GetIssue(int id);
         Task<List<GetIssueDepartamentDto>> GetIssueDepartaments();
+
+        /// <summary>
+        /// Return assigned support to concrete issue.
+        /// </summary>
         Task<List<GetIssueSupportDto>> GetIssueSupport(int id);
         Task<bool> AssignToIssue(int issueId, string supportId);
 

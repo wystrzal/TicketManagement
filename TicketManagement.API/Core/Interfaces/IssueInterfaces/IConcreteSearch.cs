@@ -9,6 +9,9 @@ namespace TicketManagement.API.Core.Interfaces.IssueInterfaces
 {
     public interface IConcreteSearch
     {
-        Predicate<Issue> getSpecification();
+        ///<summary>
+        ///Return concrete type of search to search issues.
+        ///</summary>
+        Predicate<Issue> getTypeOfSearch();
     }
 }

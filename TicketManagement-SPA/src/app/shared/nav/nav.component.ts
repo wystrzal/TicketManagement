@@ -1,5 +1,5 @@
 import { Component, OnInit } from "@angular/core";
-import { AuthService } from "src/app/core/auth.service";
+import { WrapperService } from "../wrapper.service";
 
 @Component({
   selector: "app-nav",
@@ -9,7 +9,7 @@ import { AuthService } from "src/app/core/auth.service";
 export class NavComponent implements OnInit {
   menuDisplayed = false;
 
-  constructor(private authService: AuthService) {}
+  constructor(private wrapperService: WrapperService) {}
 
   ngOnInit() {}
 
@@ -18,6 +18,6 @@ export class NavComponent implements OnInit {
   }
 
   logout() {
-    this.authService.logout();
+    this.wrapperService.AuthService.logout();
   }
 }

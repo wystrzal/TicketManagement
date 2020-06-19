@@ -1,11 +1,8 @@
 import { Component, OnInit } from "@angular/core";
 import { SearchSpecificationModel } from "src/app/models/searchSpecification.model";
-import { IssueService } from "./issue.service";
 import { ActivatedRoute } from "@angular/router";
 import { PaginatedItemsModel } from "../models/paginatedItems.model";
-import { ErrorService } from "../core/helpers/error.service";
-import { Status } from "../models/enums/status.enum";
-import { AuthService } from "../core/auth.service";
+import { WrapperService } from "../shared/wrapper.service";
 
 @Component({
   selector: "app-issues",
@@ -27,10 +24,8 @@ export class IssuesComponent implements OnInit {
   };
 
   constructor(
-    private issueService: IssueService,
-    private route: ActivatedRoute,
-    private errorService: ErrorService,
-    private authService: AuthService
+    private wrapperService: WrapperService,
+    private route: ActivatedRoute
   ) {}
 
   ngOnInit() {
@@ -40,14 +35,14 @@ export class IssuesComponent implements OnInit {
   search(searchModel: any) {
     this.searchSpec = searchModel;
     this.searchSpec.searchFor = this.route.snapshot.data.searchFor;
-    this.searchSpec.userId = this.authService.decodedToken.nameid;
+    this.searchSpec.userId = this.wrapperService.AuthService.decodedToken.nameid;
 
-    this.issueService.getIssues(this.searchSpec).subscribe(
+    this.wrapperService.IssueService.getIssues(this.searchSpec).subscribe(
       (data) => {
         this.paginatedIssues = data;
       },
       (error) => {
-        this.errorService.newError(error);
+        this.wrapperService.ErrorService.newError(error);
       }
     );
 

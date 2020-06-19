@@ -1,7 +1,6 @@
 import { Component, OnInit } from "@angular/core";
 import { Router } from "@angular/router";
-import { AuthService } from "../core/auth.service";
-import { ErrorService } from "../core/helpers/error.service";
+import { WrapperService } from "../shared/wrapper.service";
 
 @Component({
   selector: "app-login",
@@ -11,25 +10,24 @@ import { ErrorService } from "../core/helpers/error.service";
 export class LoginComponent implements OnInit {
   loginModel: any = {};
 
-  constructor(
-    private authService: AuthService,
-    private errorService: ErrorService,
-    private router: Router
-  ) {}
+  constructor(private wrapperService: WrapperService, private router: Router) {}
 
   ngOnInit() {}
 
   login() {
-    this.authService.login(this.loginModel).subscribe(
+    this.wrapperService.AuthService.login(this.loginModel).subscribe(
       () => {
-        if (this.authService.decodedToken.role.indexOf("admin") !== -1) {
+        if (
+          this.wrapperService.AuthService.decodedToken.role.indexOf("admin") !==
+          -1
+        ) {
           this.router.navigate(["admin/issues"]);
         } else {
           this.router.navigate(["user/issues"]);
         }
       },
       (error) => {
-        this.errorService.newError(error);
+        this.wrapperService.ErrorService.newError(error);
       }
     );
   }

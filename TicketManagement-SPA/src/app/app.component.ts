@@ -1,6 +1,6 @@
 import { Component, OnInit } from "@angular/core";
 import { JwtHelperService } from "@auth0/angular-jwt";
-import { AuthService } from "./core/auth.service";
+import { WrapperService } from "./shared/wrapper.service";
 
 @Component({
   selector: "app-root",
@@ -12,12 +12,14 @@ export class AppComponent implements OnInit {
 
   jwtHelper = new JwtHelperService();
 
-  constructor(private authService: AuthService) {}
+  constructor(private wrapperService: WrapperService) {}
 
   ngOnInit() {
     const token = localStorage.getItem("token");
     if (token) {
-      this.authService.decodedToken = this.jwtHelper.decodeToken(token);
+      this.wrapperService.AuthService.decodedToken = this.jwtHelper.decodeToken(
+        token
+      );
     }
   }
 }

@@ -9,6 +9,9 @@ namespace TicketManagement.API.Core.Interfaces
 {
     public interface ITokenService
     {
+        /// <summary>
+        /// Generate token needed for user authorization.
+        /// </summary>
         Task<string> GenerateToken(User user, UserManager<User> userManager);
     }
 }
