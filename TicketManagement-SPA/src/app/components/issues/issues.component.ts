@@ -1,8 +1,8 @@
 import { Component, OnInit } from "@angular/core";
 import { SearchSpecificationModel } from "src/app/models/searchSpecification.model";
 import { ActivatedRoute } from "@angular/router";
-import { PaginatedItemsModel } from "../models/paginatedItems.model";
-import { WrapperService } from "../shared/wrapper.service";
+import { PaginatedItemsModel } from "src/app/models/paginatedItems.model";
+import { WrapperService } from "src/app/shared/wrapper.service";
 
 @Component({
   selector: "app-issues",

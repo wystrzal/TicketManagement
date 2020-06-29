@@ -12,7 +12,7 @@ using TicketManagement.API.Extensions;
 
 namespace TicketManagement.API.Controllers
 {
-    [AllowAnonymous]
+    [Authorize(Policy = "Admin")]
     [Route("api/[controller]")]
     [ApiController]
     public class AccountController : ControllerBase
@@ -41,6 +41,7 @@ namespace TicketManagement.API.Controllers
             return BadRequest("Something goes wrong.");
         }
 
+        [AllowAnonymous]
         [HttpPost("login")]
         public async Task<IActionResult> Login(LoginDto loginDto)
         {

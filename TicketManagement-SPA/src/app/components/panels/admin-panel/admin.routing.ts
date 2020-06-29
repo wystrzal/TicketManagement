@@ -1,13 +1,13 @@
 import { Routes, RouterModule } from "@angular/router";
-import { AuthGuard } from "../core/auth.guard";
-import { AdminPanelComponent } from "./admin-panel.component";
-import { IssuesComponent } from "../issues/issues.component";
-import { SearchFor } from "../models/enums/searchFor.enum";
-import { AllIssuesResolver } from "../issues/resolvers/all-issues.resolver";
-import { SupportIssuesResolver } from "../issues/resolvers/support-issues.resolver";
-import { IssueDetailComponent } from "../issues/issue-detail/issue-detail.component";
 import { NewUserComponent } from "./new-user/new-user.component";
 import { UsersComponent } from "./users/users.component";
+import { AuthGuard } from "src/app/core/auth.guard";
+import { AdminPanelComponent } from "./admin-panel.component";
+import { IssuesComponent } from "../../issues/issues.component";
+import { IssueDetailComponent } from "../../issues/issue-detail/issue-detail.component";
+import { AllIssuesResolver } from "../../issues/resolvers/all-issues.resolver";
+import { SearchFor } from "src/app/models/enums/searchFor.enum";
+import { SupportIssuesResolver } from "../../issues/resolvers/support-issues.resolver";
 
 const routes: Routes = [
   {

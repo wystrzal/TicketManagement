@@ -6,6 +6,7 @@ using Microsoft.IdentityModel.Tokens;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Security.Claims;
 using System.Text;
 using System.Threading.Tasks;
 using TicketManagement.API.Core.Models;
@@ -38,6 +39,13 @@ namespace TicketManagement.API.Extensions
                      ValidateAudience = false
                  };
              });
+
+            services.AddAuthorization(options =>
+            {
+                options.AddPolicy("Boss", policy => policy.RequireClaim(ClaimTypes.Role, "boss"));
+                options.AddPolicy("Admin", policy => policy.RequireClaim(ClaimTypes.Role, "admin", "boss"));
+                options.AddPolicy("User", policy => policy.RequireClaim(ClaimTypes.Role, "user", "boss", "admin"));
+            });
         }
     }
 }

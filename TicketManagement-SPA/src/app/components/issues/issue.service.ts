@@ -3,13 +3,13 @@ import { HttpClient, HttpParams } from "@angular/common/http";
 import { environment } from "src/environments/environment";
 import { SearchSpecificationModel } from "src/app/models/searchSpecification.model";
 import { Observable } from "rxjs";
-import { PaginatedItemsModel } from "../models/paginatedItems.model";
 import { map } from "rxjs/operators";
-import { Status } from "../models/enums/status.enum";
-import { DepartamentModel } from "../models/departament.model";
-import { IssueModel } from "../models/issue.model";
-import { IssueSupportModel } from "../models/issueSupport.model";
-import { Priority } from "../models/enums/priority.enum";
+import { PaginatedItemsModel } from "src/app/models/paginatedItems.model";
+import { IssueModel } from "src/app/models/issue.model";
+import { Status } from "src/app/models/enums/status.enum";
+import { Priority } from "src/app/models/enums/priority.enum";
+import { DepartamentModel } from "src/app/models/departament.model";
+import { IssueSupportModel } from "src/app/models/issueSupport.model";
 
 @Injectable({
   providedIn: "root",

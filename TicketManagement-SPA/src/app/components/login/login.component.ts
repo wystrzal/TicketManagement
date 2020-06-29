@@ -1,6 +1,6 @@
 import { Component, OnInit } from "@angular/core";
 import { Router } from "@angular/router";
-import { WrapperService } from "../shared/wrapper.service";
+import { WrapperService } from "src/app/shared/wrapper.service";
 
 @Component({
   selector: "app-login",

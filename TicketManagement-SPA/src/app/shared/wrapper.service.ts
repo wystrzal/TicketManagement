@@ -1,9 +1,9 @@
 import { Injectable } from "@angular/core";
 import { AuthService } from "../core/auth.service";
 import { ErrorService } from "../core/helpers/error.service";
-import { IssueService } from "../issues/issue.service";
-import { DepartamentService } from "../admin-panel/new-user/departament.service";
-import { IssueMessageService } from "../issues/issue-detail/issue-message/issue-message.service";
+import { IssueService } from "../components/issues/issue.service";
+import { DepartamentService } from "../components/panels/admin-panel/new-user/departament.service";
+import { IssueMessageService } from "../components/issues/issue-detail/issue-message/issue-message.service";
 
 @Injectable({
   providedIn: "root",
