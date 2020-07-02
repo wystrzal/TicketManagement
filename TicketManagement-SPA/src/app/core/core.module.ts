@@ -5,6 +5,7 @@ import { ErrorModalComponent } from "./helpers/error-modal/error-modal.component
 import { BrowserModule } from "@angular/platform-browser";
 import { HttpClientModule } from "@angular/common/http";
 import { BrowserAnimationsModule } from "@angular/platform-browser/animations";
+import { AuthInterceptorProvider } from "./authorization.interceptor";
 
 export function tokenGetter() {
   return localStorage.getItem("token");
@@ -23,7 +24,7 @@ export function tokenGetter() {
       },
     }),
   ],
-  providers: [ErrorInterceptorProvider],
+  providers: [ErrorInterceptorProvider, AuthInterceptorProvider],
   entryComponents: [ErrorModalComponent],
 })
 export class CoreModule {}

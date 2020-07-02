@@ -16,7 +16,7 @@ using static TicketManagement.API.Core.Models.Enums.IssueStatus;
 namespace TicketManagement.API.Controllers
 {
 
-    [AllowAnonymous]
+    [Authorize(Policy = "User")]
     [Route("api/[controller]")]
     [ApiController]
     public class IssueController : ControllerBase
@@ -55,6 +55,7 @@ namespace TicketManagement.API.Controllers
             return BadRequest("Something goes wrong.");
         }
 
+        [Authorize(Policy = "Admin")]
         [HttpPost("{id}/status/{status}")]
         public async Task<IActionResult> ChangeIssueStatus(int id, Status status)
         {
@@ -66,6 +67,7 @@ namespace TicketManagement.API.Controllers
             return BadRequest("Something goes wrong.");
         }
 
+        [Authorize(Policy = "Admin")]
         [HttpPost("{id}/priority/{priority}")]
         public async Task<IActionResult> ChangeIssuePriority(int id, Priority priority)
         {
@@ -79,7 +81,7 @@ namespace TicketManagement.API.Controllers
 
         [HttpGet]
         public async Task<IActionResult> GetIssues([FromQuery]SearchSpecificationDto searchSpecification)
-        {          
+        {
             return Ok(await issueService.GetIssues(searchSpecification));
         }
 
@@ -108,10 +110,23 @@ namespace TicketManagement.API.Controllers
             return Ok(await issueService.GetIssueSupport(id));
         }
 
+        [Authorize(Policy = "Admin")]
         [HttpPost("{issueId}/assign/{supportId}")]
         public async Task<IActionResult> AssignToIssue(int issueId, string supportId)
         {
             if (await issueService.AssignToIssue(issueId, supportId))
+            {
+                return Ok();
+            }
+
+            return BadRequest("Something goes wrong");
+        }
+
+        [Authorize(Policy = "Admin")]
+        [HttpPost("{issueId}/unassign/{supportId}")]
+        public async Task<IActionResult> UnassignFromIssue(int issueId, string supportId)
+        {
+            if (await issueService.UnassignFromIssue(issueId, supportId))
             {
                 return Ok();
             }

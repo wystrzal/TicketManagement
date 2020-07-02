@@ -10,7 +10,7 @@ using TicketManagement.API.Core.Interfaces.DepartamentInterfaces;
 
 namespace TicketManagement.API.API.Controllers
 {
-    [AllowAnonymous]
+    [Authorize(Policy = "Admin")]
     [Route("api/[controller]")]
     [ApiController]
     public class DepartamentController : ControllerBase

@@ -34,7 +34,7 @@ namespace TicketManagement.API.Infrastructure.Services
             var issueToAdd = unitOfWork.Mapper().Map<Issue>(newIssue);
 
             issueToAdd.Status = Status.New;
-            issueToAdd.Priority = Priority.Lack;
+            issueToAdd.Priority = Priority.Medium;
             issueToAdd.Title = issueToAdd.Title.ToLower();
 
             unitOfWork.Repository<Issue>().Add(issueToAdd);
@@ -48,12 +48,7 @@ namespace TicketManagement.API.Infrastructure.Services
 
             unitOfWork.Repository<Issue>().Delete(issue);
 
-            if (await unitOfWork.SaveAllAsync())
-            {
-                return true;
-            }
-
-            return false;
+            return await unitOfWork.SaveAllAsync();
         }
 
         public async Task<bool> ChangeIssueStatus(int issueId, Status status)
@@ -104,12 +99,17 @@ namespace TicketManagement.API.Infrastructure.Services
 
             unitOfWork.Repository<SupportIssues>().Add(supportIssue);
 
-            if (await unitOfWork.SaveAllAsync())
-            {
-                return true;
-            }
+            return await unitOfWork.SaveAllAsync();
+        }
 
-            return false;
+        public async Task<bool> UnassignFromIssue(int issueId, string supportId)
+        {
+            var issue = await unitOfWork.Repository<SupportIssues>()
+                .GetByConditionFirst(x => x.IssueId == issueId && x.SupportId == supportId);
+
+            unitOfWork.Repository<SupportIssues>().Delete(issue);
+
+            return await unitOfWork.SaveAllAsync();
         }
 
         public async Task<List<GetIssueDepartamentDto>> GetIssueDepartaments()

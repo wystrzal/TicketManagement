@@ -122,6 +122,13 @@ export class IssueService {
     return this.http.post(this.baseUrl + issueId + "/assign/" + supportId, {});
   }
 
+  unassignFromIssue(issueId: number, supportId: string) {
+    return this.http.post(
+      this.baseUrl + issueId + "/unassign/" + supportId,
+      {}
+    );
+  }
+
   getIssueSupport(issueId: number): Observable<IssueSupportModel[]> {
     return this.http.get<IssueSupportModel[]>(
       this.baseUrl + issueId + "/support"

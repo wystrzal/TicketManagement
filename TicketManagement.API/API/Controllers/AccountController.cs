@@ -24,6 +24,7 @@ namespace TicketManagement.API.Controllers
             this.accountService = accountService;
         }
 
+        [Authorize(Policy = "User")]
         [HttpGet("{departament}")]
         public async Task<IActionResult> GetUsers(string departament)
         {

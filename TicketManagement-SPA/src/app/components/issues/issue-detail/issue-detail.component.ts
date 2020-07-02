@@ -100,26 +100,48 @@ export class IssueDetailComponent implements OnInit {
     );
   }
 
-  assignToIssue(status: string, userId: string) {
-    if (userId == null) {
-      userId = this.currentUser;
+  assignToIssue(status: string, supportId: string) {
+    if (supportId == null) {
+      supportId = this.currentUser;
     } else {
-      if (this.issue.assignedSupport.indexOf(userId) !== -1) {
+      if (this.issue.assignedSupport.indexOf(supportId) !== -1) {
         return;
       }
     }
 
     this.wrapperService.IssueService.assignToIssue(
       this.issue.id,
-      userId
+      supportId
     ).subscribe(
       () => {
         this.showAssign = false;
-        this.issueSupport.push({ supportName: "Assigned", supportId: "0" });
-        this.issue.assignedSupport.push(userId);
+        this.issueSupport.push({
+          supportName: "Assigned",
+          supportId: supportId,
+        });
+        this.issue.assignedSupport.push(supportId);
 
         if (Status[status] == 1) {
           this.changeIssueStatus(Status.Open);
+        }
+      },
+      (error) => {
+        this.wrapperService.ErrorService.newError(error);
+      }
+    );
+  }
+
+  unassignFromIssue(supportId: string, index: number) {
+    this.wrapperService.IssueService.unassignFromIssue(
+      this.issue.id,
+      supportId
+    ).subscribe(
+      () => {
+        this.issueSupport.splice(index, 1);
+        this.issue.assignedSupport.splice(index, 1);
+
+        if (supportId == this.currentUser) {
+          this.showAssign = true;
         }
       },
       (error) => {

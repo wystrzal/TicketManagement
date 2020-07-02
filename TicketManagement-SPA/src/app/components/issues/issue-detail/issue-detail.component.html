@@ -51,7 +51,7 @@
         </button>
       </div>
 
-      <div *hasRole="'boss'" class="col-12">
+      <div *hasRole="'admin'" class="col-12">
         <select
           class="form-control"
           (change)="assignToIssue(issue.status, $event.target.value)"
@@ -90,9 +90,17 @@
         </select>
       </div>
 
-      <div *ngFor="let support of issueSupport">
+      <div *ngFor="let support of issueSupport; let i = index">
         <div class="col-12 mt-4 issue-support">
           {{ support.supportName }}
+          <span *hasRole="'admin'"
+            ><h5
+              class="text-danger d-inline ml-2"
+              (click)="unassignFromIssue(support.supportId, i)"
+            >
+              X
+            </h5></span
+          >
         </div>
       </div>
 

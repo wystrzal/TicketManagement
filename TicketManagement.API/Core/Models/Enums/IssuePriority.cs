@@ -9,7 +9,6 @@ namespace TicketManagement.API.Core.Models.Enums
     {
         public enum Priority
         {
-            Lack = 0,
             Low = 1,
             Medium = 2,
             High = 3,

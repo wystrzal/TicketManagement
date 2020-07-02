@@ -69,6 +69,7 @@
 
     <div class="d-inline" *hasRole="'admin'">
       <button
+        *ngIf="supportMessages"
         type="button"
         (click)="supportMessages = false"
         class="btn btn-info mx-1"
@@ -76,6 +77,7 @@
         User
       </button>
       <button
+        *ngIf="!supportMessages"
         type="button"
         (click)="supportMessages = true"
         class="btn btn-info mx-1"

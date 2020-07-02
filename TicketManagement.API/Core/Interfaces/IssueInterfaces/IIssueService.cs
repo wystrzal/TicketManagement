@@ -26,6 +26,7 @@ namespace TicketManagement.API.Core.Interfaces
         /// </summary>
         Task<List<GetIssueSupportDto>> GetIssueSupport(int id);
         Task<bool> AssignToIssue(int issueId, string supportId);
+        Task<bool> UnassignFromIssue(int issueId, string supportId);
 
     }
 }

@@ -10,7 +10,7 @@ using TicketManagement.API.Dtos.MessageDtos;
 
 namespace TicketManagement.API.Controllers
 {
-    [AllowAnonymous]
+    [Authorize(Policy = "User")]
     [Route("api/[controller]")]
     [ApiController]
     public class MessageController : ControllerBase
