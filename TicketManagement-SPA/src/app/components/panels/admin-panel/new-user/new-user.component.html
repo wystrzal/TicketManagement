@@ -129,5 +129,33 @@
         </button>
       </div>
     </form>
+    <h4 class="mt-5 user__title">Delete Departament:</h4>
+    <form
+      #deleteDepartament="ngForm"
+      class="col-12 mt-2 mb-5"
+      (ngSubmit)="deleteADepartament()"
+    >
+      <div class="form-group">
+        <select
+          [(ngModel)]="departamentModel.id"
+          name="departamentId"
+          required
+          class="form-control"
+        >
+          <option
+            *ngFor="let departament of departaments; let i = index"
+            value="{{ departament.id }}"
+            >{{ departament.name }}</option
+          >
+        </select>
+      </div>
+      <button
+        [disabled]="!deleteDepartament.valid"
+        type="submit"
+        class="btn user__btn"
+      >
+        Delete
+      </button>
+    </form>
   </div>
 </div>

@@ -28,6 +28,20 @@ namespace TicketManagement.API.Infrastructure.Services
             return await unitOfWork.SaveAllAsync();
         }
 
+        public async Task<bool> DeleteDepartament(int departamentId)
+        {
+            var departamentToDelete = await unitOfWork.Repository<Departament>().GetById(departamentId);
+
+            if (departamentToDelete == null)
+            {
+                return false;
+            }
+
+            unitOfWork.Repository<Departament>().Delete(departamentToDelete);
+
+            return await unitOfWork.SaveAllAsync();
+        }
+
         public async Task<List<GetDepartamentDto>> GetDepartaments()
         {
             var departaments = await unitOfWork.Repository<Departament>().GetAll();

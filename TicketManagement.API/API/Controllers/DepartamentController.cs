@@ -38,6 +38,17 @@ namespace TicketManagement.API.API.Controllers
             return BadRequest("Model state is not valid.");         
         }
 
+        [HttpDelete("{departamentId}")]
+        public async Task<IActionResult> DeleteDepartament(int departamentId)
+        {
+            if (await departamentService.DeleteDepartament(departamentId))
+            {
+                return Ok();
+            }
+
+            return BadRequest("Something goes wrong.");
+        }
+
         [HttpGet]
         public async Task<IActionResult> GetDepartaments()
         {

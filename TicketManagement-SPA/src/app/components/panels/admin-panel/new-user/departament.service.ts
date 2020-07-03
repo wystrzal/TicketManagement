@@ -16,6 +16,10 @@ export class DepartamentService {
     return this.http.get<DepartamentModel[]>(this.baseUrl);
   }
 
+  deleteDepartament(departamentId: number) {
+    return this.http.delete(this.baseUrl + departamentId);
+  }
+
   addDepartament(departamentModel: any) {
     return this.http.post(this.baseUrl, departamentModel);
   }

@@ -18,6 +18,21 @@ export class NewUserComponent implements OnInit {
     this.getDepartaments();
   }
 
+  deleteADepartament() {
+    this.wrapperService.DepartamentService.deleteDepartament(
+      this.departamentModel.id
+    ).subscribe(
+      () => {
+        this.departaments.splice(
+          this.departaments.indexOf(this.departamentModel.id)
+        );
+      },
+      (error) => {
+        this.wrapperService.ErrorService.newError(error);
+      }
+    );
+  }
+
   getDepartaments() {
     this.wrapperService.DepartamentService.getDepartaments().subscribe(
       (data) => {

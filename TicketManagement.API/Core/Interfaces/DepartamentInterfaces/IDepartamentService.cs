@@ -10,5 +10,6 @@ namespace TicketManagement.API.Core.Interfaces.DepartamentInterfaces
     {
         Task<bool> AddDepartament(CreateDepartamentDto createDepartament);
         Task<List<GetDepartamentDto>> GetDepartaments();
+        Task<bool> DeleteDepartament(int departamentId);
     }
 }
