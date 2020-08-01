@@ -1,7 +1,5 @@
 # TicketManagement
 
-My 4# project.
-
 ## Table of contents
 
 - [General info](#general-info)
