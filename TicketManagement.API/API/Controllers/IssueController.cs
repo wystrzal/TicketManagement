@@ -55,7 +55,6 @@ namespace TicketManagement.API.Controllers
             return BadRequest("Something goes wrong.");
         }
 
-        [Authorize(Policy = "Admin")]
         [HttpPost("{id}/status/{status}")]
         public async Task<IActionResult> ChangeIssueStatus(int id, Status status)
         {

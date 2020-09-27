@@ -40,7 +40,7 @@ To run SPA open TicketManagement folder in command-line or Visual Studio Code an
 `npm install`
 `ng serve`
 
-Open http://localhost:4200
+Open http://localhost:4200.
 
 Passwords:
 
