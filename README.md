@@ -1,7 +1,5 @@
 # TicketManagement
 
-My 4# project.
-
 ## Table of contents
 
 - [General info](#general-info)
@@ -15,9 +13,9 @@ TicketManagement - system to report issues.
 
 ## Screenshots
 
-  ![Example issues view](./img/exampleIssues.png)
+![Example issues view](./img/exampleIssues.png)
 
-  ![Example issue-detail view](./img/exampleIssueDetail.png)
+![Example issue-detail view](./img/exampleIssueDetail.png)
 
 ## Technologies
 
@@ -28,28 +26,29 @@ TicketManagement - system to report issues.
 ## Setup
 
 Requirements:
-* SQL Server Management Studio
-* Microsoft SQL Server
-* Node.js
-* Angular CLI
+
+- .NET Core 3.1
+- SQL Server Management Studio
+- Microsoft SQL Server
+- Node.js
+- Angular CLI
 
 To run API open TicketManagement.API.sln with Visual Studio, change from IIS Express to Warehouse.API and press F5.
 
-To run SPA open TicketManagement folder in command-line or Visual Studio Code and 
-`cd TicketManagement-SPA` 
+To run SPA open TicketManagement folder in command-line or Visual Studio Code and
+`cd TicketManagement-SPA`
 `npm install`
 `ng serve`
 
 Open http://localhost:4200
 
-
 Passwords:
 
-* Boss:
- boss/Boss123
+- Boss:
+  boss/Boss123
 
-* Admin:
- admin/Admin123
+- Admin:
+  admin/Admin123
 
-* User:
- user/User123
+- User:
+  user/User123

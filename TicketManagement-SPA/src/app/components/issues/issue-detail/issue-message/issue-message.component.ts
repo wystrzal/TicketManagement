@@ -22,7 +22,7 @@ export class IssueMessageComponent implements OnInit, OnChanges {
   ngOnChanges() {
     setTimeout(() => {
       this.getIssueMessages();
-    }, 500);
+    }, 1000);
   }
 
   ngOnInit() {

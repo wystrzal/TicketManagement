@@ -12,7 +12,6 @@ using TicketManagement.API.Extensions;
 
 namespace TicketManagement.API.Controllers
 {
-    [Authorize(Policy = "Admin")]
     [Route("api/[controller]")]
     [ApiController]
     public class AccountController : ControllerBase
@@ -31,6 +30,7 @@ namespace TicketManagement.API.Controllers
             return Ok(await accountService.GetUsers(departament));
         }
 
+        [Authorize(Policy = "Admin")]
         [HttpDelete("{userId}")]
         public async Task<IActionResult> DeleteUser(string userId)
         {
@@ -56,6 +56,7 @@ namespace TicketManagement.API.Controllers
             return Ok(new { token });
         }
 
+        [Authorize(Policy = "Admin")]
         [HttpPost("register")]
         public async Task<IActionResult> CreateUser(RegisterDto registerDto)
         {
