@@ -12,16 +12,7 @@ import { WrapperService } from "src/app/shared/wrapper.service";
 export class IssuesComponent implements OnInit {
   paginatedIssues: PaginatedItemsModel;
   currentPage: number;
-  searchSpec: SearchSpecificationModel = {
-    departament: null,
-    declarantLastName: null,
-    status: null,
-    title: null,
-    userId: null,
-    pageIndex: null,
-    pageSize: null,
-    searchFor: null,
-  };
+  searchSpec: SearchSpecificationModel;
 
   constructor(
     private wrapperService: WrapperService,
@@ -33,9 +24,7 @@ export class IssuesComponent implements OnInit {
   }
 
   search(searchModel: any) {
-    this.searchSpec = searchModel;
-    this.searchSpec.searchFor = this.route.snapshot.data.searchFor;
-    this.searchSpec.userId = this.wrapperService.AuthService.decodedToken.nameid;
+    this.SetSearchSpecification(searchModel);
 
     this.wrapperService.IssueService.getIssues(this.searchSpec).subscribe(
       (data) => {
@@ -49,9 +38,14 @@ export class IssuesComponent implements OnInit {
     this.currentPage = 1;
   }
 
+  private SetSearchSpecification(searchModel: any) {
+    this.searchSpec = searchModel;
+    this.searchSpec.searchFor = this.route.snapshot.data.searchFor;
+    this.searchSpec.userId = this.wrapperService.AuthService.decodedToken.nameid;
+  }
+
   changePage(pageIndex) {
     this.searchSpec.pageIndex = pageIndex.page;
-
     this.search(this.searchSpec);
   }
 }
