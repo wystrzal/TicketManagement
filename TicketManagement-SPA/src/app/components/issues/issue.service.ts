@@ -37,53 +37,6 @@ export class IssueService {
       );
   }
 
-  deleteIssue(issueId: number) {
-    return this.http.delete(this.baseUrl + issueId);
-  }
-
-  getIssue(id: number): Observable<IssueModel> {
-    return this.http.get<IssueModel>(this.baseUrl + id).pipe(
-      map((issue: IssueModel) => {
-        issue.status = Status[issue.status];
-        issue.priority = Priority[issue.priority];
-        return issue;
-      })
-    );
-  }
-
-  getIssueDepartaments(): Observable<DepartamentModel[]> {
-    return this.http.get<DepartamentModel[]>(this.baseUrl + "departament");
-  }
-
-  changeIssueStatus(id: number, status: Status) {
-    return this.http.post(this.baseUrl + id + "/status/" + status, {});
-  }
-
-  changeIssuePriority(id: number, priority: Priority) {
-    return this.http.post(this.baseUrl + id + "/priority/" + priority, {});
-  }
-
-  addNewIssue(issueModel: any) {
-    return this.http.post(this.baseUrl, issueModel);
-  }
-
-  assignToIssue(issueId: number, supportId: string) {
-    return this.http.post(this.baseUrl + issueId + "/assign/" + supportId, {});
-  }
-
-  unassignFromIssue(issueId: number, supportId: string) {
-    return this.http.post(
-      this.baseUrl + issueId + "/unassign/" + supportId,
-      {}
-    );
-  }
-
-  getIssueSupport(issueId: number): Observable<IssueSupportModel[]> {
-    return this.http.get<IssueSupportModel[]>(
-      this.baseUrl + issueId + "/support"
-    );
-  }
-
   private SetHttpParams(
     searchSpecification: SearchSpecificationModel
   ): HttpParams {
@@ -141,5 +94,52 @@ export class IssueService {
     }
 
     return params;
+  }
+
+  deleteIssue(issueId: number) {
+    return this.http.delete(this.baseUrl + issueId);
+  }
+
+  getIssue(id: number): Observable<IssueModel> {
+    return this.http.get<IssueModel>(this.baseUrl + id).pipe(
+      map((issue: IssueModel) => {
+        issue.status = Status[issue.status];
+        issue.priority = Priority[issue.priority];
+        return issue;
+      })
+    );
+  }
+
+  getIssueDepartaments(): Observable<DepartamentModel[]> {
+    return this.http.get<DepartamentModel[]>(this.baseUrl + "departament");
+  }
+
+  changeIssueStatus(id: number, status: Status) {
+    return this.http.post(this.baseUrl + id + "/status/" + status, {});
+  }
+
+  changeIssuePriority(id: number, priority: Priority) {
+    return this.http.post(this.baseUrl + id + "/priority/" + priority, {});
+  }
+
+  addNewIssue(issueModel: any) {
+    return this.http.post(this.baseUrl, issueModel);
+  }
+
+  assignToIssue(issueId: number, supportId: string) {
+    return this.http.post(this.baseUrl + issueId + "/assign/" + supportId, {});
+  }
+
+  unassignFromIssue(issueId: number, supportId: string) {
+    return this.http.post(
+      this.baseUrl + issueId + "/unassign/" + supportId,
+      {}
+    );
+  }
+
+  getIssueSupport(issueId: number): Observable<IssueSupportModel[]> {
+    return this.http.get<IssueSupportModel[]>(
+      this.baseUrl + issueId + "/support"
+    );
   }
 }
