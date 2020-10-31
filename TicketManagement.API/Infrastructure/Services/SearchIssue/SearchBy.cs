@@ -27,7 +27,6 @@ namespace TicketManagement.API.Infrastructure.Services.SearchIssue
             FilteredIssueListDto filteredIssueList = new FilteredIssueListDto();
             IssueCount issueCount = new IssueCount();
 
-            //Compile expression from given parameters.
             var specificationValue = specification.Compile();
             var searchForValue = searchFor.Compile();
 
@@ -35,16 +34,20 @@ namespace TicketManagement.API.Infrastructure.Services.SearchIssue
                 searchSpecification.PageIndex, searchSpecification.PageSize);
 
             issueCount.FilteredIssue = await issueRepository.CountIssues(x => specificationValue(x) && searchForValue(x));
-           
-            //Count issues by specific status 
-            issueCount.NewIssue = await issueRepository.CountIssues(x => x.Status == Status.New && searchForValue(x));
-            issueCount.OpenIssue = await issueRepository.CountIssues(x => x.Status == Status.Open && searchForValue(x));
-            issueCount.ProgressIssue = await issueRepository.CountIssues(x => x.Status == Status.Progress && searchForValue(x));
-            issueCount.PendingIssue = await issueRepository.CountIssues(x => x.Status == Status.Pending && searchForValue(x));
+
+            await CountSpecificStatusIssues(issueCount, searchForValue);
 
             filteredIssueList.Count = issueCount;
 
             return filteredIssueList;
+        }
+
+        private async Task CountSpecificStatusIssues(IssueCount issueCount, Func<Issue, bool> searchForValue)
+        {
+            issueCount.NewIssue = await issueRepository.CountIssues(x => x.Status == Status.New && searchForValue(x));
+            issueCount.OpenIssue = await issueRepository.CountIssues(x => x.Status == Status.Open && searchForValue(x));
+            issueCount.ProgressIssue = await issueRepository.CountIssues(x => x.Status == Status.Progress && searchForValue(x));
+            issueCount.PendingIssue = await issueRepository.CountIssues(x => x.Status == Status.Pending && searchForValue(x));
         }
     }
 }
