@@ -25,17 +25,17 @@ namespace TicketManagement.API.API.Controllers
         [HttpPost]
         public async Task<IActionResult> CreateDepartament(CreateDepartamentDto createDepartament)
         {
-            if (ModelState.IsValid)
+            if (!ModelState.IsValid)
             {
-                if (await departamentService.AddDepartament(createDepartament))
-                {
-                    return Ok();
-                }
-
-                return BadRequest("Something goes wrong.");
+                return BadRequest("Model state is not valid.");         
             }
 
-            return BadRequest("Model state is not valid.");         
+            if (await departamentService.AddDepartament(createDepartament))
+            {
+                return Ok();
+            }
+
+            return BadRequest("Something goes wrong.");
         }
 
         [HttpDelete("{departamentId}")]

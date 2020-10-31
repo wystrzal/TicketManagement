@@ -31,17 +31,17 @@ namespace TicketManagement.API.Controllers
         [HttpPost]
         public async Task<IActionResult> AddNewIssue(NewIssueDto newIssue)
         {
-            if (ModelState.IsValid)
+            if (!ModelState.IsValid)
             {
-                if (await issueService.AddNewIssue(newIssue))
-                {
-                    return Ok();
-                }
-
-                return BadRequest("Something goes wrong.");
+                return BadRequest("Model state is not valid.");
             }
 
-            return BadRequest("Model state is not valid.");
+            if (await issueService.AddNewIssue(newIssue))
+            {
+                return Ok();
+            }
+
+            return BadRequest("Something goes wrong.");
         }
 
         [HttpDelete("{issueId}")]

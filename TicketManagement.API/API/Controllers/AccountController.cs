@@ -65,18 +65,18 @@ namespace TicketManagement.API.Controllers
                 return BadRequest("The password repeat is incorrect.");
             }
 
-            if (ModelState.IsValid && registerDto.Password.ContainsDigit()
-                && registerDto.Password.ContainsUpper())
+            if (!ModelState.IsValid || !registerDto.Password.ContainsDigit()
+                || !registerDto.Password.ContainsUpper())
             {
-                if (await accountService.AddUser(registerDto))
-                {
-                    return Ok();
-                }
-
-                return BadRequest("User with this login already exists.");
+                return BadRequest("Password must have minimum 6 signs (1 digit, 1 uppercase letter).");
             }
 
-            return BadRequest("Password must have minimum 6 signs (1 digit, 1 uppercase letter).");
+            if (await accountService.AddUser(registerDto))
+            {
+                return Ok();
+            }
+
+            return BadRequest("User with this login already exists.");
         }
 
     }
