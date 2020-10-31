@@ -120,11 +120,21 @@ namespace TicketManagement.API.Infrastructure.Services
         }
 
         public async Task<PaginatedItemsDto<GetIssueListDto, IssueCount>> GetIssues(SearchSpecificationDto searchSpecification)
-        {
-            Expression<Func<Issue, bool>> searchFor = null;
-            FilteredIssueListDto filteredIssueList = null;
+        {        
+            SetConcreteSearch(searchSpecification);
 
-            //Choose type of search.
+            var searchFor = SetSearchForSpecification(searchSpecification);
+
+            var filteredIssueList = await searchIssuesBox.Search(searchFor, searchSpecification);
+
+            var issuesToReturn = unitOfWork.Mapper().Map<List<GetIssueListDto>>(filteredIssueList.Issues);
+
+            return new PaginatedItemsDto<GetIssueListDto, IssueCount>(searchSpecification.PageIndex, filteredIssueList.Count,
+                issuesToReturn, searchSpecification.PageSize);
+        }
+
+        private void SetConcreteSearch(SearchSpecificationDto searchSpecification)
+        {
             if (searchSpecification.Status != null)
             {
                 searchIssuesBox.ConcreteSearch(typeof(SearchIssuesByStatus), searchSpecification);
@@ -150,8 +160,12 @@ namespace TicketManagement.API.Infrastructure.Services
             {
                 searchIssuesBox.ConcreteSearch(typeof(SearchIssuesByPriority), searchSpecification);
             }
+        }
 
-            //Choose for what must search.
+        private Expression<Func<Issue, bool>> SetSearchForSpecification(SearchSpecificationDto searchSpecification)
+        {
+            Expression<Func<Issue, bool>> searchFor = null;
+
             switch (searchSpecification.SearchFor)
             {
                 case SearchFor.UserIssues:
@@ -167,13 +181,7 @@ namespace TicketManagement.API.Infrastructure.Services
                     break;
             }
 
-            filteredIssueList = await searchIssuesBox.Search(searchFor, searchSpecification);
-
-            var issuesToReturn = unitOfWork.Mapper().Map<List<GetIssueListDto>>(filteredIssueList.Issues);
-
-            return new PaginatedItemsDto<GetIssueListDto, IssueCount>(searchSpecification.PageIndex, filteredIssueList.Count,
-                issuesToReturn, searchSpecification.PageSize);
+            return searchFor;
         }
-
     }
 }
