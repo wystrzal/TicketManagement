@@ -56,19 +56,24 @@ namespace TicketManagement.API.Infrastructure.Services
 
             if (result.Succeeded)
             {
-                if (registerDto.IsAdmin)
-                {
-                    await userManager.AddClaimAsync(userToCreate, new Claim(ClaimTypes.Role, "admin"));
-                }
-                else
-                {
-                    await userManager.AddClaimAsync(userToCreate, new Claim(ClaimTypes.Role, "user"));
-                }
+                await AddClaims(registerDto, userToCreate);
 
                 return true;
             }
 
             return false;
+        }
+
+        private async Task AddClaims(RegisterDto registerDto, User userToCreate)
+        {
+            if (registerDto.IsAdmin)
+            {
+                await userManager.AddClaimAsync(userToCreate, new Claim(ClaimTypes.Role, "admin"));
+            }
+            else
+            {
+                await userManager.AddClaimAsync(userToCreate, new Claim(ClaimTypes.Role, "user"));
+            }
         }
 
         public async Task<List<GetUserDto>> GetUsers(string departament)
@@ -95,25 +100,14 @@ namespace TicketManagement.API.Infrastructure.Services
 
             if (user.SupportIssues.Count() > 0)
             {
-                var supportedIssues = await unitOfWork.Repository<SupportIssues>()
-                     .GetByConditionToList(x => x.SupportId == user.Id);
-
-                Parallel.ForEach(supportedIssues, supportIssue =>
-                {
-                    unitOfWork.Repository<SupportIssues>().Delete(supportIssue);
-                });            
+                await DeleteUserSupportedIssues(user);
             }
 
             if (user.Messages.Count() > 0)
             {
-                var messages = await unitOfWork.Repository<Message>()
-                    .GetByConditionToList(x => x.SenderId == user.Id);
-
-                Parallel.ForEach(messages, message =>
-                {
-                    unitOfWork.Repository<Message>().Delete(message);
-                });
+                await DeleteUserMessages(user);
             }
+
             await unitOfWork.SaveAllAsync();
 
             var deleteUser = await userManager.DeleteAsync(user);
@@ -124,6 +118,28 @@ namespace TicketManagement.API.Infrastructure.Services
             }
 
             return false;
+        }
+
+        private async Task DeleteUserSupportedIssues(User user)
+        {
+            var supportedIssues = await unitOfWork.Repository<SupportIssues>()
+                                 .GetByConditionToList(x => x.SupportId == user.Id);
+
+            Parallel.ForEach(supportedIssues, supportIssue =>
+            {
+                unitOfWork.Repository<SupportIssues>().Delete(supportIssue);
+            });
+        }
+
+        private async Task DeleteUserMessages(User user)
+        {
+            var messages = await unitOfWork.Repository<Message>()
+                                .GetByConditionToList(x => x.SenderId == user.Id);
+
+            Parallel.ForEach(messages, message =>
+            {
+                unitOfWork.Repository<Message>().Delete(message);
+            });
         }
     }
 }
