@@ -81,7 +81,7 @@
             [directionLinks]="true"
             [maxSize]="5"
             [itemsPerPage]="paginatedIssues.pageSize"
-            [totalItems]="paginatedIssues.count"
+            [totalItems]="paginatedIssues.count.filteredIssue"
             (pageChanged)="changePage($event)"
             [(ngModel)]="currentPage"
             class="pagination__custom"

@@ -9,18 +9,11 @@ import { WrapperService } from "src/app/shared/wrapper.service";
 
 @Injectable()
 export class SupportIssuesResolver implements Resolve<PaginatedItemsModel> {
-  searchSpec: SearchSpecificationModel = {
-    departament: null,
-    declarantLastName: null,
-    status: null,
-    title: null,
-    userId: null,
-    pageIndex: null,
-    pageSize: null,
-    searchFor: SearchFor.SupportIssues,
-  };
+  searchSpec = {} as SearchSpecificationModel;
 
-  constructor(private wrapperService: WrapperService) {}
+  constructor(private wrapperService: WrapperService) {
+    this.searchSpec.searchFor = SearchFor.SupportIssues;
+  }
 
   resolve(route: ActivatedRouteSnapshot): Observable<PaginatedItemsModel> {
     this.searchSpec.userId = this.wrapperService.AuthService.decodedToken.nameid;

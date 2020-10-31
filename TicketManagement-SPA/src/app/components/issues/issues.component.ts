@@ -12,7 +12,7 @@ import { WrapperService } from "src/app/shared/wrapper.service";
 export class IssuesComponent implements OnInit {
   paginatedIssues: PaginatedItemsModel;
   currentPage: number;
-  searchSpec: SearchSpecificationModel;
+  searchSpec = {} as SearchSpecificationModel;
 
   constructor(
     private wrapperService: WrapperService,
@@ -20,6 +20,7 @@ export class IssuesComponent implements OnInit {
   ) {}
 
   ngOnInit() {
+    debugger;
     this.paginatedIssues = this.route.snapshot.data.issues;
   }
 

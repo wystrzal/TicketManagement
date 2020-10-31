@@ -9,18 +9,11 @@ import { WrapperService } from "src/app/shared/wrapper.service";
 
 @Injectable()
 export class AllIssuesResolver implements Resolve<PaginatedItemsModel> {
-  searchSpec: SearchSpecificationModel = {
-    departament: null,
-    declarantLastName: null,
-    status: null,
-    title: null,
-    userId: null,
-    pageIndex: null,
-    pageSize: null,
-    searchFor: SearchFor.AllIssues,
-  };
+  searchSpec = {} as SearchSpecificationModel;
 
-  constructor(private wrapperService: WrapperService) {}
+  constructor(private wrapperService: WrapperService) {
+    this.searchSpec.searchFor = SearchFor.AllIssues;
+  }
 
   resolve(route: ActivatedRouteSnapshot): Observable<PaginatedItemsModel> {
     return this.wrapperService.IssueService.getIssues(this.searchSpec).pipe(
