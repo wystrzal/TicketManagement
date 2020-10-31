@@ -12,18 +12,19 @@ export class AuthGuard implements CanActivate {
     const role = next.data.role as string;
     if (role) {
       const match = this.wrapperService.AuthService.roleMatch(role);
-      if (match) {
-        return true;
-      } else {
-        this.router.navigate([""]);
-        this.wrapperService.ErrorService.newError("Unauthorized.");
-      }
+      if (!match) {
+        return this.Unauthorized();
+      }    
     }
-
+     
     if (this.wrapperService.AuthService.loggedIn()) {
       return true;
     }
 
+    return this.Unauthorized();
+  }
+
+  private Unauthorized() {
     this.wrapperService.ErrorService.newError("Unauthorized.");
     this.router.navigate([""]);
     return false;

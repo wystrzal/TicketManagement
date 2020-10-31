@@ -107,12 +107,10 @@
       <div *hasRole="'admin'">
         <div
           class="col-12"
-          *ngIf="
-            showAssign && (issue?.status == 'Open' || issue?.status == 'New')
-          "
+          *ngIf="showAssign"
         >
           <a
-            (click)="assignToIssue(issue.status, null)"
+            (click)="assignToIssue(issue.status, currentUser)"
             class="issue-assign mb-5"
             >+</a
           >

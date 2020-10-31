@@ -44,32 +44,6 @@ export class IssueMessageComponent implements OnInit, OnChanges {
     );
   }
 
-  private ChangeIssueStatus() {
-    if (this.currentUser != this.issue.declarantId) {
-      this.wrapperService.IssueService.changeIssueStatus(
-        this.issue.id,
-        Status.Pending
-      ).subscribe(
-        () => {},
-        (error) => {
-          this.wrapperService.ErrorService.newError(error);
-        }
-      );
-
-      return;
-    }
-
-    this.wrapperService.IssueService.changeIssueStatus(
-      this.issue.id,
-      Status.Progress
-    ).subscribe(
-      () => {},
-      (error) => {
-        this.wrapperService.ErrorService.newError(error);
-      }
-    );
-  }
-
   private SetMessageModel(isSupportMessage: boolean) {
     this.messageModel.issueId = this.issue.id;
     this.messageModel.senderId = this.currentUser;
@@ -85,32 +59,41 @@ export class IssueMessageComponent implements OnInit, OnChanges {
     this.issueUserMessages.push(data);
   }
 
-  getIssueMessages() {
-    this.GetUserMessages();
-    this.GetSupportMessages();
-  }
+  private ChangeIssueStatus() {
+    let status: Status;
+    if (this.currentUser != this.issue.declarantId) {
+      status = Status.Pending;
+    } else {
+      status = Status.Progress;
+    }
 
-  private GetSupportMessages() {
-    this.wrapperService.IssueMessageService.getIssueMessages(
+    this.wrapperService.IssueService.changeIssueStatus(
       this.issue.id,
-      true
+      status
     ).subscribe(
-      (data) => {
-        this.issueSupportMessages = data;
-      },
+      () => {},
       (error) => {
         this.wrapperService.ErrorService.newError(error);
       }
     );
   }
 
-  private GetUserMessages() {
+  getIssueMessages() {
+    this.GetSpecificMessages(true);
+    this.GetSpecificMessages(false);
+  }
+
+  private GetSpecificMessages(supportMessages: boolean) {
     this.wrapperService.IssueMessageService.getIssueMessages(
       this.issue.id,
-      false
+      supportMessages
     ).subscribe(
       (data) => {
-        this.issueUserMessages = data;
+        if (supportMessages) {
+          this.issueSupportMessages = data;       
+        } else {
+          this.issueUserMessages = data;
+        }
       },
       (error) => {
         this.wrapperService.ErrorService.newError(error);

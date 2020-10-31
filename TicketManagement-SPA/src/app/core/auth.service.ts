@@ -21,11 +21,15 @@ export class AuthService {
     return this.http.post(this.baseUrl + "login", model).pipe(
       map((response: any) => {
         if (response) {
-          localStorage.setItem("token", response.token);
-          this.decodedToken = this.jwtHelper.decodeToken(response.token);
+          this.SetJWTToken(response);
         }
       })
     );
+  }
+
+  private SetJWTToken(response: any) {
+    localStorage.setItem("token", response.token);
+    this.decodedToken = this.jwtHelper.decodeToken(response.token);
   }
 
   logout() {
@@ -40,15 +44,15 @@ export class AuthService {
   }
 
   roleMatch(allowedRole: string): boolean {
-    if (this.decodedToken) {
-      const userRole = this.decodedToken.role.toString();
-
-      if (userRole.indexOf(allowedRole) !== -1) {
-        return true;
-      }
+    if (!this.decodedToken) {  
+      return false;
     }
 
-    return false;
+    const userRole = this.decodedToken.role.toString();
+
+    if (userRole.indexOf(allowedRole) !== -1) {
+      return true;
+    }
   }
 
   createUser(userModel: any) {

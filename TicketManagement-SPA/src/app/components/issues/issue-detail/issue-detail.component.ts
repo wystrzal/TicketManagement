@@ -101,12 +101,8 @@ export class IssueDetailComponent implements OnInit {
   }
 
   assignToIssue(status: string, supportId: string) {
-    if (supportId == null) {
-      supportId = this.currentUser;
-    } else {
-      if (this.issue.assignedSupport.indexOf(supportId) !== -1) {
-        return;
-      }
+    if (this.issue.assignedSupport.indexOf(supportId) !== -1) {
+      return;
     }
 
     this.wrapperService.IssueService.assignToIssue(
