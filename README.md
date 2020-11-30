@@ -33,11 +33,14 @@ Requirements:
 - Node.js
 - Angular CLI
 
-To run API open TicketManagement.API.sln with Visual Studio, change from IIS Express to Warehouse.API and press F5.
+To run API open TicketManagement.API.sln with Visual Studio, change from IIS Express to TicketManagement.API and press F5.
 
-To run SPA open TicketManagement folder in command-line or Visual Studio Code and
+To run SPA open TicketManagement folder in command-line or Visual Studio Code and write in console:
+
 `cd TicketManagement-SPA`
+
 `npm install`
+
 `ng serve`
 
 Open http://localhost:4200.
