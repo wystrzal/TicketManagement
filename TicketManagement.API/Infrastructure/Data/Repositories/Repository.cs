@@ -37,16 +37,14 @@ namespace TicketManagement.API.Infrastructure.Data.Repositories
             return await dataContext.Set<T>().ToListAsync();
         }
 
-        public async Task<List<T>> GetByConditionToList(Func<T, bool> func)
+        public async Task<List<T>> GetByConditionToList(Expression<Func<T, bool>> condition)
         {
-            var data = dataContext.Set<T>().Where(func).ToList();
-            return await Task.FromResult(data);
+            return await dataContext.Set<T>().Where(condition).ToListAsync();
         }
 
-        public async Task<T> GetByConditionFirst(Func<T, bool> func)
+        public async Task<T> GetByConditionFirst(Expression<Func<T, bool>> condition)
         {
-            var data = dataContext.Set<T>().Where(func).FirstOrDefault();
-            return await Task.FromResult(data);
+            return await dataContext.Set<T>().Where(condition).FirstOrDefaultAsync();
         }
 
         public async Task<T> GetById(int id)
@@ -54,16 +52,14 @@ namespace TicketManagement.API.Infrastructure.Data.Repositories
             return await dataContext.Set<T>().FindAsync(id);
         }
 
-        public async Task<T> GetByConditionWithIncludeFirst<Tprop>(Func<T, bool> where, Expression<Func<T, Tprop>> include)
+        public async Task<T> GetByConditionWithIncludeFirst<Tprop>(Expression<Func<T, bool>> condition, Expression<Func<T, Tprop>> include)
         {
-            var data = dataContext.Set<T>().Include(include).Where(where).FirstOrDefault();
-            return await Task.FromResult(data);
+            return await dataContext.Set<T>().Include(include).Where(condition).FirstOrDefaultAsync();
         }
 
-        public async Task<List<T>> GetByConditionWithIncludeToList<Tprop>(Func<T, bool> where, Expression<Func<T, Tprop>> include)
+        public async Task<List<T>> GetByConditionWithIncludeToList<Tprop>(Expression<Func<T, bool>> condition, Expression<Func<T, Tprop>> include)
         {
-            var data = dataContext.Set<T>().Include(include).Where(where).ToList();
-            return await Task.FromResult(data);
+            return await dataContext.Set<T>().Include(include).Where(condition).ToListAsync();
         }
     }
 }

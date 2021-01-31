@@ -59,7 +59,7 @@ namespace TicketManagement.API_TEST.Services
             unitOfWork.Setup(x => x.SaveAllAsync()).Returns(Task.FromResult(true));
 
             unitOfWork.Setup(x => x.Repository<Message>()
-                .GetByConditionWithIncludeFirst(It.IsAny<Func<Message, bool>>(), y => y.Sender))
+                .GetByConditionWithIncludeFirst(It.IsAny<Expression<Func<Message, bool>>>(), y => y.Sender))
                 .Returns(Task.FromResult(message));
 
             unitOfWork.Setup(x => x.Mapper().Map<GetIssueMessageDto>(message)).Returns(issueMessage);
@@ -85,7 +85,7 @@ namespace TicketManagement.API_TEST.Services
             var getIssueMessages = GetIssueMessagesDto();
 
             unitOfWork.Setup(x => x.Repository<Message>()
-                .GetByConditionWithIncludeToList(It.IsAny<Func<Message, bool>>(), It.IsAny<Expression<Func<Message,User>>>()))
+                .GetByConditionWithIncludeToList(It.IsAny<Expression<Func<Message, bool>>>(), It.IsAny<Expression<Func<Message,User>>>()))
                 .Returns(Task.FromResult(messages));
 
             unitOfWork.Setup(x => x.Mapper().Map<List<GetIssueMessageDto>>(messages)).Returns(getIssueMessages);

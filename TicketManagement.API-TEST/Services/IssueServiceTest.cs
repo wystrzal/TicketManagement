@@ -237,7 +237,7 @@ namespace TicketManagement.API_TEST.Services
             var issueSupportDto = GetIssueSupportListDto();
 
             unitOfWork.Setup(x => x.Repository<SupportIssues>()
-            .GetByConditionWithIncludeToList(It.IsAny<Func<SupportIssues, bool>>(), y => y.User)).Returns(Task.FromResult(supportIssue));
+            .GetByConditionWithIncludeToList(It.IsAny<Expression<Func<SupportIssues, bool>>>(), y => y.User)).Returns(Task.FromResult(supportIssue));
 
             unitOfWork.Setup(x => x.Mapper().Map<List<GetIssueSupportDto>>(supportIssue)).Returns(issueSupportDto);
 
