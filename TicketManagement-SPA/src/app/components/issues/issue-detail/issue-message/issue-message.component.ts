@@ -63,8 +63,12 @@ export class IssueMessageComponent implements OnInit, OnChanges {
     let status: Status;
     if (this.currentUser != this.issue.declarantId) {
       status = Status.Pending;
-    } else {
+    } else if (this.issue.status != Status[Status.Close] && this.issue.status != Status[Status.New]) {
       status = Status.Progress;
+    }
+
+    if (status === undefined) {
+      return;
     }
 
     this.wrapperService.IssueService.changeIssueStatus(
